@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {SlideshowModule  } from "ng-simple-slideshow";
+import { SlideshowModule } from "ng-simple-slideshow";
 import { RouterModule } from '@angular/router';
+import { SwiperModule, SWIPER_CONFIG, SwiperConfigInterface } from "ngx-swiper-wrapper";
+
 
 import { StoreModule } from './store/store.module';
 
 /*All components */
 import { AppComponent } from './app.component';
-import {StoreHeaderComponent} from './store/storeHeader.component'
 import { StoreComponent } from "./store/store.component";
+
+
+
 import { from } from 'rxjs';
+import { IndividualProductComponent } from './store/individualProduct.Component';
+import { CustomerLoginComponent } from './store/customerLogin.component';
+import { InnerBlogsComponent } from './store/innerBlogs.component';
 //import { angular } from "angular-flexslider";
 
 @NgModule({
@@ -17,13 +24,20 @@ import { from } from 'rxjs';
     AppComponent
   ],
   imports: [
-    BrowserModule,SlideshowModule,RouterModule, StoreModule,
+    BrowserModule, SlideshowModule, RouterModule, StoreModule,
     RouterModule.forRoot([
-     {path: "store", component: StoreComponent},
-     {path: "**", redirectTo: "/store"}
+      { path: "store", component: StoreComponent },
+      {path: "individualProduct", component: IndividualProductComponent},
+      {path: "login", component: CustomerLoginComponent},
+      {path: "blogs", component: InnerBlogsComponent},
+      
+      { path: "**", redirectTo: "/store" }
     ])
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+ }

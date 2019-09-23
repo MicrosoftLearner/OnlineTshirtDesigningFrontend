@@ -1,0 +1,181 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="relate hidden-xs" style="margin: 25px 0">
+                <div ng-if="!view">
+                    <div class="row marg0">
+                        <div class="col-md-6 col-sm-6 col-xs-12 padd0">
+                            <div class="modal-container">
+                                <div class="minHeight">
+                                    <div class="text-center login-head login-head-top">
+                                        <h1 class="brown--color">Log in</h1>
+                                        <p class="gray--color">to your account</p>
+                                    </div>
+                                    <div>
+                                        <form class="modal__customized-form" name="loginform">
+                                            <div class="form-group">
+                                                <input type="email" placeholder="Email Address" class="form-control" name="email">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" placeholder="Password" name="password"
+                                                    ng-model="loginData.password" class="form-control" required>
+                                            </div>
+                                            <div class="marginTop">
+                                                <button type="button" class="btn btn-login btn-block">log in</button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="login-footer">
+                                    <a>Forgot Password?</a>
+                                    <a class="visible-xs">Sign Up</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 padd0">
+                            <!--<img src="img/home/login.jpg" alt="" class="img-responsive width100">-->
+                            <div class="modal-container-right sign-up">
+                                <div class="minHeight">
+                                    <div class="text-center login-head login-head-top">
+                                        <h1>sign up</h1>
+                                        <p>with one of your<br>social profile</p>
+                                    </div>
+                                    <div class="login__social-icons">
+                                        <ul class="list-unstyled list-inline">
+                                            <li>
+                                                <div class="social-icons__list fb">
+                                                    <a href="">
+                                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list tw">
+                                                    <a href="">
+                                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list gp">
+                                                    <a href="">
+                                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="login-footer">
+                                    <p class="marg0">Don't have an account?</p>
+                                    <div>
+                                        <a href="">Sign Up</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="view">
+                    <div class="row marg0">
+                        <div class="col-md-6 col-sm-6 col-xs-12 padd0">
+                            <div class="modal-container">
+                                <div class="minHeight">
+                                    <div class="text-center login-head">
+                                        <h1>sign up</h1>
+                                        <p>to your account</p>
+                                    </div>
+                                    <div>
+                                        <form class="modal__customized-form" name="registerForm" novalidate>
+                                            <div class="form-group">
+                                                <input type="text" placeholder="First Name" name="firstname"
+                                                    class="form-control" required>
+
+                                                <!--<p ng-show="registerForm.firstname.$touched && registerForm.firstname.$invalid">Test</p>-->
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Last Name" name="lastname"
+                                                    ng-model="formData.lastname" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="email" placeholder="Email Address" name="email"
+                                                    ng-model="formData.email" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" placeholder="Mobile No" name="mobile"
+                                                    ng-model="formData.mobile" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" placeholder="Password" name="password"
+                                                    ng-model="formData.password" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" placeholder="Confirm Password" name="confirm"
+                                                    ng-model="formData.confirm" class="form-control" required>
+                                                <!--<span ng-show='registerForm.formData.confirm.$error.hsPswdMatch'>Passwords don't match</span>-->
+                                            </div>
+                                            <div class="marginTop">
+                                                <button type="button" class="btn btn-login btn-block">Sign Up</button>
+                                            </div>
+                                            <strong style="color:red" ng-bind-html="errormsg"></strong>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 padd0">
+                            <!--<img src="img/home/login.jpg" alt="" class="img-responsive width100">-->
+                            <div class="modal-container-right sign-up">
+                                <div class="minHeight">
+                                    <div class="text-center login-head">
+                                        <h1>log in</h1>
+                                        <p>with one of your<br>social profile</p>
+                                    </div>
+                                    <div class="login__social-icons">
+                                        <ul class="list-unstyled list-inline">
+                                            <li>
+                                                <div class="social-icons__list fb">
+                                                    <a href="">
+                                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list tw">
+                                                    <a href="">
+                                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list gp">
+                                                    <a href="">
+                                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="login-footer have-account">
+                                    <p class="marg0">Have an account</p>
+                                    <div ng-click="viewLogin();">
+                                        <a href="">Login</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orCircle ">
+                    <p class="marg0">or</p>
+                </div>
+                <div class="cross-absolute" ng-click="$dismiss();">
+                    <img src="assets/images/Home/33.png" class="img-responsive">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

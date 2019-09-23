@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , ViewChild} from '@angular/core';
 
 @Component({
   selector: "app",
@@ -10,4 +10,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+
 }

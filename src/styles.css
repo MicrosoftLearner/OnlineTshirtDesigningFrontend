@@ -8989,7 +8989,7 @@ footer {
     top: 50%;
     right: 31.5%; }
   .new-arrival .new-arrival__img {
-    background-image: url("/Images/Home/7.jpg");
+    background-image: url("assets/images/Home/7.jpg");
     background-position-x: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -11123,3 +11123,7 @@ p.compare-btn {
   transform: translate(-50%, -50%);
   z-index: 9999;
   opacity: 1; }
+
+  swiper > .swiper.s-wrapper .swiper-wrapper .swiper-slide{
+    overflow: hidden!important;
+  }
