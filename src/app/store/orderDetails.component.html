@@ -1,0 +1,193 @@
+<div>
+    <div>
+        <img src="../../assets/images/UserAccount/myaccount-banner.jpg" alt="Banner Image" class="img-responsive">
+    </div>
+    <div class="container">
+        <div class="order-details-table">
+            <h2 class="order-status-title text-center">order details</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-uppercase">
+                            <th class="align-top">order placed<br><strong>order.createdAt | date:'dd/MM/yyyy'</strong>
+                            </th>
+                            <th class="align-top">order no.<br><strong>order.orderNo</strong></th>
+                            <th class="align-top">payment method<br><strong>order.paymentMethod</strong></th>
+                            <th class="align-top">tracking id<br><strong
+                                    class="text-capitalize">order.orderStatus</strong></th>
+                            <th class="align-top">Grand total<br><strong>&#8377; order.totalAmount |number:0</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="relate">
+
+                            <td colspan="3">
+                                <div class="item-img inline-block">
+                                    <img src="" alt="Ordered Item" class="img-responsive">
+                                </div>
+
+
+                                <div class="inline-block item-desc">
+                                    <h4 class="item-name text-uppercase">product.product.productName
+                                    </h4>
+                                    <p class="item-code"><span class="text-capitalize">Product Code:</span><span
+                                            class="text-uppercase">
+                                            product.product.productCode</span>
+                                    </p>
+                                    <p class="item-code"><span class="text-capitalize">size:</span><span
+                                            class="text-uppercase">product.product.size.name</span>
+                                    </p>
+                                    <p class="item-code"><span class="text-capitalize">color</span><span
+                                            class="text-uppercase">
+                                            product.product.color.name</span>
+                                    </p>
+                                    <p class="item-cost"><i class="fa fa-inr"></i>product.product.price |number:0</p>
+                                </div>
+                                <div class="comment">
+                                    <p class="item-code">Comment: product.comment.</p>
+                                </div>
+                            </td>
+                            <td class="text-center relate">
+                                <h4 class=" usr-status-title">quantity</h4>
+                                <div class="usr-status plus-minus-btn">
+                                    <!--<a ng-click="updateQuantity($index, -1)">
+                                        <i class="fa fa-minus square__bg" aria-hidden="true"></i>
+                                    </a>-->
+                                    <div class="inline-block">
+                                        <form>
+                                            <div class="form-group marg0">
+                                                <input type="text" readonly class="form-control quantity__input">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--<a ng-click="updateQuantity($index, 1)" ng-if="product.quantity< product.product.quantity">
+                                        <i class="fa fa-plus square__bg" aria-hidden="true"></i>
+                                    </a>-->
+                                </div>
+                            </td>
+                            <td>
+                                <p class="item-cost grand-total"><i class="fa fa-inr"></i>product.product.price *
+                                    product.quantity |number:0</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ordertable-footer">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-6">
+                        <h4 class="usr-status-title usr-addrs-title">BILLING ADDRESS</h4>
+                        <address>
+                            <p style="margin:0px">order.billingAddress.line1</p>
+                            <p style="margin:0px" ng-if="order.billingAddress.line2">order.billingAddress.line2</p>
+                            <p style="margin:0px" ng-if="order.billingAddress.line3"> order.billingAddress.line3</p>
+                            <p style="margin:0px">order.billingAddress.city-order.billingAddress.pincode.</p>
+                            <p style="margin:0px">order.billingAddress.state, order.billingAddress.country</p>
+                        </address>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-6">
+                        <h4 class="usr-status-title usr-addrs-title">SHIPPING ADDRESS</h4>
+                        <address>
+                            <p style="margin:0px">order.shippingAddress.line1</p>
+                            <p style="margin:0px">order.shippingAddress.line2</p>
+                            <p style="margin:0px"> order.shippingAddress.line3</p>
+                            <p style="margin:0px">order.shippingAddress.city-order.shippingAddress.pincode.</p>
+                            <p style="margin:0px">order.shippingAddress.state, order.shippingAddress.country</p>
+                        </address>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-7">
+                        <div class="usr-payment-info">
+                            <h4 class="text-right usr-status-title usr-addrs-title">PAYMENT INFORMATION</h4>
+                            <p class="text-right order-payment-info">Item(s) Subtotal:
+                                <span>&#8377; order.totalAmount - order.gst |number:0</span><br>
+                                Shipping:<span>&#8377; order.shippingAmount</span><br>
+                                Disscount:<span>&#8377; order.totalDiscount</span><br>
+                                GST:<span>&#8377; order.gst</span><br>
+                                Total:<span>&#8377; order.shippingAmount+order.totalAmount-order.discountAmount
+                                    |number:0</span><br>
+                                Tax: <span>&#8377; 00</span><br> Grand Total: <span>&#8377;
+                                    order.totalAmount|number:0</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="return"> 0">
+                <h2 class="order-status-title text-center">Returned</h2>
+                <div class="table-responsive">
+                    <table class="table return-table">
+                        <!-- <thead>
+                                    <tr class="text-uppercase">
+                                        <th class="align-top">order placed<br><strong>order.createdAt | date:'dd/MM/yyyy'</strong></th>
+                                        <th class="align-top">order no.<br><strong>order.orderNo</strong></th>
+                                        <th class="align-top">payment method<br><strong>order.orderStatus</strong></th>
+                                        <th class="align-top">tracking id<br><strong class="text-capitalize">Cash on Delivery</strong></th>
+                                        <th class="align-top">Grand total<br><strong>&#8377; order.totalAmount</strong></th>
+                                    </tr>
+                                </thead> -->
+                        <tbody>
+                            <tr class="relate">
+
+                                <td colspan="3">
+                                    <div class="item-img inline-block">
+                                        <img alt="Ordered Item" class="img-responsive">
+                                    </div>
+                                    <div class="inline-block item-desc">
+                                        <h4 class="item-name text-uppercase">product.product.productName
+                                        </h4>
+                                        <p class="item-code"><span class="text-capitalize">Product Code:</span><span
+                                                class="text-uppercase"> product.product.productCode</span>
+                                        </p>
+                                        <p class="item-code"><span class="text-capitalize">size:</span><span
+                                                class="text-uppercase">product.product.size.name</span>
+                                        </p>
+                                        <p class="item-code"><span class="text-capitalize">color</span><span
+                                                class="text-uppercase">
+                                                product.product.color.name</span>
+                                        </p>
+                                        <p class="item-cost"><i class="fa fa-inr"></i>2300</p>
+                                    </div>
+                                    <div class="comment">
+                                        <p class="item-code">Comment: product.comment.</p>
+
+                                    </div>
+                                </td>
+
+                                <td class="relate text-center">
+                                    <h4 class="usr-status-title">quantity</h4>
+                                    <div class="usr-status plus-minus-btn">
+                                        <!--<a ng-click="updateQuantity($index, -1)">
+                                        <i class="fa fa-minus display-inblock square__bg" aria-hidden="true"></i>
+                                    </a>-->
+                                        <div class="inline-block">
+                                            <form>
+                                                <div class="form-group marg0">
+                                                    <input type="text" readonly class="form-control quantity__input">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--<a ng-click="updateQuantity($index, 1)" ng-if="product.quantity< product.product.quantity">
+                                        <i class="fa fa-plus display-inblock square__bg" aria-hidden="true"></i>
+                                    </a>-->
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="item-cost grand-total"><i class="fa fa-inr"></i>product.product.price
+                                        |number:0</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="text-center text-uppercase"><button class="btn invoice--btn">download invoice </button></p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
