@@ -35,16 +35,19 @@
         <div class="cloth-cat">
             <!-- Swiper -->
             <swiper [config]="config" [(index)]="index">
-                <div *ngFor="let item of imgsUrlArray" class=" cloth-cat__banner-detail relate">
-                    <a href="" target="_blank">
-                        <img [src]="item.imgUrl" alt="" srcset="">
-                    </a>
-                    <div class="get-center text-uppercase">
-                        <h1>{{item.name}}</h1>
-                        <h3>{{item.desc}}</h3>
-                        <p>
-                            <a> <button class="btn shop--now">Shop Now</button></a>
-                        </p>
+                <div *ngFor="let item of getProducts" class=" cloth-cat__banner-detail relate">
+                    <div>
+                        <a target="_blank" data-id="item.ProductId">
+                            <img [src]="item.ProductImg" alt="" srcset="">
+                        </a>
+                        <div class="get-center text-uppercase">
+                            <h1>{{item.ProductName}}</h1>
+                            <h3>{{item.ProductName}}</h3>
+                            <p>
+                                <a> <button class="btn shop--now"  [routerLink]="['/individualProduct', item.ProductId]">Shop Now</button></a>
+                            </p>
+                        </div>
+
                     </div>
                 </div>
             </swiper>
@@ -71,9 +74,9 @@
                         <div class="new-arrival__slider">
 
                             <swiper [config]="allCatConfig" [(index)]="index">
-                                <div class=" new-arrival__banner-detail " *ngFor="let allCat of allCatArrayObj">
+                                <div class=" new-arrival__banner-detail " *ngFor="let prod of getProducts">
                                     <div class="relate">
-                                        <img [src]="allCat.imgUrl" alt="" class="img-responsive">
+                                        <img [src]="prod.ProductImg" alt="" class="img-responsive">
                                         <div class="featured__icon-cart">
                                             <i class="fa fa-shopping-cart"></i>
                                         </div>
@@ -83,12 +86,12 @@
                                     </div>
                                     <div class="get-left">
                                         <h3 class="homepg-slider-product-cost"><i class="fa fa-inr"
-                                                aria-hidden="true"></i>{{allCat.cost}}</h3>
+                                                aria-hidden="true"></i>{{prod.ProductPrice}}</h3>
                                         <h4 class="homepg-slider-product-name text-uppercase">
-                                            {{allCat.prodName}}
+                                            {{prod.ProductName}}
                                         </h4>
                                         <div class="abslt-buynow-btn">
-                                            <button class="btn buynow--btn btn--mob-modal text-uppercase">buy</button>
+                                            <button class="btn buynow--btn btn--mob-modal text-uppercase"  [routerLink]="['/individualProduct', prod.ProductId]">buy</button>
                                             <!-- <buttton type="btn" class="btn buynow--btn btn--mob-modal text-uppercase">buy</buttton> -->
                                         </div>
                                     </div>

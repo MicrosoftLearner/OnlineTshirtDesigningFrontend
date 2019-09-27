@@ -5,7 +5,8 @@
                 <div class="col-md-5 col-xs-12 padd-rt0">
                     <div class="individual-first relate visible-lg">
                         <div class="product-img">
-                            <img src="" alt="" class="img-responsive" srcset="">
+                              
+                            <img [src]= "indvProduct.ProductImg" alt="" class="img-responsive" srcset="">
                         </div>
 
                     </div>
@@ -15,7 +16,7 @@
                         <div class="pull-left">
                             <p class="prod-code__left">
                                 Product Code:
-                                <span>productCode</span>
+                                <span>{{indvProduct.ProductCode}}</span>
                                
                             </p>
                         </div>
@@ -29,7 +30,7 @@
                     <div class="individual-main">
                         <div class="first-sec clearfix border-div relate ">
                             <h4>
-                               <span>Porduct name</span>
+                               <span>{{indvProduct.ProductName}}</span>
                             </h4>
                             <div class="pull-left mrp">
                                 <h3>
@@ -38,7 +39,7 @@
                                    <span><del>Strikethrough</del></span>
 
                                     <span class="pull-right">&#x20B9;
-                                       <span>ProductPrice</span> </span>
+                                       <span>{{indvProduct.ProductPrice}}</span> </span>
                                     <!--</div>-->
                                     <!--<div class="inline-block">-->
 
@@ -126,7 +127,7 @@
                                     <div class="pd-bottom panel-collapse collapse in" id="collapse1">
                                         <div class="panel-body">
                                             <p>
-                                                <span>Span</span>
+                                                <span>{{indvProduct.ProductDisc}}</span>
 
                                             </p>
 
@@ -177,7 +178,7 @@
                                                                 <div>
                                                                     <ul class="list-unstyled">
                                                                         <li>
-                                                                            <span>ProductCat</span>
+                                                                            <span>{{indvProduct.ProductCat}}</span>
                                                                         </li>
                                                                     </ul>
                                                                 </div>

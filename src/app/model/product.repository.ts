@@ -1,22 +1,36 @@
-import { Injectable } from "@angular/core";
-import {HttpClient, HttpHeaders  } from "@angular/common/http";
+import { Injectable, OnInit } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { RestDataSource } from "./rest.datasource";
+
+import {Product  } from "../model/product";
 
 @Injectable()
-export class ProductRepository{
+export class ProductRepository {
 
-    private products;
+    baseUrl: string;
 
-    constructor(private dataSource: RestDataSource){
-      dataSource.getProducts();
+    private productObjArray;
+
+    public individualProuct;
+
+    constructor(private http: HttpClient) {
+       console.log("In product Rep constructor");
+        this.baseUrl = "http://localhost:58206/api/";
+
+        this.http.get(this.baseUrl + "product").subscribe(data => {
+            this.productObjArray = data
+        });
+
     }
 
-    getProducts(){
-        return this.products;
-    }
+    getProducts(): Array<Object> {
 
-    getProductById(id: number){
-       this.dataSource.getProductById(id);
+        return this.productObjArray;
+    };
+
+    
+    getProductById(id: number): Observable<object> {
+       return this.http.get<object>(this.baseUrl + "product/GetIndividualProdcut/" + id);
+                 
     }
 }
