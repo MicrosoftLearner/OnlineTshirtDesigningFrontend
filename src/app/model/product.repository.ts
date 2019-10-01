@@ -14,7 +14,7 @@ export class ProductRepository {
     public individualProuct;
 
     constructor(private http: HttpClient) {
-       console.log("In product Rep constructor");
+      
         this.baseUrl = "http://localhost:58206/api/";
 
         this.http.get(this.baseUrl + "product").subscribe(data => {

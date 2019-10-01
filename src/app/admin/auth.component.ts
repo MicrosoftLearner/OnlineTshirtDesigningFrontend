@@ -1,20 +1,55 @@
-import {Component  } from "@angular/core";
+import { Component } from "@angular/core";
 import { NgForm, Form } from "@angular/forms";
+import { Router } from "@angular/router";
+
+import { Admin } from "../model/admin.model";
+import { AuthRepository } from "../model/auth.repository";
+import { AuthGuardRepository } from "../model/auth.guard";
+import { catchError } from "rxjs/operators";
+
 
 @Component({
- selector: 'auth',
- templateUrl: 'auth.component.html'
+  templateUrl: 'auth.component.html'
 })
-export class AuthComponent{
+export class AuthComponent {
 
-    public obj = {email: "", pwd: ""};
-    public submitted: boolean = false;
+  public adminInfo: Admin = {};
 
-    checkAdminLogin(form:NgForm){
+  public submitted: boolean = false; // use for ng-valid validations
 
-      this.submitted = true;
-      alert("form submitted call");
+  public errorMessageStatus: boolean = false; // to hide and show the message box
 
+  public errorMessage: string;
+
+  constructor(private repository: AuthRepository, private guardRepository: AuthGuardRepository,
+    private router: Router) { }
+
+  checkAdminLogin(form: NgForm) {
+
+    this.submitted = true;
+
+    if (form.valid) {
+
+      this.repository.authenticate(this.adminInfo.emailId, this.adminInfo.pwd).subscribe(response => {
+
+        if (response != null) this.router.navigateByUrl("/admin/main");
+
+        this.errorMessage = "Admin name & password dont match";
+
+        this.errorMessageStatus = true;
+
+      }, err => {  
+        this.errorMessage = "Admin name & password dont match";
+
+      this.errorMessageStatus = true;});
+
+    } else {
+      this.errorMessage = "Form Data is invalid";
     }
+  }
+
+  showDebugOutput(){
+    console.log("Clicked on Debug button");
+  }
 
 }
