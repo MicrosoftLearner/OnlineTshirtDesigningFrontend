@@ -4,8 +4,8 @@
 
             <h2 class="text-center">Burnt Umber Admin Login</h2>
 
-            <div class="alert alert-warning" *ngIf="errorMessageStatus">
-                <strong>Warning!</strong> {{errorMessage}}.
+            <div class="alert alert-danger text-center" *ngIf="errorMessageStatus">
+                <strong>Error!</strong> &nbsp;{{errorMessage}}.
             </div>
 
             <form class="form-horizontal" #form="ngForm" novalidate (ngSubmit)="checkAdminLogin(form)">
@@ -38,7 +38,9 @@
                     </div>
                 </div>
             </form>
-            <div><button class="btn btn-default" (click)="showDebugOutput()">Debug</button></div>
+            <div>
+                <button class="btn btn-default" (click)="navigateUrl()">Navigate Url</button>
+            </div>
         </div>
     </div>
 </div>

@@ -32,24 +32,20 @@ export class AuthComponent {
 
       this.repository.authenticate(this.adminInfo.emailId, this.adminInfo.pwd).subscribe(response => {
 
-        if (response != null) this.router.navigateByUrl("/admin/main");
+        this.router.navigateByUrl("/main");
 
+      }, err => {
         this.errorMessage = "Admin name & password dont match";
 
         this.errorMessageStatus = true;
-
-      }, err => {  
-        this.errorMessage = "Admin name & password dont match";
-
-      this.errorMessageStatus = true;});
+      });
 
     } else {
       this.errorMessage = "Form Data is invalid";
     }
   }
 
-  showDebugOutput(){
-    console.log("Clicked on Debug button");
+  navigateUrl(){
+    this.router.navigateByUrl("/main");
   }
-
 }

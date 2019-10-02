@@ -11,9 +11,11 @@ export class AuthGuardRepository {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
         if (!this.authRepository.authenticated) {
-            this.route.navigateByUrl("/admin/adminLogin");
+            console.log("In authGuard repository");
+            this.route.navigateByUrl("/adminLogin");
             return false;
         }
+
         return true;
     }
 }

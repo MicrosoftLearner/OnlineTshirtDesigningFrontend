@@ -6,6 +6,7 @@ import { map, tap, catchError } from "rxjs/operators";
 import { Admin } from "./admin.model";
 import { LocalStorageRepository } from "./localStorage.repository";
 import { error } from "util";
+import { Options } from "selenium-webdriver/edge";
 
 
 @Injectable()
@@ -34,46 +35,35 @@ export class AuthRepository {
             })
         }).pipe(
             map(response => {
-                this.auth_token = response.error != "Invalid_grant" ? response.access_token : null;
 
-                //if the the Email address & password are correct 
+                //Stores the response object
+                let data = response;
+
                 //set the returned Token obj into localStorage
-                if (this.auth_token != null)
-                    this.storageRepository = response;
+                this.storageRepository.storageAdminTokenInfo = data;
 
-                return this.auth_token;
-            }),catchError(e => throwError(e))
+                return data;
+            })
         );
     }
-    handleError(error) {
-        if (error.error instanceof HttpResponse) {
-            //client side error
-            this.errorMessage = `message ${error.error}`;
-        }
-        this.errorMessage = `message ${error.error}`;
-
-        window.alert(this.errorMessage);
-
-       // return throwError(this.errorMessage);
-
-    }
-
 
     public get authenticated(): boolean {
 
-        if (this.storageRepository.storageAdminTokenInfo.token == null) return false;
+        if (this.storageRepository.storageAdminTokenInfo.token != null) return true;
         // if (this.auth_token == null) return false;
-        return true;
+        return false;
     }
 
     public customerOrderedProduct(): Observable<any> {
-        return this.http.get<any>(this.baseUrl + "customerOrderedProduct", this.getOptions);
+        return this.http.get<any>(this.baseUrl + "customerOrderedProduct");
     }
 
     private get getOptions(): any {
         return {
             headers: new HttpHeaders({
-                "Authorization": `Bearer<${this.storageRepository.storageAdminTokenInfo.token}>`
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+                // 'No-Auth': 'True',
+                "Authorization": `Bearer ${this.storageRepository.storageAdminTokenInfo.token}`
             })
         }
     }
