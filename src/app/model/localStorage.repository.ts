@@ -6,17 +6,20 @@ export class LocalStorageRepository {
 
     constructor() { }
 
-    private _adminToken = { token: "", tokenExpiry: "" };
+    private _adminToken = { token: null, tokenExpiry: null };
 
     public get storageAdminTokenInfo(): any {
         //Reterive localstorage data
-     //   let storedStorageData =  JSON.parse(localStorage.getItem("adminTokenInfo"));
-        
-        //Store it in _adminToken Obj
-        //  this._adminToken.token = storedStorageData.token;
-        //  this._adminToken.tokenExpiry = storedStorageData.tokenExpiry;
+        let storedStorageData = JSON.parse(localStorage.getItem("adminTokenInfo"));
 
-        return JSON.parse(localStorage.getItem("adminTokenInfo"));
+        if (storedStorageData != null) {
+            //Store it in _adminToken Obj
+            this._adminToken.token = storedStorageData.token;
+            this._adminToken.tokenExpiry = storedStorageData.tokenExpiry;
+
+        }
+
+        return this._adminToken;
     }
 
     public set storageAdminTokenInfo(value: any) {
@@ -32,21 +35,21 @@ export class LocalStorageRepository {
     }
 
     //clear the localStorage
-    clearAdminToken():boolean {
-        
-        let storageClearStatus:boolean =  false;
+    clearAdminToken(): boolean {
+
+        let storageClearStatus: boolean = false;
         try {
             localStorage.removeItem("adminTokenInfo");
+
             storageClearStatus = true;
-       
-       
+
         } catch (error) {
-           console.error("Could not remove the item", error);
-           storageClearStatus = false;
-     
+            console.error("Could not remove the item", error);
+            storageClearStatus = false;
+
         }
 
-       return storageClearStatus;
+        return storageClearStatus;
     }
 
 

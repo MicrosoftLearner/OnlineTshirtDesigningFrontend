@@ -1,3 +1,66 @@
-<h2>Welcome in admin Template</h2>
+<div class="container">
+    <div class="well text-center">
+        <h2><strong>{{orderDetails}}</strong>, welcome in Admin panel</h2>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="btn-group-vertical">
 
- <button class="btn btn-default" (click)="checkTokenResponse()">Check token</button>
+                <p><button type="button" class="btn btn-primary" (click)="showPanel(1)">Home banner upload</button></p>
+                <p><button type="button" class="btn btn-primary" (click)="showPanel(2)">Users orders</button></p>
+                <p> <button type="button" class="btn btn-primary" (click)="showPanel(3)">blogs upload</button></p>
+                <p> <button type="button" class="btn btn-primary" (click)="testCall()" >Test</button></p>
+
+
+            </div>
+        </div>
+        <div class="col-md-7" *ngIf="activeIndex === 2" >
+            <div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>PROCUCT IMAGE</th>
+                            <th>PRODUCT ID</th>
+                            <th>PRODUCT NAME</th>
+                            <th>PRODUCT QUANTITY</th>
+                            <th>PRODUCT PRICE</th>
+                            <th>CUSTOMER EMAILID</th>
+                            <th>CUSTOMER ADDRESS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>john@example.com</td>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>john@example.com</td>
+                            <td>john@gmail.com</td>
+
+                        </tr>
+                        <tr>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>john@example.com</td>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>john@example.com</td>
+                            <td>john@gmail.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-md-7" *ngIf="activeIndex === 1">
+            <h2>In admin upload</h2>
+            <input type="file" class="form-control" name="" id="">
+        </div>
+        <div class="col-md-7" *ngIf="activeIndex === 3">
+           
+        </div>
+    </div>
+
+</div>

@@ -6,9 +6,11 @@ import { RouterModule } from "@angular/router";
 
 import {  AuthComponent } from "./auth.component";
 import { AdminComponent } from "./admin.component";
+
 import { AuthRepository } from "../model/auth.repository";
 import { AuthGuardRepository } from "../model/auth.guard";
 import { LocalStorageRepository } from "../model/localStorage.repository";
+import { RestDataRepository } from "../model/restDataRepository";
 
 let routing = RouterModule.forChild([
     {path: "adminLogin", component: AuthComponent},
@@ -19,7 +21,7 @@ let routing = RouterModule.forChild([
 @NgModule({
 
     imports: [BrowserModule, FormsModule, routing],
-    providers:[AuthRepository, AuthGuardRepository, LocalStorageRepository],
+    providers:[AuthRepository, AuthGuardRepository, LocalStorageRepository, RestDataRepository],
     declarations:[AuthComponent,AdminComponent],
     exports: [AuthComponent,AdminComponent]
 })
