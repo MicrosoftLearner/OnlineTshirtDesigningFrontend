@@ -16,8 +16,12 @@ export class RestDataRepository {
     }
 
     adminCustomerOrderedProducts(): Observable<any> {
-        let x;
+        
         return this.http.get<any>(this.baseUrl + "admin/" + "customerOrderedProduct", this.getOptions);
+    }
+
+    uploadHomeBannerFileToActivity(files:File):Observable<any>{
+      return this.http.get<any>(this.baseUrl + "admin/" + "UploadHomeBannerFile", this.getOptions)
     }
 
     private get getOptions(): any {

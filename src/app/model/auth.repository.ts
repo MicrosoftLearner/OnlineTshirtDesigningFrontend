@@ -21,8 +21,13 @@ export class AuthRepository {
 
     errorMessage: string;
 
+    public orderDetailsResponse;
+
+    public homeBannerDetailsResponse;
+
     constructor(private http: HttpClient, private storageRepository: LocalStorageRepository, private restRepository: RestDataRepository, private route: Router) {
         this.baseUrl = "http://localhost:58206/api/admin/";
+
     }
 
     authenticate(theEmailId: string, thePwd: string): Observable<any> {
@@ -57,66 +62,54 @@ export class AuthRepository {
         return false;
     }
 
-    public  customerOrderedProduct(): Observable<any> {
+    /**
+     * customerOrderedProduct
+     */
+    public customerOrderedProduct() {
 
-        let orderDetails; //stores response Object;
-        return  this.http.get<any>(this.baseUrl + "customerOrderedProduct", this.getOptions);
+        let promise = new Promise((resolve, reject) => {
+            this.restRepository.adminCustomerOrderedProducts().toPromise().then(
+                res => {
+                    this.orderDetailsResponse = res;
+                    resolve();
+                },
+                err => {
+                    console.log("Token error", error);
 
+                    //Clear the Token stored in Web storage if the token has expired
+                    //It will come to know from server, is token expired or not ?
+                    this.storageRepository.clearAdminToken();
+                    reject();
+                    this.route.navigateByUrl("/main");
+
+                }
+            );
+
+        });
+
+        return promise;
     }
 
     /**
-     * name
+     * uploadHomeBannerFileToActivity calls the API to send the uploaded file
+     * at server
      */
-    public testAsync():any {
-        let orderDetails;
-        return this.restRepository.adminCustomerOrderedProducts().subscribe(res => {
-                        console.log("new promise", res);
-                        orderDetails = res;
-                      
-                    },
-                    err => {
-                        console.log("Token error", error);
-    
-                        //Clear the Token stored in Web storage if the token has expired
-                        //It will come to know from server, is token expired or not ?
-                        //  this.storageRepository.clearAdminToken();
-            
-                        this.route.navigateByUrl("/main");
-    
-                    });
-        // let  a = new Admin();
-        // let promise = new Promise((resolve, reject) => {
-        //     this.restRepository.adminCustomerOrderedProducts().toPromise().then(
-        //         res => {
-        //             console.log("new promise", res);
-        //             orderDetails = res;
-        //             a.name = res;
-        //             resolve();
-        //         },
-        //         err => {
-        //             console.log("Token error", error);
+    public uploadHomeBannerFileToActivity(files: File) {
 
-        //             //Clear the Token stored in Web storage if the token has expired
-        //             //It will come to know from server, is token expired or not ?
-        //             //  this.storageRepository.clearAdminToken();
-        //             reject();
-        //             this.route.navigateByUrl("/main");
+        let promise = new Promise((resolve, reject) => {
+            this.restRepository.uploadHomeBannerFileToActivity(files).toPromise().then(
+                res => {
+                    this.homeBannerDetailsResponse = res;
+                    resolve();
+                },
+                err => {
+                    alert(err);
+                    reject();
+                }
+            );
 
-        //         }
-        //     );
+        });
 
-        // });
-        // console.log("Promise", promise);
-        // return promise;
-    }
-
-    private get getOptions(): any {
-        return {
-            headers: new HttpHeaders({
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-                // 'No-Auth': 'True',
-                "Authorization": `Bearer ${this.storageRepository.storageAdminTokenInfo.token}`
-            })
-        }
+        return promise;
     }
 }

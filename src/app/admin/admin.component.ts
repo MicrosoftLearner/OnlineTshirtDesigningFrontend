@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit } from "@angular/core";
-import { Form } from "@angular/forms";
+import { Form, NgForm } from "@angular/forms";
 import { AuthRepository } from "../model/auth.repository";
 import { LocalStorageRepository } from "../model/localStorage.repository";
 import { Router } from "@angular/router";
@@ -10,53 +10,62 @@ import { Admin } from "../model/admin.model";
     templateUrl: 'admin.component.html'
 })
 export class AdminComponent implements OnInit {
-   
-    public orderDetails; 
+
+    public orderDetails;
+
+    public homeBannerDetailsResponse;
+
+    public homeBannerInput = { bannerFile: null, bannerName: "", bannerDesc: "" };
+
+    // sets for ng-valid & ng-invalid operations
+    public submitted: boolean = false;
 
     //Set it to -1 to hide the info section by default
-    public activeIndex:number = -1 ;
+    public activeIndex: number = -1;
 
-    constructor(private authRepository: AuthRepository, private storageRepository: LocalStorageRepository, private route: Router) {}
+    private fileToUpload: File;
 
-    ngOnInit(){
+    constructor(private authRepository: AuthRepository, private storageRepository: LocalStorageRepository, private route: Router) { }
+
+    ngOnInit() {
 
         this.showOrderedProducts();
     };
 
-    showOrderedProducts(){
-        {
-            //Call API to get customers ordered products
-              this.authRepository.customerOrderedProduct().subscribe(response => {
-                this.orderDetails  = response;
-            },
-            
-            error => {
-                console.log("Token error", error);
-
-                //Clear the Token stored in Web storage if the token has expired
-                //It will come to know from server, is token expired or not ?
-                this.storageRepository.clearAdminToken();
-                this.route.navigateByUrl("/main");
-            });
-            console.log("orderDetails", this.orderDetails);
-        }
-    }   
-    
-    showPanel(index: number){
+    showPanel(index: number) {
         //settting to a particular activeIndex to the current index
         //will display the tabs based on click button
         this.activeIndex = index;
     }
 
-    testCall(){
-        let data;
-      
-        this.authRepository.testAsync().subscribe(res=> {
-            alert("data received");
-        
-            console.log("data", res);
+    showOrderedProducts() {
+
+        //Call API to get customers ordered products
+        this.authRepository.customerOrderedProduct().then(() => {
+            this.orderDetails = this.authRepository.orderDetailsResponse;
         });
-        
+
+    }
+
+    changeBannerFile(files: FileList) {
+
+        this.fileToUpload = files.item(0);
+
+        this.homeBannerInput.bannerFile = this.fileToUpload;
+        console.log("File", this.homeBannerInput.bannerFile);
+        // this.authRepository.uploadHomeBannerFileToActivity(this.fileToUpload).then(() => {
+        //     this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
+        // });
+    }
+
+    uploadBannerInfo(form: NgForm) {
+        //Tests the conditions in the form of Truth tables(AND) 
+        //for ng-valid and ng-invalid
+        this.submitted = true;
+
+        if (form.valid) {
+            console.log("bannerObj", this.homeBannerInput);
+        }
     }
 
 }
