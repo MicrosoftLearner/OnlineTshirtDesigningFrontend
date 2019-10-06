@@ -2,7 +2,7 @@
     <div class="well text-center">
         <h2><strong>{{orderDetails}}</strong>, welcome in Admin panel</h2>
     </div>
-    
+
     <div class="row">
         <div class="col-md-2">
             <div class="btn-group-vertical">
@@ -17,22 +17,29 @@
         </div>
         <div class="col-md-10" *ngIf="activeIndex === 1">
             <h2>Upload Banner</h2>
-            <form class="form-inline" #form="ngForm"  novalidate (ngSubmit)="uploadBannerInfo(form)">
+
+            <div class="alert alert-danger" *ngIf="errorMessage">
+                <strong>Danger!</strong> {{errorMessage}}.
+            </div>
+
+            <form class="form-inline" #form="ngForm" novalidate (ngSubmit)="uploadBannerInfo(form)">
                 <div class="form-group">
 
                     <div class="input-group">
                         <span class="input-group-addon">Banner image</span>
-                        <input type="file"  class="form-control" name="fileHomeBanner" (change)="changeBannerFile($event.target.files)" id="file" required>
+                        <input type="file" class="form-control" name="fileHomeBanner"
+                            (change)="changeBannerFile($event.target.files)" id="file" required>
 
-                        <span *ngIf="submitted && desc.invalid" class="text-danger" >*Select file</span>
+                        <!-- <span *ngIf="submitted && desc.invalid" class="text-danger" >*Select file</span> -->
                     </div>
-                   
-                    <div class="input-group">
+
+
+                    <!-- <div class="input-group">
                         <span class="input-group-addon">Text</span>
 
                         <input id="homeBannerName" type="text" class="form-control" [(ngModel)]="homeBannerInput.bannerName" id="name" #name="ngModel" name="bannerName" placeholder="Banner Name" required >
 
-                        <span *ngIf="submitted && name.invalid" class="text-danger" >*Enter banner name</span>
+                   
                     </div>
 
                     <div class="input-group">
@@ -40,17 +47,72 @@
 
                         <input id="homeBannerDesc" type="text" class="form-control" [(ngModel)]="homeBannerInput.bannerDesc" id="desc" #desc="ngModel" name="bannerDesc" placeholder="Banner Desc" required>
 
-                        <span *ngIf="submitted && desc.invalid" class="text-danger" >*Enter banner desc</span>
+                     
 
-                    </div>
-                    
+                    </div> -->
+
                 </div>
-
-                <p><button class="btn btn-primary"  type="submit">Submit</button></p>
+                <br><br>
+                <p><button class="btn btn-primary" type="submit">Submit</button></p>
             </form>
+
+            <div class="well" *ngIf="imagesNames">
+                <button class="btn btn-small btn-success"
+                    *ngFor="let item of uploadedFilesNames">{{item}}</button>&nbsp;
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Bannner image</th>
+                            <th>Banner name</th>
+                            <th>Banner description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bannerItem of homeBannerDetailsResponse; let i = index" [attr.data-index] ="i">
+                            <td>
+                                <img [src]="bannerItem.BannerImg" alt="" class="img-responsive">
+                            </td>
+                            <td>
+                                <form #form="ngForm" novalidate
+                                    (ngSubmit)="changeBannerName(form, bannerItem.BannerImgId)">
+                                    {{bannerItem.BannerName}}&nbsp;<br>
+                                    <input id="homeBannerName" type="text" class="form-control"
+                                        [(ngModel)]="homeBannerInput.bannerName" id="name" #name="ngModel"
+                                        name="bannerName" placeholder="Banner Name" required><br>
+
+                                        <span *ngIf="submitted && name.invalid" class="text-danger" >*Enter banner name</span>
+                                        <br>
+                                    <button class="btn btn-success" type="submit">Edit</button>
+
+                                </form>
+                            </td>
+                            <td>
+                                <form #form="ngForm" novalidate
+                                    (ngSubmit)="changeBannerDesc(form, bannerItem.BannerImgId)">
+                                    {{bannerItem.BannerDesc}}&nbsp;<br>
+
+                                    <input id="homeBannerName" type="text" class="form-control"
+                                        [(ngModel)]="homeBannerInput.bannerName" id="name" #name="ngModel"
+                                        name="bannerName" placeholder="Banner Name" required><br>
+
+                                        <span *ngIf="submitted && desc.invalid" class="text-danger" >*Enter banner desc</span><br>
+                                    <button class="btn btn-success" type="submit">Edit</button>
+
+                                </form>
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
-        <div class="col-md-10" *ngIf="activeIndex === 2" >
+        <div class="col-md-10" *ngIf="activeIndex === 2">
             <div>
                 <table class="table table-hover">
                     <thead>
@@ -89,9 +151,9 @@
 
             </div>
         </div>
-        
+
         <div class="col-md-10" *ngIf="activeIndex === 3">
-           
+
         </div>
     </div>
 

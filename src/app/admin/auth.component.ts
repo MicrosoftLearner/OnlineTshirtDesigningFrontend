@@ -13,7 +13,7 @@ import { catchError } from "rxjs/operators";
 })
 export class AuthComponent {
 
-  public adminInfo: Admin;
+  public adminInfo: Admin = {};
 
   public submitted: boolean = false; // use for ng-valid validations
 

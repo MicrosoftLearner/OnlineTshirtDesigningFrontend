@@ -10,6 +10,7 @@ import { Options } from "selenium-webdriver/edge";
 import { Router } from "@angular/router";
 import { RestDataRepository } from "./restDataRepository";
 import { resolve, reject } from "q";
+import { HomeBannerModel } from "./homeBannerModel";
 
 
 @Injectable()
@@ -28,6 +29,24 @@ export class AuthRepository {
     constructor(private http: HttpClient, private storageRepository: LocalStorageRepository, private restRepository: RestDataRepository, private route: Router) {
         this.baseUrl = "http://localhost:58206/api/admin/";
 
+    }
+
+    homeBannerData(){
+        let promise = new Promise((resolve, reject) => {
+            this.restRepository.homeBannerData().toPromise().then(
+                res => {
+                    this.homeBannerDetailsResponse = res;
+                    resolve();
+                },
+                err => {
+                    alert("no data");
+                    reject();
+                }
+            );
+
+        });
+
+        return promise;
     }
 
     authenticate(theEmailId: string, thePwd: string): Observable<any> {
@@ -79,9 +98,9 @@ export class AuthRepository {
                     //Clear the Token stored in Web storage if the token has expired
                     //It will come to know from server, is token expired or not ?
                     this.storageRepository.clearAdminToken();
-                    reject();
                     this.route.navigateByUrl("/main");
-
+                    reject();
+                    
                 }
             );
 
@@ -94,16 +113,17 @@ export class AuthRepository {
      * uploadHomeBannerFileToActivity calls the API to send the uploaded file
      * at server
      */
-    public uploadHomeBannerFileToActivity(files: File) {
+    public uploadHomeBannerFileToActivity(theFilesToUpload:Array<File>, theUploadedFilesNames: string[]) {
 
         let promise = new Promise((resolve, reject) => {
-            this.restRepository.uploadHomeBannerFileToActivity(files).toPromise().then(
+            this.restRepository.uploadHomeBannerFileToActivity(theFilesToUpload, theUploadedFilesNames).toPromise().then(
                 res => {
                     this.homeBannerDetailsResponse = res;
+                    console.log(" this.homeBannerDetailsResponse",  this.homeBannerDetailsResponse);
                     resolve();
                 },
                 err => {
-                    alert(err);
+                    alert("no data");
                     reject();
                 }
             );
@@ -112,4 +132,6 @@ export class AuthRepository {
 
         return promise;
     }
+
+
 }
