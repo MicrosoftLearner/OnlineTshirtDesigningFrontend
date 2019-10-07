@@ -1,4 +1,7 @@
 <div class="container">
+        <div id="spinner" *ngIf="isLoading">
+                <img src="../../assets/images/Brands/loader.gif" alt="">
+            </div>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
 
@@ -38,9 +41,7 @@
                     </div>
                 </div>
             </form>
-            <div>
-                <button class="btn btn-default" (click)="navigateUrl()">Navigate Url</button>
-            </div>
+           
         </div>
     </div>
 </div>

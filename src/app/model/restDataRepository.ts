@@ -21,6 +21,12 @@ export class RestDataRepository {
         return this.http.get<any>(this.baseUrl + "admin/" + "homeBannerDetails", this.getOptions);
     }
 
+    changeBannerName(nameDesc: any){
+     
+        return this.http.post<any>(this.baseUrl + "admin/" + "changeBannerName", nameDesc, this.getOptions);
+
+    }
+
     adminCustomerOrderedProducts(): Observable<any> {
         
         return this.http.get<any>(this.baseUrl + "admin/" + "customerOrderedProduct", this.getOptions);

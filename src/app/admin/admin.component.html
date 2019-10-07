@@ -1,6 +1,13 @@
 <div class="container">
+     <div id="spinner" *ngIf="isLoading">
+         <img src="../../assets/images/Brands/loader.gif" alt="">
+     </div>
     <div class="well text-center">
-        <h2><strong>{{orderDetails}}</strong>, welcome in Admin panel</h2>
+        <h2><strong>{{orderDetails}}</strong>, welcome in Admin panel
+            <button class="btn btn-danger pull-right">Logout</button>
+        </h2>
+
+       
     </div>
 
     <div class="row">
@@ -61,6 +68,8 @@
                     *ngFor="let item of uploadedFilesNames">{{item}}</button>&nbsp;
             </div>
 
+         
+
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -71,34 +80,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let bannerItem of homeBannerDetailsResponse; let i = index" [attr.data-index] ="i">
-                            <td>
+                        <tr *ngFor="let bannerItem of homeBannerDetailsResponse; let i = index;trackBy:trackByIndex;" [attr.data-index] ="i">
+                            <td style="width: 300px">
                                 <img [src]="bannerItem.BannerImg" alt="" class="img-responsive">
                             </td>
                             <td>
-                                <form #form="ngForm" novalidate
-                                    (ngSubmit)="changeBannerName(form, bannerItem.BannerImgId)">
-                                    {{bannerItem.BannerName}}&nbsp;<br>
-                                    <input id="homeBannerName" type="text" class="form-control"
-                                        [(ngModel)]="homeBannerInput.bannerName" id="name" #name="ngModel"
-                                        name="bannerName" placeholder="Banner Name" required><br>
+                                <form  novalidate 
+                                    (ngSubmit)="changeBannerName(bannerItem)">
+                                    {{bannerItem.homeBannerName}}&nbsp;<br>
 
-                                        <span *ngIf="submitted && name.invalid" class="text-danger" >*Enter banner name</span>
+                                    <input id="HomeBannerName" type="text" class="form-control"
+                                        [(ngModel)]="bannerItem.BannerName" 
+                                       placeholder="Banner name" #name="ngModel" name="name" required><br>
+
+                                        <!-- <span *ngIf="submitted && name.invalid" class="text-danger" >*Enter banner name</span> -->
                                         <br>
                                     <button class="btn btn-success" type="submit">Edit</button>
 
                                 </form>
                             </td>
                             <td>
-                                <form #form="ngForm" novalidate
-                                    (ngSubmit)="changeBannerDesc(form, bannerItem.BannerImgId)">
-                                    {{bannerItem.BannerDesc}}&nbsp;<br>
+                                <form  novalidate
+                                    (ngSubmit)="changeBannerName(bannerItem)">
+                                   <br>
 
-                                    <input id="homeBannerName" type="text" class="form-control"
-                                        [(ngModel)]="homeBannerInput.bannerName" id="name" #name="ngModel"
-                                        name="bannerName" placeholder="Banner Name" required><br>
+                                    <input id="HomeBannerDesc" type="text" class="form-control"
+                                        [(ngModel)]="bannerItem.BannerDesc" id="name" name="desc" #desc="ngModel" required  placeholder="Banner description" ><br>
 
-                                        <span *ngIf="submitted && desc.invalid" class="text-danger" >*Enter banner desc</span><br>
+                                         <!-- <span *ngIf="submitted && desc.invalid" class="text-danger" >*Enter banner desc</span><br> -->
                                     <button class="btn btn-success" type="submit">Edit</button>
 
                                 </form>

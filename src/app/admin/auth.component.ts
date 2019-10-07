@@ -21,6 +21,9 @@ export class AuthComponent {
 
   public errorMessage: string;
 
+  //Sets the loader
+  public isLoading: boolean = false;
+
   constructor(private repository: AuthRepository, private guardRepository: AuthGuardRepository,
     private router: Router) { }
 
@@ -28,16 +31,22 @@ export class AuthComponent {
 
     this.submitted = true;
 
+    //Shows the loader
+    this.isLoading = true;
+
     if (form.valid) {
 
       this.repository.authenticate(this.adminInfo.emailId, this.adminInfo.pwd).subscribe(response => {
-
+        //Hides the loader
+        this.isLoading = false;
         this.router.navigateByUrl("/main");
 
       }, err => {
         this.errorMessage = "Admin name & password dont match";
 
         this.errorMessageStatus = true;
+
+        this.isLoading = false;
       });
 
     } else {
@@ -45,7 +54,4 @@ export class AuthComponent {
     }
   }
 
-  navigateUrl(){
-    this.router.navigateByUrl("/main");
-  }
 }

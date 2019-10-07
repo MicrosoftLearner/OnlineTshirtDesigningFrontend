@@ -18,9 +18,10 @@ export class AdminComponent implements OnInit {
 
     public homeBannerDetailsResponse;
 
-    public homeBannerInput: HomeBannerModel = {};
+    public homeBannerInput: Array< HomeBannerModel> = [];
     //  { bannerFile: , bannerName: "", bannerDesc: "" };
 
+  
     // sets for ng-valid & ng-invalid operations
     public submitted: boolean = false;
 
@@ -40,6 +41,9 @@ export class AdminComponent implements OnInit {
 
     public uploadedFilesNames: string[] = [];
 
+    //Sets the loader
+    public isLoading: boolean = false;
+
     constructor(private authRepository: AuthRepository, private storageRepository: LocalStorageRepository, private route: Router, private http: HttpClient) { }
 
     ngOnInit() {
@@ -51,12 +55,19 @@ export class AdminComponent implements OnInit {
 
 
     showHomeBannerData() {
+        
+
         this.authRepository.homeBannerData().
             then(() => {
 
                 this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
+                console.log(" this.homeBannerDetailsResponse",   this.homeBannerDetailsResponse);
 
+            //Hides the loader as it gets response    
+             this.isLoading = false;
             });
+            //Shows the loader
+        this.isLoading = true;
     };
 
     showPanel(index: number) {
@@ -70,8 +81,10 @@ export class AdminComponent implements OnInit {
         //Call API to get customers ordered products
         this.authRepository.customerOrderedProduct().then(() => {
             this.orderDetails = this.authRepository.orderDetailsResponse;
-        });
 
+            this.isLoading = false;
+        });
+        this.isLoading = true;
     }
 
     changeBannerFile(filesToInput: FileList) {
@@ -102,41 +115,36 @@ export class AdminComponent implements OnInit {
                 //Calls to the service
                 this.authRepository.uploadHomeBannerFileToActivity(this.filesToUpload, this.uploadedFilesNames).then(() => {
                     this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
+                    
+                    //Makes the arrays empty
+                    this.filesToUpload = [];
+                    this.uploadedFilesNames = [];
 
+                    //Disables the well
+                    this.imagesNames = false;
+
+                    this.isLoading = false;
                 });
+
+                this.isLoading = true;
             }
         }
 
     }
 
-    changeBannerName(form: NgForm, id: number) {
+    changeBannerName( nameDesc: any) {
 
         // //Tests the conditions in the form of Truth tables(AND) 
         // //for ng-valid and ng-invalid
-        this.submitted = true;
+         this.submitted = true;
+        console.log("nameDesc", nameDesc);
+             this.authRepository.changeBannerName(nameDesc).then(() => {
+                this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
 
-        if (form.valid) {
-
-
-            // this.authRepository.uploadHomeBannerFileToActivity(this.fileToUpload).then(() => {
-            //     this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
-            // });
-        }
-    }
-
-    changeBannerDesc(form: NgForm, id: number) {
-
-        // //Tests the conditions in the form of Truth tables(AND) 
-        // //for ng-valid and ng-invalid
-        this.submitted = true;
-
-        if (form.valid) {
-
-
-            // this.authRepository.uploadHomeBannerFileToActivity(this.fileToUpload).then(() => {
-            //     this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
-            // });
-        }
+                this.isLoading = false;
+            });
+            this.isLoading = true;
+    
     }
 
 }

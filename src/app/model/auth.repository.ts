@@ -49,6 +49,24 @@ export class AuthRepository {
         return promise;
     }
 
+    changeBannerName(nameDesc: any){
+        let promise = new Promise((resolve, reject) => {
+            this.restRepository.changeBannerName(nameDesc).toPromise().then(
+                res => {
+                    this.homeBannerDetailsResponse = res;
+                    resolve();
+                },
+                err => {
+                    alert("no data");
+                    reject();
+                }
+            );
+
+        });
+
+        return promise;
+    }
+
     authenticate(theEmailId: string, thePwd: string): Observable<any> {
 
         var adminData = "username=" + theEmailId + "&password=" + thePwd + "&grant_type=password";
