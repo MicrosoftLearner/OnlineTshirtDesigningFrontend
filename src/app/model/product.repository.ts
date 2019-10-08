@@ -2,35 +2,80 @@ import { Injectable, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import {Product  } from "../model/product";
+import { Product } from "../model/product";
+import { RestDataProductRepository } from "./restDataProductRepository";
 
 @Injectable()
 export class ProductRepository {
 
     baseUrl: string;
 
-    private productObjArray;
+    public productObjArray;
+
+    public homeBannerProducts;
 
     public individualProuct;
 
-    constructor(private http: HttpClient) {
-      
-        this.baseUrl = "http://localhost:58206/api/";
+    constructor(private restDataProdRepository: RestDataProductRepository) { }
 
-        this.http.get(this.baseUrl + "product").subscribe(data => {
-            this.productObjArray = data
+    getHomeBannerProducts(){
+
+        let promise = new Promise((resolve, reject) => {
+            this.restDataProdRepository.getHomeBannerProducts().toPromise().then(
+                res => {
+                    this.homeBannerProducts = res;
+                    resolve();
+                },
+                err => {
+                    console.log("getProducts API fetching problem");
+                    reject();
+                }
+            );
+
         });
 
-    }
+        return promise;
 
-    getProducts(): Array<Object> {
+    }   
 
-        return this.productObjArray;
+
+    getProducts(){
+
+        let promise = new Promise((resolve, reject) => {
+            this.restDataProdRepository.getProducts().toPromise().then(
+                res => {
+                    this.productObjArray = res;
+                    resolve();
+                },
+                err => {
+                    console.log("getProducts API fetching problem");
+                    reject();
+                }
+            );
+
+        });
+
+        return promise;
     };
 
-    
-    getProductById(id: number): Observable<object> {
-       return this.http.get<object>(this.baseUrl + "product/GetIndividualProdcut/" + id);
-                 
+
+    getProductById(id: number) {
+
+        let promise = new Promise((resolve, reject) => {
+            this.restDataProdRepository.getProductById(id).toPromise().then(
+                res => {
+                    this.individualProuct = res;
+                    resolve();
+                },
+                err => {
+                    console.log("getProductById API fetching problem");
+                    reject();
+                }
+            );
+
+        });
+
+        return promise;
+
     }
 }

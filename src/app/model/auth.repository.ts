@@ -94,8 +94,11 @@ export class AuthRepository {
 
     public get authenticated(): boolean {
 
+        //Checks if token has stored in the localstorage
         if (this.storageRepository.storageAdminTokenInfo.token != null) return true;
         // if (this.auth_token == null) return false;
+
+        //If the token hasn't stored in the localstorage
         return false;
     }
 
@@ -116,8 +119,10 @@ export class AuthRepository {
                     //Clear the Token stored in Web storage if the token has expired
                     //It will come to know from server, is token expired or not ?
                     this.storageRepository.clearAdminToken();
-                    this.route.navigateByUrl("/main");
+                  
                     reject();
+
+                    this.route.navigateByUrl("/admin/main");
                     
                 }
             );

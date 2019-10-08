@@ -12,10 +12,18 @@ export class AuthGuardRepository {
 
         if (!this.authRepository.authenticated) {
             console.log("In authGuard repository");
-            this.route.navigateByUrl("/adminLogin");
+            this.route.navigateByUrl("/admin/adminLogin");
             return false;
         }
 
+        return true;
+    }
+
+    canActivateAdmin(): boolean {
+        if (this.authRepository.authenticated) {
+            this.route.navigateByUrl("/admin/main");
+            return false;
+        }
         return true;
     }
 }

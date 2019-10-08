@@ -18,10 +18,10 @@ export class AdminComponent implements OnInit {
 
     public homeBannerDetailsResponse;
 
-    public homeBannerInput: Array< HomeBannerModel> = [];
+    public homeBannerInput: Array<HomeBannerModel> = [];
     //  { bannerFile: , bannerName: "", bannerDesc: "" };
 
-  
+
     // sets for ng-valid & ng-invalid operations
     public submitted: boolean = false;
 
@@ -53,20 +53,19 @@ export class AdminComponent implements OnInit {
         this.showHomeBannerData();
     }
 
-
     showHomeBannerData() {
-        
+
 
         this.authRepository.homeBannerData().
             then(() => {
 
                 this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
-                console.log(" this.homeBannerDetailsResponse",   this.homeBannerDetailsResponse);
+                console.log(" this.homeBannerDetailsResponse", this.homeBannerDetailsResponse);
 
-            //Hides the loader as it gets response    
-             this.isLoading = false;
+                //Hides the loader as it gets response    
+                this.isLoading = false;
             });
-            //Shows the loader
+        //Shows the loader
         this.isLoading = true;
     };
 
@@ -115,7 +114,7 @@ export class AdminComponent implements OnInit {
                 //Calls to the service
                 this.authRepository.uploadHomeBannerFileToActivity(this.filesToUpload, this.uploadedFilesNames).then(() => {
                     this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
-                    
+
                     //Makes the arrays empty
                     this.filesToUpload = [];
                     this.uploadedFilesNames = [];
@@ -132,19 +131,25 @@ export class AdminComponent implements OnInit {
 
     }
 
-    changeBannerName( nameDesc: any) {
+    changeBannerName(nameDesc: any) {
 
         // //Tests the conditions in the form of Truth tables(AND) 
         // //for ng-valid and ng-invalid
-         this.submitted = true;
+        this.submitted = true;
         console.log("nameDesc", nameDesc);
-             this.authRepository.changeBannerName(nameDesc).then(() => {
-                this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
+        this.authRepository.changeBannerName(nameDesc).then(() => {
+            this.homeBannerDetailsResponse = this.authRepository.homeBannerDetailsResponse;
 
-                this.isLoading = false;
-            });
-            this.isLoading = true;
-    
+            this.isLoading = false;
+        });
+        this.isLoading = true;
+
+    }
+
+    logout() {
+
+        this.storageRepository.clearAdminToken();
+
     }
 
 }

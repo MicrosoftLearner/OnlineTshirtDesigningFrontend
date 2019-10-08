@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from "@angular/core";
+import { Component, AfterViewInit, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import {
     SwiperComponent, SwiperDirective, SwiperConfigInterface,
@@ -6,6 +6,7 @@ import {
 } from 'ngx-swiper-wrapper';
 
 import { ProductRepository } from "../model/product.repository";
+import { Product } from "../model/product";
 
 
 @Component({
@@ -15,14 +16,24 @@ import { ProductRepository } from "../model/product.repository";
 })
 
 
-export class StoreComponent {
+export class StoreComponent implements OnInit {
 
     public imgsUrlArray = [
         { imgUrl: "../../assets/images/Home/1.jpg", name: "sy", desc: "cool" },
         { imgUrl: "../../assets/images/Home/2.jpg", name: "sy", desc: "cool1" },
         { imgUrl: "../../assets/images/Home/1.jpg", name: "sy", desc: "cool2" }
     ];
-    constructor(private repoistory: ProductRepository) { console.log("In store component"); }
+
+    //Sets the getProducts response 
+    public products: Array<Product> = [];
+
+    //Sets the homeBannerProducts
+    public homeBannerProducts;
+
+    //Sets the newArrival products
+    public newArrivalProducts:Array< Product> = [];
+
+    constructor(private repoistoryProduct: ProductRepository) { console.log("In store component"); }
 
     public config: SwiperConfigInterface = {
         direction: 'horizontal',
@@ -54,9 +65,28 @@ export class StoreComponent {
         spaceBetween: 15
     }
 
-//getter property    
-    public get getProducts():Array<object> {
-        return this.repoistory.getProducts();
+
+    ngOnInit() {
+
+        this.getHomeBannerProducts();
+
+        this.getProducts();
     }
-    
+    getHomeBannerProducts() {
+        this.repoistoryProduct.getHomeBannerProducts().then(() => {
+            this.homeBannerProducts = this.repoistoryProduct.homeBannerProducts;
+        });
+    }
+
+    getProducts() {
+        //It sets the returned products 
+        this.repoistoryProduct.getProducts().then(() => {
+            this.products = this.repoistoryProduct.productObjArray;
+        });
+    }
+
+    getNewArrival(){
+        this.newArrivalProducts =  this.products.filter( x => x.ProductNewArrival.trim() == "yes");
+    }
+
 }

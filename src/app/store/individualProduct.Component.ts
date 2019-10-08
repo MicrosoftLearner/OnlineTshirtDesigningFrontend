@@ -3,6 +3,7 @@ import { NgbButtonsModule } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, RouterStateSnapshot } from "@angular/router";
 
 import { ProductRepository } from "../model/product.repository";
+import { Product } from "../model/product";
 
 @Component({
 
@@ -12,27 +13,26 @@ import { ProductRepository } from "../model/product.repository";
 
 export class IndividualProductComponent {
 
-    id: string;
+    id: number;
 
-    public indvProduct;
+    public indvProduct: Product;
 
-    constructor(private repoistory: ProductRepository, private route: ActivatedRoute) {
+    constructor(private repoistoryProduct: ProductRepository, private route: ActivatedRoute) {
         console.log("Individual prod constructor");
-        this.id = route.snapshot.paramMap.get("productId");
 
-        this.indvProduct = repoistory.getProductById(parseInt(this.id)).subscribe(data => 
-            { this.indvProduct= data});
-
-        console.log("Indivi", this.indvProduct);
+        //Converts the params string to int
+        this.id = parseInt(route.snapshot.paramMap.get("productId"));
     }
-
-
-    public get value() {
-        return this.indvProduct;
-    }
-
 
     ngOnInit() {
+
+        this.showIndividualProduct();
+    }
+    showIndividualProduct() {
+        //It sets the returned products 
+        this.repoistoryProduct.getProductById(this.id).then(() => {
+            this.indvProduct = this.repoistoryProduct.individualProuct;
+        });
     }
 
 }

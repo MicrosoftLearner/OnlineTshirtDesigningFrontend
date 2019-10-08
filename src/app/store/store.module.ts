@@ -17,11 +17,16 @@ import { AccountComponent } from "./account.component";
 import {  OrderDetailsComponent } from "./orderDetails";
 import { CartComponent } from "./cart.component";
 import { CartSummeryComponent } from "./cartSummery.component";
+import { RestDataProductRepository } from "../model/restDataProductRepository";
 
 
 @NgModule({
     imports: [BrowserModule, FormsModule, RouterModule, SwiperModule],
+ 
+    providers: [RestDataProductRepository],
+    
     declarations: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent,AccountComponent, OrderDetailsComponent, CartComponent, CartSummeryComponent],
+
     exports: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent, AccountComponent, OrderDetailsComponent, CartComponent]
 })
 

@@ -1,10 +1,11 @@
 import { Injectable, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Injectable()
 
 export class LocalStorageRepository {
 
-    constructor() { }
+    constructor(private route: Router) { }
 
     private _adminToken = { token: null, tokenExpiry: null };
 
@@ -35,21 +36,11 @@ export class LocalStorageRepository {
     }
 
     //clear the localStorage
-    clearAdminToken(): boolean {
+    clearAdminToken() {
 
-        let storageClearStatus: boolean = false;
-        try {
             localStorage.removeItem("adminTokenInfo");
-
-            storageClearStatus = true;
-
-        } catch (error) {
-            console.error("Could not remove the item", error);
-            storageClearStatus = false;
-
-        }
-
-        return storageClearStatus;
+          
+            this.route.navigateByUrl("/admin/adminLogin")
     }
 
 

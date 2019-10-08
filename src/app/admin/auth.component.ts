@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { NgForm, Form } from "@angular/forms";
 import { Router } from "@angular/router";
 
@@ -11,7 +11,7 @@ import { catchError } from "rxjs/operators";
 @Component({
   templateUrl: 'auth.component.html'
 })
-export class AuthComponent {
+export class AuthComponent implements AfterViewInit {
 
   public adminInfo: Admin = {};
 
@@ -25,21 +25,28 @@ export class AuthComponent {
   public isLoading: boolean = false;
 
   constructor(private repository: AuthRepository, private guardRepository: AuthGuardRepository,
-    private router: Router) { }
+    private route: Router) { }
+
+    ngAfterViewInit() {
+   // this.checkToken();
+  }
+  checkToken() {
+   if (this.guardRepository.canActivateAdmin()) this.route.navigateByUrl("/admin/adminLogin");
+  }
 
   checkAdminLogin(form: NgForm) {
 
     this.submitted = true;
 
-    //Shows the loader
-    this.isLoading = true;
-
     if (form.valid) {
+
+      //Shows the loader
+      this.isLoading = true;
 
       this.repository.authenticate(this.adminInfo.emailId, this.adminInfo.pwd).subscribe(response => {
         //Hides the loader
         this.isLoading = false;
-        this.router.navigateByUrl("/main");
+        this.route.navigateByUrl("/admin/main");
 
       }, err => {
         this.errorMessage = "Admin name & password dont match";

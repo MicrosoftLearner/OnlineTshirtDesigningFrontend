@@ -26,7 +26,7 @@ import { AdminModule } from './admin/admin.module';
 
 //  let routing = RouterModule.forChild([
 
-  
+
 //  ]); 
 
 @NgModule({
@@ -34,16 +34,18 @@ import { AdminModule } from './admin/admin.module';
     AppComponent
   ],
   imports: [
-    BrowserModule, SlideshowModule, RouterModule, StoreModule, ModelModule, AdminModule,
+    BrowserModule, SlideshowModule, RouterModule, StoreModule, ModelModule,
     RouterModule.forRoot([
       { path: "store", component: StoreComponent },
-      {path: "individualProduct/:productId", component: IndividualProductComponent},
-      {path: "login", component: LoginComponent},
-      {path: "blogs", component: InnerBlogsComponent},
-      {path: "account", component: AccountComponent}, 
-      {path: "orderDetails", component: OrderDetailsComponent},      
-      {path: "cart", component: CartComponent}, 
-      { path: "**", redirectTo: "/store" }
+      { path: "individualProduct/:productId", component: IndividualProductComponent },
+      { path: "login", component: LoginComponent },
+      { path: "blogs", component: InnerBlogsComponent },
+      { path: "account", component: AccountComponent },
+      { path: "orderDetails", component: OrderDetailsComponent },
+      { path: "cart", component: CartComponent },
+      { path: "admin", loadChildren: "./admin/admin.module#AdminModule" },
+
+      { path: "**", redirectTo: "/store" },
     ])
   ],
   providers: [],
@@ -52,4 +54,4 @@ import { AdminModule } from './admin/admin.module';
 export class AppModule {
 
 
- }
+}
