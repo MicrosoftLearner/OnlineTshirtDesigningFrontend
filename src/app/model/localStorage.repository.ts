@@ -38,10 +38,46 @@ export class LocalStorageRepository {
     //clear the localStorage
     clearAdminToken() {
 
-            localStorage.removeItem("adminTokenInfo");
-          
-            this.route.navigateByUrl("/admin/adminLogin")
+        localStorage.removeItem("adminTokenInfo");
+
+        this.route.navigateByUrl("/admin/adminLogin")
     }
 
+
+    private _customerToken = { token: null, tokenExpiry: null };
+
+    public get storageCustomerTokenInfo(): any {
+        //Reterive localstorage data
+        let storedStorageData = JSON.parse(localStorage.getItem("customerTokenInfo"));
+
+        if (storedStorageData != null) {
+            //Store it in _adminToken Obj
+            this._customerToken.token = storedStorageData.token;
+            this._customerToken.tokenExpiry = storedStorageData.tokenExpiry;
+
+        }
+
+        return this._customerToken;
+    }
+
+    public set storageCustomerTokenInfo(value: any) {
+
+        //store the object fields in adminToken obj
+        this._customerToken.token = value.access_token;
+        this._customerToken.tokenExpiry = value.expires_in;
+
+        //Stores the Obj in Web's local storage 
+        //to access the values throughout the entire web app
+        localStorage.setItem("customerTokenInfo", JSON.stringify(this._customerToken));
+
+    }
+
+    //clear the localStorage
+    clearCustomerToken() {
+
+        localStorage.removeItem("customerTokenInfo");
+
+        this.route.navigateByUrl("/store");
+    }
 
 }

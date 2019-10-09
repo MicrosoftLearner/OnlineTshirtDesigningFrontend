@@ -11,21 +11,24 @@ import { StoreHeaderComponent } from "./storeHeader.component";
 import { StoreFooterComponent } from "./storeFooter.component";
 
 import { IndividualProductComponent } from "./individualProduct.Component";
-import { LoginComponent } from "./Login.component";
+
 import { InnerBlogsComponent } from "./innerBlogs.component";
 import { AccountComponent } from "./account.component";
 import {  OrderDetailsComponent } from "./orderDetails";
 import { CartComponent } from "./cart.component";
 import { CartSummeryComponent } from "./cartSummery.component";
 import { RestDataProductRepository } from "../model/restDataProductRepository";
+import { AuthCustomerRepository } from "../model/authCustomer.repository";
+import { RestDataCustomerRepository } from "../model/restDataCustomer.repository";
+import { LoginComponent } from "./login.component";
 
 
 @NgModule({
     imports: [BrowserModule, FormsModule, RouterModule, SwiperModule],
  
-    providers: [RestDataProductRepository],
+    providers: [RestDataProductRepository, AuthCustomerRepository, RestDataCustomerRepository],
     
-    declarations: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent,AccountComponent, OrderDetailsComponent, CartComponent, CartSummeryComponent],
+    declarations: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent, LoginComponent, InnerBlogsComponent,AccountComponent, OrderDetailsComponent, CartComponent, CartSummeryComponent],
 
     exports: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent, AccountComponent, OrderDetailsComponent, CartComponent]
 })

@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 
 import { Product } from "../model/product";
 import { RestDataProductRepository } from "./restDataProductRepository";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class ProductRepository {
@@ -18,7 +19,7 @@ export class ProductRepository {
 
     constructor(private restDataProdRepository: RestDataProductRepository) { }
 
-    getHomeBannerProducts(){
+    getHomeBannerProducts() {
 
         let promise = new Promise((resolve, reject) => {
             this.restDataProdRepository.getHomeBannerProducts().toPromise().then(
@@ -36,29 +37,39 @@ export class ProductRepository {
 
         return promise;
 
-    }   
+    }
 
+    // getProducts(){
 
-    getProducts(){
+    //     let promise = new Promise((resolve, reject) => {
+    //         this.restDataProdRepository.getProducts().toPromise().then(
+    //             res => {
+    //                 this.productObjArray = res;
+    //                 resolve();
+    //             },
+    //             err => {
+    //                 console.log("getProducts API fetching problem");
+    //                 reject();
+    //             }
+    //         );
 
-        let promise = new Promise((resolve, reject) => {
-            this.restDataProdRepository.getProducts().toPromise().then(
-                res => {
-                    this.productObjArray = res;
-                    resolve();
-                },
-                err => {
-                    console.log("getProducts API fetching problem");
-                    reject();
-                }
-            );
+    //     });
 
-        });
+    //     return promise;
+    // };
 
-        return promise;
+    getProducts(): Observable<any> {
+
+        return this.restDataProdRepository.getProducts().pipe(map(res => {
+            return res;
+        },
+            err => {
+                console.log("getProducts API fetching problem");
+
+            })
+
+        );
     };
-
-
     getProductById(id: number) {
 
         let promise = new Promise((resolve, reject) => {
@@ -78,4 +89,17 @@ export class ProductRepository {
         return promise;
 
     }
+
+    getBlogs(): Observable<any> {
+
+        return this.restDataProdRepository.getBlogs().pipe(map(res => {
+            return res;
+        },
+            err => {
+                console.log("getProducts API fetching problem");
+
+            })
+
+        );
+    };
 }

@@ -1,8 +1,12 @@
+<div id="spinner" *ngIf="isLoading">
+        <img src="../../assets/images/Brands/loader.gif" alt="">
+    </div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="relate hidden-xs" style="margin: 25px 0">
-                <div ng-if="!view">
+                <div *ngIf="view == 1">
                     <div class="row marg0">
                         <div class="col-md-6 col-sm-6 col-xs-12 padd0">
                             <div class="modal-container">
@@ -12,16 +16,31 @@
                                         <p class="gray--color">to your account</p>
                                     </div>
                                     <div>
-                                        <form class="modal__customized-form" name="loginform">
+ 
+                                            <div class="alert alert-danger text-center" [ngClass]="{'hidden': errorMessage === undefined}">
+                                                    <strong>Error!</strong> &nbsp;{{errorMessage}}.
+                                                </div>
+                                    
+                                        <form class="modal__customized-form" name="loginform" novalidate #form="ngForm"
+                                            (ngSubmit)="checkCustomerLogin(form, customer)">
                                             <div class="form-group">
-                                                <input type="email" placeholder="Email Address" class="form-control" name="email">
+                                                <input type="email" placeholder="Email Address" class="form-control"
+                                                    name="email" [(ngModel)]="customer.email" #email="ngModel" required>
+
+                                                <span *ngIf="submitted && email.invalid" class="text-danger">Enter your
+                                                    email</span>
+
                                             </div>
                                             <div class="form-group">
                                                 <input type="password" placeholder="Password" name="password"
-                                                    ng-model="loginData.password" class="form-control" required>
+                                                    [(ngModel)]="customer.pwd" class="form-control" #pwd="ngModel" required>
+
+                                                <span *ngIf="submitted && pwd.invalid" class="text-danger">Enter your
+                                                    password</span>
+
                                             </div>
                                             <div class="marginTop">
-                                                <button type="button" class="btn btn-login btn-block">log in</button>
+                                                <button type="button" type="submit" class="btn btn-login btn-block">log in</button>
                                             </div>
 
                                         </form>
@@ -70,14 +89,14 @@
                                 <div class="login-footer">
                                     <p class="marg0">Don't have an account?</p>
                                     <div>
-                                        <a href="">Sign Up</a>
+                                        <a (click)="changeView(2)">Sign Up</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div ng-if="view">
+                <div *ngIf="view == 2">
                     <div class="row marg0">
                         <div class="col-md-6 col-sm-6 col-xs-12 padd0">
                             <div class="modal-container">
@@ -87,38 +106,51 @@
                                         <p>to your account</p>
                                     </div>
                                     <div>
-                                        <form class="modal__customized-form" name="registerForm" novalidate>
+                                        <form class="modal__customized-form" name="registerForm" novalidate #form="ngForm"  (ngSubmit)="customerSignup(form, customer)">
                                             <div class="form-group">
-                                                <input type="text" placeholder="First Name" name="firstname"
-                                                    class="form-control" required>
+                                                <input type="text" placeholder="First Name" name="firstName"
+                                                    class="form-control" required [(ngModel)]="customer.firstName" #firstName="ngModel">
 
+                                                    <span *ngIf="submitted && firstName.invalid" class="text-danger">Enter your
+                                                            first name</span>
                                                 <!--<p ng-show="registerForm.firstname.$touched && registerForm.firstname.$invalid">Test</p>-->
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" placeholder="Last Name" name="lastname"
-                                                    ng-model="formData.lastname" class="form-control" required>
+                                                <input type="text" placeholder="Last Name" name="lastName"
+                                                [(ngModel)]="customer.lastName" class="form-control" #lastName="ngModel" required>
+
+                                                <span *ngIf="submitted && lastName.invalid" class="text-danger">Enter your
+                                                        lastname</span>
                                             </div>
                                             <div class="form-group">
                                                 <input type="email" placeholder="Email Address" name="email"
-                                                    ng-model="formData.email" class="form-control" required>
+                                                [(ngModel)]="customer.email" #email="ngModel" class="form-control" required>
+
+                                                <span *ngIf="submitted && email.invalid" class="text-danger">Enter your
+                                                        email</span>
                                             </div>
                                             <div class="form-group">
-                                                <input type="number" placeholder="Mobile No" name="mobile"
-                                                    ng-model="formData.mobile" class="form-control" required>
+                                                <input type="number" placeholder="Mobile No" name="mobileNo"
+                                                [(ngModel)]="customer.mobileNo" #mobileNo="ngModel" class="form-control" required>
+
+                                                <span *ngIf="submitted && mobileNo.invalid" class="text-danger">Enter your
+                                                        mobile no</span>
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" placeholder="Password" name="password"
-                                                    ng-model="formData.password" class="form-control" required>
+                                                <input type="password" placeholder="Password" name="pwd"
+                                                [(ngModel)]="customer.pwd" #pwd="ngModel" class="form-control" required>
+                                                <span *ngIf="submitted && pwd.invalid" class="text-danger">Enter your
+                                                        password</span>
                                             </div>
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <input type="password" placeholder="Confirm Password" name="confirm"
                                                     ng-model="formData.confirm" class="form-control" required>
-                                                <!--<span ng-show='registerForm.formData.confirm.$error.hsPswdMatch'>Passwords don't match</span>-->
-                                            </div>
+                                               <span ng-show='registerForm.formData.confirm.$error.hsPswdMatch'>Passwords don't match</span>
+                                            </div> -->
                                             <div class="marginTop">
-                                                <button type="button" class="btn btn-login btn-block">Sign Up</button>
+                                                <button type="submit" class="btn btn-login btn-block">Sign Up</button>
                                             </div>
-                                            <strong style="color:red" ng-bind-html="errormsg"></strong>
+                                           
                                         </form>
                                     </div>
                                 </div>
@@ -160,8 +192,8 @@
                                 </div>
                                 <div class="login-footer have-account">
                                     <p class="marg0">Have an account</p>
-                                    <div ng-click="viewLogin();">
-                                        <a href="">Login</a>
+                                    <div>
+                                        <a  (click)="changeView(1)">Login</a>
                                     </div>
                                 </div>
                             </div>

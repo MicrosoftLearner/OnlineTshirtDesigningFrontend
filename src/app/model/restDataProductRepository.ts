@@ -4,23 +4,28 @@ import { Observable } from "rxjs";
 
 @Injectable()
 
-export class RestDataProductRepository{
+export class RestDataProductRepository {
 
     private baseUrl: string;
 
-    constructor(private http: HttpClient,){
+    constructor(private http: HttpClient, ) {
         this.baseUrl = "http://localhost:58206/api/product/";
     }
 
-    getHomeBannerProducts():Observable<any>{
+    getHomeBannerProducts(): Observable<any> {
         return this.http.get<any>(this.baseUrl + "getHomeBannerProducts");
     }
 
-    getProducts():Observable<any>{
+    getProducts(): Observable<any> {
         return this.http.get<any>(this.baseUrl + "getProducts");
     }
 
-    getProductById(id: number):Observable<any>{
+    getProductById(id: number): Observable<any> {
         return this.http.get<any>(this.baseUrl + "getIndividualProduct/" + id);
+    }
+
+    getBlogs(): Observable<any> {
+        return this.http.get<any>(this.baseUrl + "getBlogs");
+
     }
 }

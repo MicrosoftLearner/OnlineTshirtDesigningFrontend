@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import {
     SwiperComponent, SwiperDirective, SwiperConfigInterface,
@@ -18,11 +18,6 @@ import { Product } from "../model/product";
 
 export class StoreComponent implements OnInit {
 
-    public imgsUrlArray = [
-        { imgUrl: "../../assets/images/Home/1.jpg", name: "sy", desc: "cool" },
-        { imgUrl: "../../assets/images/Home/2.jpg", name: "sy", desc: "cool1" },
-        { imgUrl: "../../assets/images/Home/1.jpg", name: "sy", desc: "cool2" }
-    ];
 
     //Sets the getProducts response 
     public products: Array<Product> = [];
@@ -31,7 +26,10 @@ export class StoreComponent implements OnInit {
     public homeBannerProducts;
 
     //Sets the newArrival products
-    public newArrivalProducts:Array< Product> = [];
+    public newArrivalProducts: Array<Product> = [];
+
+    //Sets the loader
+    public isLoading: boolean = false;
 
     constructor(private repoistoryProduct: ProductRepository) { console.log("In store component"); }
 
@@ -43,17 +41,8 @@ export class StoreComponent implements OnInit {
         pagination: false
     };
 
-    public allCatArrayObj = [
-        { imgUrl: "../../assets/images/Products/FullSleeves/FullSleeveBlack.jpg", cost: 1200, prodName: "Linen" },
-        { imgUrl: "../../assets/images/Products/FullSleeves/FullSleeveBlack2.jpg", cost: 1200, prodName: "Linen" },
-        { imgUrl: "../../assets/images/Products/FullSleeves/FullSleeveBlack3.jpg", cost: 1200, prodName: "Linen" }
-    ];
 
-    public blogs = [
-        { imgUrl: "../../assets/images/Home/17.jpg", name: "vijay", desc: "dude" },
-        { imgUrl: "../../assets/images/Home/18.jpg", name: "sidd", desc: "sexy" },
-        { imgUrl: "../../assets/images/Home/19.jpg", name: "sahil", desc: "cool" }
-    ];
+    public blogs;
 
     public allCatConfig: SwiperConfigInterface = {
         width: 340,
@@ -71,22 +60,47 @@ export class StoreComponent implements OnInit {
         this.getHomeBannerProducts();
 
         this.getProducts();
+
+        this.getBlogs();
+
     }
+
+
     getHomeBannerProducts() {
+
+        this.isLoading = true;
+
         this.repoistoryProduct.getHomeBannerProducts().then(() => {
             this.homeBannerProducts = this.repoistoryProduct.homeBannerProducts;
+            this.isLoading = false;
         });
     }
 
     getProducts() {
         //It sets the returned products 
-        this.repoistoryProduct.getProducts().then(() => {
-            this.products = this.repoistoryProduct.productObjArray;
-        });
+        // this.repoistoryProduct.getProducts().then(() => {
+        //     this.products = this.repoistoryProduct.productObjArray;
+        // console.log("new arrival",  this.products.filter( x => x.ProductNewArrival.trim() == "yes"));
+
+        // });
+        this.isLoading = true;
+        this.repoistoryProduct.getProducts()
+            .subscribe(items => {
+                this.products = items;
+
+                this.newArrivalProducts = items.filter((c, index, array) => c.ProductNewArrival.toLowerCase() == "yes");
+
+                this.isLoading = false;
+            });
     }
 
-    getNewArrival(){
-        this.newArrivalProducts =  this.products.filter( x => x.ProductNewArrival.trim() == "yes");
+    getBlogs() {
+
+        this.repoistoryProduct.getBlogs()
+            .subscribe(res => {
+                this.blogs = res
+            });
+
     }
 
 }

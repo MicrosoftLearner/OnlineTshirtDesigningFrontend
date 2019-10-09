@@ -11,17 +11,17 @@ import { StoreModule } from './store/store.module';
 import { AppComponent } from './app.component';
 import { StoreComponent } from "./store/store.component";
 
-
-
 import { from } from 'rxjs';
 import { IndividualProductComponent } from './store/individualProduct.Component';
-import { LoginComponent } from './store/Login.component';
+
 import { InnerBlogsComponent } from './store/innerBlogs.component';
 import { AccountComponent } from './store/account.component';
 import { OrderDetailsComponent } from './store/orderDetails';
 import { CartComponent } from './store/cart.component';
 import { ModelModule } from './model/model.module';
 import { AdminModule } from './admin/admin.module';
+import { LoginComponent } from './store/login.component';
+
 //import { angular } from "angular-flexslider";
 
 //  let routing = RouterModule.forChild([
@@ -38,8 +38,8 @@ import { AdminModule } from './admin/admin.module';
     RouterModule.forRoot([
       { path: "store", component: StoreComponent },
       { path: "individualProduct/:productId", component: IndividualProductComponent },
-      { path: "login", component: LoginComponent },
       { path: "blogs", component: InnerBlogsComponent },
+      { path: "login", component: LoginComponent },
       { path: "account", component: AccountComponent },
       { path: "orderDetails", component: OrderDetailsComponent },
       { path: "cart", component: CartComponent },

@@ -1,5 +1,7 @@
 <div class="main-content">
-
+    <div id="spinner" *ngIf="isLoading">
+        <img src="../../assets/images/Brands/loader.gif" alt="">
+    </div>
     <!--<div class="container">
 
     <flex-slider flex-slide="s in mySlides" prev-text="" next-text="">
@@ -33,7 +35,7 @@
 </div>-->
     <section>
         <div class="cloth-cat">
-          
+
             <!-- Swiper -->
             <swiper [config]="config" [(index)]="index">
                 <div *ngFor="let item of homeBannerProducts; let i = index" class=" cloth-cat__banner-detail relate">
@@ -45,7 +47,8 @@
                             <h1>{{item.BannerName}}</h1>
                             <h3>{{item.BannerDesc}}</h3>
                             <p>
-                                <a> <button class="btn shop--now"  [routerLink]="['/individualProduct', item.BannerImgId]">Shop Now</button></a>
+                                <a> <button class="btn shop--now"
+                                        [routerLink]="['/individualProduct', item.BannerImgId]">Shop Now</button></a>
                             </p>
                         </div>
 
@@ -92,7 +95,8 @@
                                             {{prod.ProductName}}
                                         </h4>
                                         <div class="abslt-buynow-btn">
-                                            <button class="btn buynow--btn btn--mob-modal text-uppercase"  [routerLink]="['/individualProduct', prod.ProductId]">buy</button>
+                                            <button class="btn buynow--btn btn--mob-modal text-uppercase"
+                                                [routerLink]="['/individualProduct', prod.ProductId]">buy</button>
                                             <!-- <buttton type="btn" class="btn buynow--btn btn--mob-modal text-uppercase">buy</buttton> -->
                                         </div>
                                     </div>
@@ -115,45 +119,45 @@
                 <div class="row">
                     <div class="col-md-9 col-sm-9 col-md-offset-3 col-sm-offset-3  padd-rt0">
                         <div class="new-arrival__slider">
-                                <swiper [config]="newCatConfig" [(index)]="index">
-                                    <div class=" new-arrival__banner-detail " *ngFor="let newCat of newArrivalProducts">
-                                        <div class="relate">
-                                            <img [src] = "newCat.ProductImg" alt="" class="img-responsive">
-                                            <div class="featured__icon-cart">
-                                                <i class="fa fa-shopping-cart"></i>
-                                            </div>
-                                            <div class="featured__icon-heart">
-                                                <i aria-hidden="true"></i>
-                                            </div>
+                            <swiper [config]="newCatConfig" [(index)]="index">
+                                <div class=" new-arrival__banner-detail " *ngFor="let newCat of newArrivalProducts">
+                                    <div class="relate">
+                                        <img [src]="newCat.ProductImg" alt="" class="img-responsive">
+                                        <div class="featured__icon-cart">
+                                            <i class="fa fa-shopping-cart"></i>
                                         </div>
-                                        <div class="get-left">
-                                            <h3 class="homepg-slider-product-cost"><i class="fa fa-inr" aria-hidden="true"></i>{{newCat.ProductPrice}}</h3>
-                                            <h4 class="homepg-slider-product-name text-uppercase">
-                                                {{newCat.ProductName}}
-                                            </h4>
-                                            <div class="abslt-buynow-btn">
-                                                <button class="btn buynow--btn btn--mob-modal text-uppercase">buy</button>
-                                                <!-- <buttton type="btn" class="btn buynow--btn btn--mob-modal text-uppercase">buy</buttton> -->
-                                            </div>
+                                        <div class="featured__icon-heart">
+                                            <i aria-hidden="true"></i>
                                         </div>
                                     </div>
-                                </swiper>
-                                    <!-- <div class="test">
+                                    <div class="get-left">
+                                        <h3 class="homepg-slider-product-cost"><i class="fa fa-inr"
+                                                aria-hidden="true"></i>{{newCat.ProductPrice}}</h3>
+                                        <h4 class="homepg-slider-product-name text-uppercase">
+                                            {{newCat.ProductName}}
+                                        </h4>
+                                        <div class="abslt-buynow-btn">
+                                            <button class="btn buynow--btn btn--mob-modal text-uppercase"  [routerLink]="['/individualProduct', newCat.ProductId]">buy</button>
+                                            <!-- <buttton type="btn" class="btn buynow--btn btn--mob-modal text-uppercase">buy</buttton> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </swiper>
+                            <!-- <div class="test">
                                         <ul class="flex-direction-nav">
                                             <li class="flex-nav-prev"><a class="flex-prev" href="#"></a></li>
                                             <li class="flex-nav-next"><a class="flex-next" href="#"></a></li>
                                         </ul>
                                     </div> -->
-                                  
-                               
-                        </div>
+
+                        </div> 
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!--end of new arrivals-->
- 
+
     <!--Start of Blog section-->
     <article>
         <div class="blog">
@@ -166,15 +170,15 @@
                     <swiper [config]="allCatConfig" [(index)]="index">
                         <article class="blog__banner-detail relate" *ngFor="let blog of blogs">
                             <div class="relate">
-                                <a> <img [src]="blog.imgUrl" alt="" class="img-responsive"></a>
+                                <a> <img [src]="blog.InnerBlogsImg" alt="" class="img-responsive"></a>
                                 <div class="blog__desc">
-                                    <h3 class="text-uppercase">{{blog.name}}</h3>
-                                    <p class="typedin-desc">{{blog.desc}}</p>
-                                    <p class="relate extra-content"><a>Read
-                                            more</a></p>
+                                    <h3 class="text-uppercase">{{blog.InnerBlogsName}}</h3>
+                                    <p class="typedin-desc">{{blog.InnerBlogsDesc}}</p>
+                                    <p class="relate extra-content"><a [routerLink]="['/innerBlogs', blog.InnerBlogsId]">Read
+                                            more  </a></p>
                                 </div>
                             </div>
-    
+
                         </article>
                     </swiper>
                 </div>
