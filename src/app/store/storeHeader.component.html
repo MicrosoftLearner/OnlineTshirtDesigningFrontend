@@ -47,9 +47,9 @@
                         </a> 
                     </li>
 
-                    <li ><a><button class="btn header--login ">LOGIN</button></a>
+                    <li ><a><button class="btn header--login " *ngIf="showLoginButton" routerLink="/login">LOGIN</button></a>
                     </li>
-                    <li>
+                    <li *ngIf="showOptions">
                         <a href="" class="user-name">hi, firstname <i
                                 class="fa fa-caret-down"></i></a>
                         <!--<button class=" btn header--logout" ng-click="logout(); " ng-if="userId !='' ">Hi, siddhesh</button>-->

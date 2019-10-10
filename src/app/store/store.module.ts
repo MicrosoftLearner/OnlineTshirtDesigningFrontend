@@ -4,6 +4,9 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { SwiperModule} from "ngx-swiper-wrapper";
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from "ngx-toastr";
+
 
 
 import { StoreComponent } from "./store.component";
@@ -24,7 +27,7 @@ import { LoginComponent } from "./login.component";
 
 
 @NgModule({
-    imports: [BrowserModule, FormsModule, RouterModule, SwiperModule],
+    imports: [BrowserModule, FormsModule, RouterModule, SwiperModule, BrowserAnimationsModule,ToastrModule.forRoot()],
  
     providers: [RestDataProductRepository, AuthCustomerRepository, RestDataCustomerRepository],
     
