@@ -31,7 +31,7 @@ export class StoreComponent implements OnInit {
     //Sets the loader
     public isLoading: boolean = false;
 
-    constructor(private repoistoryProduct: ProductRepository) { console.log("In store component"); }
+    constructor(private repoistoryProduct: ProductRepository) { }
 
     public config: SwiperConfigInterface = {
         direction: 'horizontal',

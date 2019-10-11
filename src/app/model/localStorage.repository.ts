@@ -44,14 +44,16 @@ export class LocalStorageRepository {
     }
 
 
-    private _customerToken = { token: null, tokenExpiry: null };
+    private _customerToken = { token: "", tokenExpiry: "" };
 
     public get storageCustomerTokenInfo(): any {
-        //Reterive localstorage data
+        var hours = 24;
+        //Reterives localstorage data
         let storedStorageData = JSON.parse(localStorage.getItem("customerTokenInfo"));
 
-        if (storedStorageData != null) {
-            //Store it in _adminToken Obj
+        if (storedStorageData != null && storedStorageData.tokenExpiry > (hours * 60 * 60 * 1000) ) {
+           // console.log("storage exipiry not gone" , storedStorageData);
+            //Stores it in _adminToken Obj
             this._customerToken.token = storedStorageData.token;
             this._customerToken.tokenExpiry = storedStorageData.tokenExpiry;
 

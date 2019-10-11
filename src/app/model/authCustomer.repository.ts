@@ -16,40 +16,45 @@ import { Customer } from "./customer.model";
 export class AuthCustomerRepository {
     private baseUrl: string;
 
-   
+
     constructor(private http: HttpClient, private storageRepository: LocalStorageRepository, private restRepository: RestDataCustomerRepository, private route: Router, private toastr: ToastrService) {
         this.baseUrl = "http://localhost:58206/api/customer/";
     }
 
-    authenticate(theEmailId: string, thePwd: string): Observable<any> {
+    login(theEmailId: string, thePwd: string): Observable<any> {
 
-        let customerData = "username=" + theEmailId + "&password=" + thePwd + "&grant_type=password";
+        // let customerData = "username=" + theEmailId + "&password=" + thePwd + "&grant_type=password";
 
-        return this.restRepository.getCustomerDetails(customerData)
+        return this.restRepository.loginCustomer(theEmailId, thePwd)
             .pipe(
                 map(response => {
 
                     //Stores the response object
-                    let data = response;
+                    let data: any = new Object();
+                    //Sets the customerId
+                    data.access_token = response;
 
-                    //set the returned Token obj into localStorage
+                    //Sets the expiry time 
+                    data.expires_in = new Date().getTime();
+
+                    //set the  data obj into localStorage
                     this.storageRepository.storageCustomerTokenInfo = data;
 
                     return data;
 
-                }),catchError(this.handleError) 
+                }), catchError(this.handleError)
             );
     }
-    handleError(err){
-       // console.log("in error blog", err.error.error);
+    handleError(err) {
+        // console.log("in error blog", err.error.error);
         let errorMessage: string = '';
 
-        errorMessage=  err.error.error;
+        errorMessage = err.error.error;
 
-       return throwError(err);
+        return throwError(err);
     }
 
-  
+
     public get authenticated(): boolean {
 
         //Checks if token has stored in the localstorage
@@ -71,6 +76,20 @@ export class AuthCustomerRepository {
                     this.toastr.success("Successfully signUp, click on login");
                     return data;
                 })
+            );
+    }
+
+    getCustomerDetails(id: string){
+       
+        return this.restRepository.getCustomerDetails(id)
+            .pipe(
+                map(response => {
+
+                    //Stores the response object
+                    let data = response;
+                    return data;
+
+                }),catchError(this.handleError) 
             );
     }
 

@@ -10,31 +10,29 @@ export class RestDataCustomerRepository {
 
     private baseUrl: string;
 
-    constructor(private http: HttpClient, private storageRepository: LocalStorageRepository ) {
+    constructor(private http: HttpClient, private storageRepository: LocalStorageRepository) {
         this.baseUrl = "http://localhost:58206/api/customer/";
     }
 
-    getCustomerDetails(customerData): Observable<any> {
+    loginCustomer(theEmailId: string, thePwd: string): Observable<any> {
 
-        return this.http.post<any>("http://localhost:58206/token", customerData, {
+        let data: Customer1 = new Object();
+        data.CustEmailAddr = theEmailId;
+        data.CustPwd = thePwd
 
-            headers: new HttpHeaders({
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'No-Auth': 'True'
-            })
-        });
+        return this.http.post<any>(this.baseUrl + "login", data)
     }
 
-    signUpCustomer(customerData:Customer):Observable<any>{
-       let data:Customer1 = new Object();
+    signUpCustomer(customerData: Customer): Observable<any> {
+        let data: Customer1 = new Object();
 
-       data.CustEmailAddr = customerData.email;
-       data.CustFirstName = customerData.firstName;
-       data.CustLastName = customerData.lastName;
-       data.CustMobNo = customerData.mobileNo;
-       data.CustPwd = customerData.pwd;
+        data.CustEmailAddr = customerData.email;
+        data.CustFirstName = customerData.firstName;
+        data.CustLastName = customerData.lastName;
+        data.CustMobNo = customerData.mobileNo;
+        data.CustPwd = customerData.pwd;
 
-        return this.http.post<any>(this.baseUrl + "signUp", data ,{
+        return this.http.post<any>(this.baseUrl + "signUp", data, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
@@ -42,9 +40,13 @@ export class RestDataCustomerRepository {
 
     }
 
-    getCustomerName(): Observable<any>{
+    getCustomerName(): Observable<any> {
 
         return this.http.post<any>(this.baseUrl + "getName", this.getOptions)
+    }
+
+    getCustomerDetails(id: string): Observable<any> {
+        return this.http.get<any>(this.baseUrl + "getData/" + id);
     }
 
     private get getOptions(): any {

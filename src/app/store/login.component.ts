@@ -29,7 +29,7 @@ export class LoginComponent {
 
     constructor(private repositoryAuthCust: AuthCustomerRepository, private route: Router, private toastr: ToastrService) { }
 
-    checkCustomerLogin(form: NgForm, customer) {
+    checkCustomerLogin(form: NgForm, customer:Customer) {
 
         this.submitted = true;
 
@@ -37,7 +37,7 @@ export class LoginComponent {
 
             this.isLoading = true;
 
-            this.repositoryAuthCust.authenticate(customer.emailId, customer.pwd)
+            this.repositoryAuthCust.login(customer.email, customer.pwd)
                 .subscribe(res => {
 
                     this.isLoading = false;
@@ -46,8 +46,9 @@ export class LoginComponent {
                     err => {
 
                         this.isLoading = false;
-
-                        this.toastr.error(err.error.error_description);
+                        this.toastr.error("Incorrect credentials");
+                        
+                       // this.toastr.error(err.error.error_description);
                     });
 
         }

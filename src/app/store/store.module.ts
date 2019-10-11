@@ -24,12 +24,13 @@ import { RestDataProductRepository } from "../model/restDataProductRepository";
 import { AuthCustomerRepository } from "../model/authCustomer.repository";
 import { RestDataCustomerRepository } from "../model/restDataCustomer.repository";
 import { LoginComponent } from "./login.component";
+import { AuthCustomerGuardRepository } from "../model/authCustomer.guard";
 
 
 @NgModule({
     imports: [BrowserModule, FormsModule, RouterModule, SwiperModule, BrowserAnimationsModule,ToastrModule.forRoot()],
  
-    providers: [RestDataProductRepository, AuthCustomerRepository, RestDataCustomerRepository],
+    providers: [RestDataProductRepository, AuthCustomerRepository, RestDataCustomerRepository, AuthCustomerGuardRepository],
     
     declarations: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent, LoginComponent, InnerBlogsComponent,AccountComponent, OrderDetailsComponent, CartComponent, CartSummeryComponent],
 
