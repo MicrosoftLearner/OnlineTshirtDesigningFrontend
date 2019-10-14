@@ -93,4 +93,17 @@ export class AuthCustomerRepository {
             );
     }
 
+    saveCustomerInfo(custData: Customer){
+        return this.restRepository.saveCustomerInfo(custData)
+        .pipe(
+            map(response => {
+
+
+                return response;
+
+            }), catchError(this.handleError)
+        );
+    }
+
+
 }

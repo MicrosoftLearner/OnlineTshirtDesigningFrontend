@@ -49,6 +49,18 @@ export class RestDataCustomerRepository {
         return this.http.get<any>(this.baseUrl + "getData/" + id);
     }
 
+    saveCustomerInfo(custData: Customer):Observable<any>{
+      
+        let data: Customer1 = new Object();
+        data.CustId = custData.id;
+        data.CustFirstName = custData.firstName;
+        data.CustLastName = custData.lastName;
+        data.CustMobNo = custData.mobileNo;
+        data.CustEmailAddr = custData.email;
+
+        return this.http.post<any>(this.baseUrl + "saveRewrittenInfo", data)
+    }
+
     private get getOptions(): any {
         return {
             headers: new HttpHeaders({

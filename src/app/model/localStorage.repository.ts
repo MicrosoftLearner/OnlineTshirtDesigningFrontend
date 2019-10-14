@@ -54,6 +54,7 @@ export class LocalStorageRepository {
         if (storedStorageData != null && storedStorageData.tokenExpiry > (hours * 60 * 60 * 1000) ) {
            // console.log("storage exipiry not gone" , storedStorageData);
             //Stores it in _adminToken Obj
+
             this._customerToken.token = storedStorageData.token;
             this._customerToken.tokenExpiry = storedStorageData.tokenExpiry;
 

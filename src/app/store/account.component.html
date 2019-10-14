@@ -1,3 +1,6 @@
+<div id="spinner" *ngIf="isLoading">
+        <img src="../../assets/images/Brands/loader.gif" alt="">
+    </div>
 <div class="usr-account">
     <div>
         <img src="../../assets/images/UserAccount/myaccount-banner.jpg" alt="BannerImage" class="img-responsive">
@@ -10,35 +13,35 @@
                         <div class="checkout-tab-btn">
                             <p>
 
-                                <button class="btn btn--list">PROFILE</button>
+                                <button class="btn btn--list" (click)="changeView(1)">PROFILE</button>
                             </p>
                         </div>
                         <div class="checkout-tab-btn">
-                           <p> <button class="btn btn--list ">MANAGE
+                           <p> <button class="btn btn--list " (click)="changeView(2)">MANAGE
                                 ADDRESS</button>
                            </p>
                         </div>
                         <div class="checkout-tab-btn">
                             <p>
-                            <button class="btn btn--list">
+                            <button class="btn btn--list" (click)="changeView(3)">
                                 ORDER</button>
                             </p>
                         </div>
                         <div class="checkout-tab-btn">
                             <p>
 
-                                <button class="btn order-list--btn text-uppercase">return/exchange</button>
+                                <button class="btn order-list--btn text-uppercase" (click)="changeView(4)">return/exchange</button>
                             </p>
                         </div>
                         <div class="checkout-tab-btn">
                             <p>
 
-                                <button class="btn order-list--btn text-uppercase">cancelled</button>
+                                <button class="btn order-list--btn text-uppercase" (click)="changeView(5)">cancelled</button>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="prof-tab">
+                <div class="prof-tab" [ngClass]="view == 1 ? 'show' :'hidden'"  >
                     <!--To open profile Tab-->
                     <div class="col-md-9 col-sm-12  col-xs-12">
                         <div class="row">
@@ -46,17 +49,17 @@
                                 <div class="userdtl-main">
                                     <div class="usrdtl-title">
                                         <h3 class="tab-title">YOUR DETAILS
-                                            <a href="" class="linking"><span>edit</span></a>
-                                            <a href="" class="linking"><span>save</span></a>
+                                            <a (click)="changeInnerView(1)" class="linking"><span>edit</span></a>
+                                            <!-- <a href="" class="linking"><span>save</span></a> -->
                                         </h3>
                                     </div>
-                                    <div class="usrdtl">
+                                    <div class="usrdtl" [ngClass]="innerView == 1 ? 'hidden' :'show'">
                                         <p class="usrdtl-info">Name: <span
-                                                class="text-capitalize left-space">userDetails.firstName
-                                                userDetails.lastName</span><br> Email id: <span
-                                                class="text-capitalize left-space">userDetails.email</span><br>
+                                                class="text-capitalize left-space">{{customer.CustFirstName}}
+                                                {{customer.CustLastName}}</span><br> Email id: <span
+                                                class="text-capitalize left-space">{{customer.CustEmailAddr}}</span><br>
                                             Mobile:
-                                            <span class="text-capitalize left-space">userDetails.mobile</span>
+                                            <span class="text-capitalize left-space">{{customer.CustMobNo}}</span>
                                         </p>
 
                                         <p class="usrdtl-info">Member’s Current Status : <strong
@@ -64,34 +67,47 @@
                                         <p class="usrdtl-info">Want to change your password? <a class="linking">CLICK
                                                 HERE</a></p>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" [ngClass]="innerView == 1 ? 'show' :'hidden'">
                                         <div class="col-md-12 col-sm-12 col-xs-12 edit-dtl">
                                             <div class="row">
-                                                <form class="customized-form">
+                                                <form class="customized-form" novalidate novalidate #form="ngForm"
+                                                (ngSubmit)="saveInfo(form, customer)">
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                         <div class="form-group">
                                                             <input type="text" placeholder="First Name"
-                                                                class="form-control ">
+                                                                class="form-control " [(ngModel)]="customer.firstName" name="firstName" #firstName="ngModel" required >
+                                                                <span *ngIf="submitted && firstName.invalid" class="text-danger">Enter your
+                                                                        first name</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                         <div class="form-group">
                                                             <input type="text" placeholder="Last Name"
-                                                                class="form-control ">
+                                                                class="form-control " [(ngModel)]="customer.lastName" name="lastName" #lastName="ngModel" required>
+                                                                <span *ngIf="submitted && lastName.invalid" class="text-danger">Enter your
+                                                                        last name</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-12 ">
                                                         <div class="form-group">
                                                             <input type="text" placeholder="Mobile No"
-                                                                class="form-control ">
+                                                                class="form-control " [(ngModel)]="customer.mobileNo" name="mobileNo" #mobileNo="ngModel" required> 
+
+                                                                <span *ngIf="submitted && mobileNo.invalid" class="text-danger">Enter your
+                                                                        mobile no</span>
+
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                         <div class="form-group">
                                                             <input type="email" placeholder="Email Address"
-                                                                class="form-control ">
+                                                                class="form-control " [(ngModel)]="customer.email" name="email" #email="ngModel" required>
+
+                                                                <span *ngIf="submitted && email.invalid" class="text-danger">Enter your
+                                                                        email</span>
                                                         </div>
                                                     </div>
+                                                    <p><button class="btn btn--brown" type="submit">Save</button> &nbsp; <button class="btn btn--brown" (click)="changeInnerView(0)">Cancel</button></p>
                                                 </form>
                                             </div>
                                         </div>
@@ -101,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="addr-tab">
+                <div class="addr-tab " [ngClass]="view == 2 ? 'show' :'hidden'"  >
                     <!--To open Manage Address Tab-->
                     <div class="col-md-9 col-sm-12 col-xs-12">
                         <div class="row">
@@ -218,7 +234,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="order-tab">
+                <div class="order-tab " [ngClass]="view == 3 ? 'show' :'hidden'"  >
                     <!--To open an Order Tab-->
                     <div class="col-md-9 col-sm-12 col-xs-12">
                         <p class="text-uppercase order-list-action text-center">
@@ -359,88 +375,7 @@
                             </div> -->
                     </div>
                 </div>
-                <div class="col-md-9 col-sm-12 col-xs-12 account-order-table table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr class="text-uppercase">
-                                <th>order placed<br><strong>return.createdAt | date:'dd/MM/yyyy'</strong></th>
-                                <th>order no.<br><strong>return.orderNo</strong></th>
-                                <th>order-status<br><strong>returned</strong></th>
-                                <th>Grand total<br><strong>&#8377; return.totalAmount|number:0</strong></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="item-img">
-                                        <img src="" alt="Ordered Item" class="img-responsive">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="item-desc">
-                                        <h4 class="item-name text-uppercase">product.product.productName</h4>
-                                        <p class="item-code">Product Code:<span class="text-uppercase">
-                                                product.product.name</span>
-                                        </p>
-                                        <p class="item-cost"><i class="fa fa-inr"></i>product.product.price|number:0
-                                        </p>
-                                    </div>
-                                </td>
-                                <td colspan="3">
-                                    <div class="pull-right">
-                                        <button class="btn order-action--btn text-uppercase">order
-                                            details
-                                        </button>
-                                        <button class="btn order-action--btn text-uppercase">buy
-                                            it again
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-9 col-sm-9 col-xs-12 account-order-table table-responsive">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr class="text-uppercase">
-                                    <th>order placed<br><strong>return.createdAt | date:'dd/MM/yyyy'</strong></th>
-                                    <th>order no.<br><strong>return.orderNo</strong></th>
-                                    <th>order-status<br><strong>cancelled</strong></th>
-                                    <th>Grand total<br><strong>&#8377; return.totalAmount|number:0</strong></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="item-img">
-                                            <img src="" alt="Ordered Item" class="img-responsive">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="item-desc">
-                                            <h4 class="item-name text-uppercase">product.product.productName</h4>
-                                            <p class="item-code">Product Code:<span class="text-uppercase">
-                                                    product.product.name</span>
-                                            </p>
-                                            <p class="item-cost"><i class="fa fa-inr"></i>product.product.price|number:0
-                                            </p>
-                                        </div>
-
-                                    </td>
-                                    <td colspan="3">
-                                        <div class="pull-right">
-                                            <button class="btn order-action--btn text-uppercase">buy
-                                                it again
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
