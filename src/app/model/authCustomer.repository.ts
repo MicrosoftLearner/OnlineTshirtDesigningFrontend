@@ -79,8 +79,8 @@ export class AuthCustomerRepository {
             );
     }
 
-    getCustomerDetails(id: string){
-       
+    getCustomerDetails(id: string) {
+
         return this.restRepository.getCustomerDetails(id)
             .pipe(
                 map(response => {
@@ -89,20 +89,43 @@ export class AuthCustomerRepository {
                     let data = response;
                     return data;
 
-                }),catchError(this.handleError) 
+                }), catchError(this.handleError)
             );
     }
 
-    saveCustomerInfo(custData: Customer){
+    getCustomerAddresses(id: string) {
+
+        return this.restRepository.getCustomerAddresses(id)
+            .pipe(
+                map(response => {
+
+                    //Stores the response object
+                    let data = response;
+                    return data;
+
+                }), catchError(this.handleError)
+            );
+    }
+
+    saveCustomerInfo(custData: Customer) {
         return this.restRepository.saveCustomerInfo(custData)
-        .pipe(
-            map(response => {
+            .pipe(
+                map(response => {
+                    return response;
 
+                }), catchError(this.handleError)
+            );
+    }
 
-                return response;
+    deleteCustomerAddress(custId: string, addrId: string) {
+        return this.restRepository.deleteCustomerAddress(custId, addrId)
+            .pipe(
+                map(response => {
 
-            }), catchError(this.handleError)
-        );
+                    return response;
+
+                }), catchError(this.handleError)
+            );
     }
 
 

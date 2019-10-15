@@ -120,117 +120,125 @@
                 <div class="addr-tab " [ngClass]="view == 2 ? 'show' :'hidden'"  >
                     <!--To open Manage Address Tab-->
                     <div class="col-md-9 col-sm-12 col-xs-12">
-                        <div class="row">
+                        <div class="row" [ngClass]="innerView == 2 ? 'hidden' :'show'">
                             <div class="col-md-12 col-sm-12 col-xs-12">
 
 
                                 <h3 class="tab-title text-uppercase">shipping address
-                                    <a class="linking">
+                                    <a class="linking" (click)="changeInnerView(2)">
                                         <span class="tab-title pull-right">
                                             <i class="fa fa-plus"></i>
                                         </span>
                                     </a>
                                 </h3>
                             </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="col-md-4 col-sm-6 col-xs-12" *ngFor="let cust of customerEntireInfo">
                                 <div class="manage-addrs custom-checkbox">
-                                    <p class="usrdtl-info"><span class="usr-name text-capitalize">userDetails.firstName
-                                            userDetails.lastName</span> userDetails.mobile
-                                        <br>userDetails.email</p>
-                                    <address class="usrdtl-info">shippingAdd.line1<br>
+                                    <p class="usrdtl-info"><span class="usr-name text-capitalize">{{cust.CustFirstName}}
+                                            {{cust.CustLastName}}</span> {{cust.CustMobNo}}
+                                        <br>{{cust.CustEmailAddr}}</p>
+                                    <address class="usrdtl-info"><strong>Shipping Address</strong> <br>
                                         <span
-                                            class="text-capitalize city">shippingAdd.city</span>shippingAdd.pinCode<br>shippingAdd.country
+                                            class="text-capitalize city">{{cust.CustShipAddr}}</span>{{cust.CustShipPinCode}}<br>{{cust.CustShipCountry}}
                                     </address>
                                     <div class="checkbox usrdtl-info">
                                         <input type="checkbox" name="x1">
                                         <label for="x1">Use this as default shipping address</label>
                                     </div>
-                                    <p><button class="btn address-edit-btn ">Edit</button>
-                                        <button class="btn address-delt-btn">Delete</button></p>
+                                    <p><button class="btn address-edit-btn " (click)="changeInnerView(2)">Edit</button>
+                                        <button class="btn address-delt-btn" (click)="deleteAddress( cust.CustId, cust.CustAddrId)">Delete</button></p>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row" [ngClass]="innerView == 2 ? 'show' :'hidden'">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="edit-addrs">
-                                    <form class="customized-form">
+                                    <form class="customized-form" novalidate #form="ngForm" (ngSubmit)="saveAddressInfo(form, customer)">
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12">
-
-
+    
+    
                                                 <h3 class="tab-title text-uppercase">shipping address</h3>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="Line 1*" class="form-control">
+                                                    <input type="text" placeholder="Address*" class="form-control" [(ngModel)]="customer.address" name="address" #address="ngModel" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="Line 2" class="form-control">
-                                                </div>
-                                            </div>
+                                          
                                         </div>
+                                     
                                         <div class="row">
                                             <div class="col-md-4 col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="Line 3" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="Line 4" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="City" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <input type="number" placeholder="Pincode" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="form-group country-dropdown" uib-dropdown>
+                                                    <input type="text" class="form-control dropdown-toggle" [(ngModel)]="customer.city" placeholder="City"  name="city" #city="ngModel" class="form-control" required data-toggle="dropdown">
+             
+                                                    <ul class="dropdown-menu">
+                                                        <li *ngFor="let item of customerShipping"><a *ngFor="let innerItem of item.cities" [attr.value]="innerItem.name" (click)="selectedCity($event)">{{innerItem.name}}</a></li>
+                                                      
+                                                    </ul>
 
-                                                    <button
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <input type="number" placeholder="Pincode" class="form-control" [(ngModel)]="customer.pinCode" name="pinCode" #pinCode="ngModel" required>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div class="form-group country-dropdown">
+    
+                                                    <select [(ngModel)]="customer.country" name="country" id="" class="form-control"  (change)="selectedCountry($event)"  #country="ngModel" required>
+                                                        <option *ngFor="let item of customerShipping" [attr.value]="item.country.name">
+                                                            {{item.country.name}}
+                                                        </option>
+                                                        
+                                                    </select>
+                                                    <!-- <button
                                                         class="btn country-dropdown--btn text-capitalize">countryButton
                                                         <span class="caret"></span></button>
-
+    
                                                     <ul class="country-dropdown-menu dropdown-menu text-capitalize">
                                                         <li>
                                                             <a>country.name</a></li>
-                                                    </ul>
+                                                    </ul> -->
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="form-group country-dropdown">
-                                                    <button
-                                                        class="btn country-dropdown--btn text-capitalize">stateButton
-                                                        <span class="caret"></span></button>
-                                                    <ul class="country-dropdown-menu dropdown-menu text-capitalize">
-                                                        <li><a>state</a></li>
-                                                    </ul>
+                                                <div class="form-group country-dropdown dropdown">
+                                                  
+                                                        <input  class="form-control dropdown-toggle" type="text" data-toggle="dropdown" [(ngModel)]="customer.state" name="state" #state="ngModel" required placeholder="State">
+                                                        <span class="caret"></span>
+                                                        <ul class="dropdown-menu">
+                                                            <li *ngFor="let item of customerShipping"><a *ngFor="let innerItem of item.states" [attr.value]="innerItem.innerItem" (click)="selectedState($event)">{{innerItem.name}}</a></li>
+                                                          
+                                                        </ul>
+                                                        <!-- <select [(ngModel)]="customer.state" name="state" id="" class="form-control">
+                                                           
+                                                          
+                                                            <option *ngFor="let innerItem of customerShipping; let i =" value="">
+                                                                
+                                                            </option>     
+                                                          
+                                                            
+                                                        </select> -->
+                                                 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="state" class="form-control">
-                                                </div>
-                                            </div>
-
+                                          
                                         </div>
-                                        <p><button class="btn save--btn text-uppercase">save</button>
-                                            <button class="btn delt--btn text-uppercase">cancel</button>
+                                        <p><button class="btn save--btn text-uppercase" type="submit" >save</button>
+                                            <button class="btn delt--btn text-uppercase" (click)="changeInnerView(0)" >cancel</button>
                                         </p>
                                     </form>
-
+    
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

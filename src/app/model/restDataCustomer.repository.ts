@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Customer, Customer1 } from "./customer.model";
 import { LocalStorageRepository } from "./localStorage.repository";
+import { Options } from "selenium-webdriver/safari";
 
 @Injectable()
 
@@ -49,8 +50,12 @@ export class RestDataCustomerRepository {
         return this.http.get<any>(this.baseUrl + "getData/" + id);
     }
 
-    saveCustomerInfo(custData: Customer):Observable<any>{
-      
+    getCustomerAddresses(id: string): Observable<any> {
+        return this.http.get<any>(this.baseUrl + "getAddresses/" + id);
+    }
+
+    saveCustomerInfo(custData: Customer): Observable<any> {
+
         let data: Customer1 = new Object();
         data.CustId = custData.id;
         data.CustFirstName = custData.firstName;
@@ -59,6 +64,17 @@ export class RestDataCustomerRepository {
         data.CustEmailAddr = custData.email;
 
         return this.http.post<any>(this.baseUrl + "saveRewrittenInfo", data)
+    }
+
+    deleteCustomerAddress(custId: string, addrId: string) {
+
+        let data = new HttpParams();
+        data.set("custId", custId);
+        data.set("addrId", addrId);
+
+        let options = { params: data }
+
+        return this.http.delete<any>(this.baseUrl + "deleteAddr", options)
     }
 
     private get getOptions(): any {
