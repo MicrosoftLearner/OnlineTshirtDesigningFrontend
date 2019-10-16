@@ -70,8 +70,7 @@
                                     <div class="row" [ngClass]="innerView == 1 ? 'show' :'hidden'">
                                         <div class="col-md-12 col-sm-12 col-xs-12 edit-dtl">
                                             <div class="row">
-                                                <form class="customized-form" novalidate novalidate #form="ngForm"
-                                                (ngSubmit)="saveInfo(form, customer)">
+                                                <form class="customized-form" name="changeInfo" novalidate #form="ngForm"(ngSubmit)="saveInfo(form, customer)">
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                         <div class="form-group">
                                                             <input type="text" placeholder="First Name"
@@ -90,7 +89,7 @@
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-12 ">
                                                         <div class="form-group">
-                                                            <input type="text" placeholder="Mobile No"
+                                                            <input type="number" placeholder="Mobile No"
                                                                 class="form-control " [(ngModel)]="customer.mobileNo" name="mobileNo" #mobileNo="ngModel" required> 
 
                                                                 <span *ngIf="submitted && mobileNo.invalid" class="text-danger">Enter your
@@ -107,7 +106,7 @@
                                                                         email</span>
                                                         </div>
                                                     </div>
-                                                    <p><button class="btn btn--brown" type="submit">Save</button> &nbsp; <button class="btn btn--brown" (click)="changeInnerView(0)">Cancel</button></p>
+                                                    <div><button class="btn btn--brown" [disabled]="form.invalid" type="submit">Save</button> &nbsp; </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -132,6 +131,7 @@
                                     </a>
                                 </h3>
                             </div>
+                           
                             <div class="col-md-4 col-sm-6 col-xs-12" *ngFor="let cust of customerEntireInfo">
                                 <div class="manage-addrs custom-checkbox">
                                     <p class="usrdtl-info"><span class="usr-name text-capitalize">{{cust.CustFirstName}}
@@ -139,13 +139,13 @@
                                         <br>{{cust.CustEmailAddr}}</p>
                                     <address class="usrdtl-info"><strong>Shipping Address</strong> <br>
                                         <span
-                                            class="text-capitalize city">{{cust.CustShipAddr}}</span>{{cust.CustShipPinCode}}<br>{{cust.CustShipCountry}}
+                                            class="text-capitalize city">{{cust.CustShipAddr}}</span>{{cust.CustShipPinCode}}<br>{{cust.CustShipCity}} &nbsp;{{cust.CustShipCountry}}<br>{{cust.CustShipState}}<br>
                                     </address>
                                     <div class="checkbox usrdtl-info">
                                         <input type="checkbox" name="x1">
                                         <label for="x1">Use this as default shipping address</label>
                                     </div>
-                                    <p><button class="btn address-edit-btn " (click)="changeInnerView(2)">Edit</button>
+                                    <p><button class="btn address-edit-btn "  (click)="changeInnerView(2, cust.CustAddrId)">Edit</button>
                                         <button class="btn address-delt-btn" (click)="deleteAddress( cust.CustId, cust.CustAddrId)">Delete</button></p>
                                 </div>
                             </div>
@@ -154,6 +154,7 @@
                         <div class="row" [ngClass]="innerView == 2 ? 'show' :'hidden'">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="edit-addrs">
+                                       
                                     <form class="customized-form" novalidate #form="ngForm" (ngSubmit)="saveAddressInfo(form, customer)">
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -161,9 +162,10 @@
     
                                                 <h3 class="tab-title text-uppercase">shipping address</h3>
                                             </div>
+                                           
                                             <div class="col-md-4 col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="Address*" class="form-control" [(ngModel)]="customer.address" name="address" #address="ngModel" required>
+                                                    <input type="text" placeholder="Address*" class="form-control" [(ngModel)]="customer.address"  name="address" #address="ngModel" required>
                                                 </div>
                                             </div>
                                           

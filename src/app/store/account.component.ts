@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Form, NgForm } from "@angular/forms";
 import { AuthCustomerRepository } from "../model/authCustomer.repository";
 import { ActivatedRoute } from "@angular/router";
-import { Customer } from "../model/customer.model";
+import { Customer, Customer1 } from "../model/customer.model";
 import { LocalStorageRepository } from "../model/localStorage.repository";
 import { ToastrService } from "ngx-toastr";
 
@@ -19,7 +19,9 @@ export class AccountComponent implements OnInit {
 
     public submitted: boolean = false;
 
-    public customer: Customer = { };
+    public customer: Customer = {};
+
+    public customerChangeInfo: Customer = {};
 
     public customerEntireInfo: Array<Customer> = [];
 
@@ -35,10 +37,10 @@ export class AccountComponent implements OnInit {
                 country: { id: 1, name: "India" },
 
                 states: [
-                    { id: 1, stateCode: 100, name: "Andhra Pradesh"},
+                    { id: 1, stateCode: 100, name: "Andhra Pradesh" },
                     { id: 1, stateCode: 101, name: "Goa" },
                     { id: 1, stateCode: 102, name: "Kerala" },
-                    { id: 1, stateCode: 103, name: "Maharashtra"}
+                    { id: 1, stateCode: 103, name: "Maharashtra" }
                 ],
 
                 cities: [
@@ -51,7 +53,7 @@ export class AccountComponent implements OnInit {
             }
 
         ];
-        
+
     }
 
     ngOnInit() {
@@ -129,47 +131,76 @@ export class AccountComponent implements OnInit {
         this.view = index;
     }
 
-    changeInnerView(index: number) {
+    changeInnerView(index: number, addrId?: string) {
         this.innerView = index;
+
+        if (addrId != null) this.customer.addressId = addrId;
     }
 
-    saveInfo(form: NgForm, customer: Customer) {
+    saveInfo(form:NgForm, cust: Customer) {
 
-        this.submitted = true;
+      //  this.submitted = true;
 
         if (form.valid) {
+            console.log("form", cust);
+            cust.id = this.storageRepository.storageCustomerTokenInfo.token;
 
-            this.innerView = -1;
+            if (cust.id != null)
+                this.repositoryAuthCust.saveCustomerInfo(cust)
+                    .subscribe(res => {
 
-            customer.id = this.storageRepository.storageCustomerTokenInfo.token;
+                        //Makes the fields blank
+                        cust.firstName = "";
+                        cust.lastName = "";
+                        cust.mobileNo = null
+                        cust.email = "";
 
-            if (customer.id != null)
-                this.repositoryAuthCust.saveCustomerInfo(customer)
-                    .subscribe(arg => {
+                        this.customer = res;
 
+                        this.innerView = -1;
+
+                        this.toastr.success("Your info has been updated successfully");
+
+                    }, err => {
+                        this.toastr.error("OOps something is wrong");
                     });
 
-        }
+        } else this.toastr.error("form not validated");
     }
+
 
     saveAddressInfo(form: NgForm, cust: Customer) {
 
         this.submitted = true;
 
         if (form.valid) {
+            console.log("form", cust);
+            cust.id = this.storageRepository.storageCustomerTokenInfo.token;
 
-            console.log("form is validatd", cust);
-         //   this.innerView = -1;
+            if (cust.id != null){
 
-          //  customer.id = this.storageRepository.storageCustomerTokenInfo.token;
+                this.repositoryAuthCust.saveCustomerAddressInfo(cust)
+                    .subscribe(res => {
 
-            // if (customer.id != null)
-            //     this.repositoryAuthCust.saveCustomerInfo(customer)
-            //         .subscribe(arg => {
+                        //Makes the fields blank
+                        cust.address = "";
+                        cust.city = "";
+                        cust.country = "";
+                        cust.state = "";
+                        cust.pinCode = null;
 
-            //         });
+                        this.customer = res;
 
-        }else alert("form not validated");
+                        this.innerView = -1;
+
+                        this.toastr.success("Your address has been updated successfully");
+
+                    }, err => {
+                        this.toastr.error("OOps something is wrong");
+                    });
+            }
+
+        } else   this.toastr.error("form not validated");
     }
 
     deleteAddress(custId: string, addrId: string) {
@@ -193,20 +224,18 @@ export class AccountComponent implements OnInit {
         }
     }
 
-    selectedCountry(event){
-       console.log("ngModelChange", event.target.value);
+    selectedCountry(event) {
+        console.log("ngModelChange", event.target.value);
     }
 
-    selectedCity(e){
-        console.log("event.target.value", e.target.innerText);
+    selectedCity(e) {
         this.customer.city = e.target.innerText;
     }
 
-    selectedState(event:any){
-        console.log("event.target.value", event.target.innerText);
+    selectedState(event: any) {
 
         this.customer.state = event.target.innerText;
-     
+
     }
 
 }

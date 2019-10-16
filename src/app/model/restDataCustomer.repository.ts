@@ -56,14 +56,29 @@ export class RestDataCustomerRepository {
 
     saveCustomerInfo(custData: Customer): Observable<any> {
 
-        let data: Customer1 = new Object();
+        let data:Customer1 = {};
         data.CustId = custData.id;
         data.CustFirstName = custData.firstName;
         data.CustLastName = custData.lastName;
         data.CustMobNo = custData.mobileNo;
         data.CustEmailAddr = custData.email;
+        data.CustImg = custData.img;
 
-        return this.http.post<any>(this.baseUrl + "saveRewrittenInfo", data)
+        return this.http.post<any>(this.baseUrl + "saveRewrittenInfo", data )
+    }
+
+    saveCustomerAddressInfo(custData: Customer): Observable<any> {
+
+        let data:Customer1 = {};
+        data.CustId = custData.id;
+        data.CustAddrId = custData.addressId;
+        data.CustShipAddr = custData.address;
+        data.CustShipCity = custData.city;
+        data.CustShipCountry = custData.country;
+        data.CustShipPinCode = custData.pinCode;
+        data.CustShipState = custData.state;
+
+        return this.http.post<any>(this.baseUrl + "saveRewrittenAddressInfo", data )
     }
 
     deleteCustomerAddress(custId: string, addrId: string) {

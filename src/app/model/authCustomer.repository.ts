@@ -117,6 +117,16 @@ export class AuthCustomerRepository {
             );
     }
 
+    saveCustomerAddressInfo(custData: Customer) {
+        return this.restRepository.saveCustomerAddressInfo(custData)
+            .pipe(
+                map(response => {
+                    return response;
+
+                }), catchError(this.handleError)
+            );
+    }
+
     deleteCustomerAddress(custId: string, addrId: string) {
         return this.restRepository.deleteCustomerAddress(custId, addrId)
             .pipe(
