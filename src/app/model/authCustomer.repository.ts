@@ -57,11 +57,11 @@ export class AuthCustomerRepository {
 
     public get authenticated(): boolean {
 
-        //Checks if token has stored in the localstorage
+        //Checks if token has stored in the localstorage (ie logged in)
         if (this.storageRepository.storageCustomerTokenInfo.token != null) return true;
         // if (this.auth_token == null) return false;
 
-        //If the token hasn't stored in the localstorage
+        //If the token hasn't stored in the localstorage(ie not logged in)
         return false;
     }
 

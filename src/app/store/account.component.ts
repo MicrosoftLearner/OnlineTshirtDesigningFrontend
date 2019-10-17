@@ -21,8 +21,6 @@ export class AccountComponent implements OnInit {
 
     public customer: Customer = {};
 
-    public customerChangeInfo: Customer = {};
-
     public customerEntireInfo: Array<Customer> = [];
 
     public isLoading: boolean = false;
@@ -139,7 +137,7 @@ export class AccountComponent implements OnInit {
 
     saveInfo(form:NgForm, cust: Customer) {
 
-      //  this.submitted = true;
+        this.submitted = true;
 
         if (form.valid) {
             console.log("form", cust);
@@ -189,7 +187,7 @@ export class AccountComponent implements OnInit {
                         cust.state = "";
                         cust.pinCode = null;
 
-                        this.customer = res;
+                        this.customerEntireInfo = res;
 
                         this.innerView = -1;
 
@@ -214,7 +212,7 @@ export class AccountComponent implements OnInit {
 
                     this.isLoading = false;
                     //Gets the updated addresses
-                    this.showCustomerAddresses();
+                   this.showCustomerAddresses();
                 },
                     err => {
                         this.isLoading = false;

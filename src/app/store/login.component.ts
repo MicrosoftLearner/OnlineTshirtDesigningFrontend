@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { Customer } from "../model/customer.model";
 
 @Component({
+    selector: 'login',
     templateUrl: 'login.component.html'
 })
 export class LoginComponent {

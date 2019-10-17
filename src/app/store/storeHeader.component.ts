@@ -26,7 +26,7 @@ export class StoreHeaderComponent implements OnInit {
   }
 
   getCustomerDetails() {
-       console.log("in getCustomer");
+     
     if (this.ropositoryStorage.storageCustomerTokenInfo.token == "") {
 
       //Shows the login button

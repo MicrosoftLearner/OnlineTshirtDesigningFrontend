@@ -81,15 +81,13 @@ export class RestDataCustomerRepository {
         return this.http.post<any>(this.baseUrl + "saveRewrittenAddressInfo", data )
     }
 
-    deleteCustomerAddress(custId: string, addrId: string) {
+    deleteCustomerAddress(custId: string, addrId: string): Observable<any> {
 
-        let data = new HttpParams();
-        data.set("custId", custId);
-        data.set("addrId", addrId);
+        let data = new HttpParams().set("addrId", addrId);
 
         let options = { params: data }
 
-        return this.http.delete<any>(this.baseUrl + "deleteAddr", options)
+        return this.http.delete<any>(this.baseUrl + "deleteAddr/" + addrId);
     }
 
     private get getOptions(): any {

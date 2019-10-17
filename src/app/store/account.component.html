@@ -1,6 +1,8 @@
 <div id="spinner" *ngIf="isLoading">
         <img src="../../assets/images/Brands/loader.gif" alt="">
-    </div>
+</div>
+
+
 <div class="usr-account">
     <div>
         <img src="../../assets/images/UserAccount/myaccount-banner.jpg" alt="BannerImage" class="img-responsive">
@@ -57,7 +59,7 @@
                                         <p class="usrdtl-info">Name: <span
                                                 class="text-capitalize left-space">{{customer.CustFirstName}}
                                                 {{customer.CustLastName}}</span><br> Email id: <span
-                                                class="text-capitalize left-space">{{customer.CustEmailAddr}}</span><br>
+                                                class="text-lowercase left-space">{{customer.CustEmailAddr}}</span><br>
                                             Mobile:
                                             <span class="text-capitalize left-space">{{customer.CustMobNo}}</span>
                                         </p>
