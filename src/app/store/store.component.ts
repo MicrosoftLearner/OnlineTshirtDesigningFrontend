@@ -7,6 +7,10 @@ import {
 
 import { ProductRepository } from "../model/product.repository";
 import { Product } from "../model/product";
+import { LocalStorageRepository } from "../model/localStorage.repository";
+import { AuthCustomerRepository } from "../model/authCustomer.repository";
+import { CartRepository } from "../model/cart.repository";
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -28,10 +32,13 @@ export class StoreComponent implements OnInit {
     //Sets the newArrival products
     public newArrivalProducts: Array<Product> = [];
 
+    //Sets the cart length
+    public length:number = 0;
+
     //Sets the loader
     public isLoading: boolean = false;
 
-    constructor(private repoistoryProduct: ProductRepository) { }
+    constructor(private repoistoryProduct: ProductRepository,  private storageRepository: LocalStorageRepository,private repositoryAuthCust: AuthCustomerRepository, private repositoryCart: CartRepository,private toastr: ToastrService, private route: Router) { }
 
     public config: SwiperConfigInterface = {
         direction: 'horizontal',
@@ -101,6 +108,30 @@ export class StoreComponent implements OnInit {
                 this.blogs = res
             });
 
+    }
+
+    addToCart(productId: number,  productPrice: number ){
+
+        if(this.repositoryAuthCust.authenticated){
+ 
+        this.repositoryCart.addToCart(productId, this.storageRepository.storageCustomerTokenInfo.token, productPrice)
+            .subscribe(res => {
+               
+                this.length = res;
+                console.log("cart length", this.length);
+
+              this.toastr.success("Product added in the cart");
+
+              this.route.navigateByUrl("/cart");
+                
+            }, err => {
+              this.toastr.warning("already added in the cart");
+            });
+        
+        }else{
+            this.toastr.warning("needs to be logged in 1st");
+            
+        }
     }
 
 }

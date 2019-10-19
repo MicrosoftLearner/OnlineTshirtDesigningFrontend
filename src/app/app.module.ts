@@ -43,7 +43,7 @@ import { AuthCustomerGuardRepository } from './model/authCustomer.guard';
       { path: "login", component: LoginComponent },
       { path: "account", component: AccountComponent, canActivate:[AuthCustomerGuardRepository] },
       { path: "orderDetails", component: OrderDetailsComponent , canActivate:[AuthCustomerGuardRepository]},
-      { path: "cart", component: CartComponent },
+      { path: "cart", component: CartComponent, canActivate:[AuthCustomerGuardRepository]},
       { path: "admin", loadChildren: "./admin/admin.module#AdminModule" },
 
       { path: "**", redirectTo: "/store" },

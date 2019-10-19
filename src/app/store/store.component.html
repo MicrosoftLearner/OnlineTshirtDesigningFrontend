@@ -82,7 +82,7 @@
                                     <div class="relate">
                                         <img [src]="prod.ProductImg" alt="" class="img-responsive">
                                         <div class="featured__icon-cart">
-                                            <i class="fa fa-shopping-cart"></i>
+                                           <a (click)="addToCart(prod.ProductId, prod.ProductPrice)"><i class="fa fa-shopping-cart"></i></a> 
                                         </div>
                                         <div class="featured__icon-heart">
                                             <i aria-hidden="true"></i>

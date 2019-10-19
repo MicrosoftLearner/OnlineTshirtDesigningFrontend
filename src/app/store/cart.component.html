@@ -1,7 +1,7 @@
 <div>
     <div class="bg-mycart">
         <div class="mycart-img">
-        <img src="../../assets/images/Cart/mycart-bg.jpg" alt="">
+            <img src="../../assets/images/Cart/mycart-bg.jpg" alt="">
         </div>
     </div>
     <div class="container">
@@ -26,21 +26,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr *ngFor="let cartItem of products.m_Item1; let i = index">
                             <td rowspan="2" class="item-block">
                                 <div class="item relate">
-                                    <img alt="" class="img-responsive item__img">
+                                    <img alt="" [src]="cartItem.ProductImg" class=" item__img">
                                     <div class="mycart-info">
-                                        <p class="item__title1">product.product.productName</p>
+                                        <p class="item__title1">{{cartItem.ProductName}}</p>
                                         <!--<a class="linking" style="color: #341314" ng-click="openCoupon(product.product)">Check Offer</a>-->
                                     </div>
                                     <div class="outofstock">OUT OF
                                         STOCK</div>
                                 </div>
                             </td>
-                            <td>product.product.color.name</td>
-                            <td> &#x20b9; &nbsp; product.product.mrp</td>
-                            <td>product.product.size.name</td>
+                            <td>{{cartItem.ProductColor}}</td>
+                            <td> &#x20b9; &nbsp; {{cartItem.ProductQuantityPrice}}</td>
+                            <td>size.</td>
                             <td>
                                 <div class="plus-minus-btn">
                                     <a>
@@ -49,7 +49,7 @@
                                     <div class="display-inblock">
                                         <form>
                                             <div class="form-group marg0">
-                                                <input type="text" readonly class="form-control quantity__input">
+                                                <input type="text" readonly [attr.placeholder]="cartItem.ProductQuantity" [attr.value]="cartItem.ProductQuantity" class="form-control quantity__input">
                                             </div>
                                         </form>
                                     </div>
@@ -58,29 +58,36 @@
                                     </a>
                                 </div>
                             </td>
-                            <td>&#x20b9; &nbsp; product.product.price|number:0 </td>
-                            <td>&#x20b9; &nbsp; product.product.discountPriceOfProduct|number:0</td>
+                            <td>&#x20b9; &nbsp;  {{cartItem.ProductQuantityPrice}} </td>
+                            <!-- <td>&#x20b9; &nbsp; product.product.discountPriceOfProduct|number:0</td> -->
                             <td>&#x20b9; &nbsp;0</td>
                             <!--<td ng-if="product.product.discountApplicable&&product.product.discountPriceOfProduct==0">&#x20b9; &nbsp;product.product.discountPriceOfProductApplied|number:0</td>-->
                             <td>&#x20b9; &nbsp;0</td>
                             <!--<td>&#x20b9; &nbsp;product.product.gst|number:0</td>-->
                             <!--<td ng-if="product.product.price < 999">5%</td>-->
                             <!--<td ng-if="!product.product.discountApplicable">product.product.price * product.quantity * .12|number:0</td>-->
-                            <td>&#x20b9; &nbsp; product.product.priceWithDiscount|number:0</td>
-                            <td>&#x20b9; &nbsp; product.product.price*
-                                product.quantity |number:0</td>
+                            <!-- <td>&#x20b9; &nbsp; product.product.priceWithDiscount|number:0</td> -->
+                            <td>&#x20b9; &nbsp;  {{products.m_Item2}}</td>
+                            <td colspan="7" class="td-border">
+                                <div class="pull-right">
+                                    <!-- <button class=" btn text-uppercase wishlist--btn">
+                                            <i class="fa fa-heart" aria-hidden="true"></i>ADD TO WISHLIST</button> -->
+                                    <button class="btn text-uppercase remove--btn"><i class="fa fa-trash"
+                                            aria-hidden="true"></i>REMOVE</button>
+                                </div>
+                            </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td colspan="7" class="td-border">
                                 <div class="pull-right">
                                     <button class=" btn text-uppercase wishlist--btn">
-                                        <i class="fa fa-heart" aria-hidden="true"></i>ADD TO WISHLIST</button>
+                                        <i class="fa fa-heart" aria-hidden="true"></i>ADD TO WISHLIST</button> 
                                     <button class="btn text-uppercase remove--btn"><i class="fa fa-trash"
                                             aria-hidden="true"></i>REMOVE</button>
                                 </div>
                             </td>
 
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -116,5 +123,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="hide">
+            <div class="alert alert-info">
+                <strong>Info!</strong> No products found.
+            </div>
+        </div>
+
     </div>
 </div>
