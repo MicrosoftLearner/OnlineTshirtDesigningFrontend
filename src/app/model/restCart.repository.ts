@@ -25,4 +25,18 @@ export class RestCartRepository {
     getCart(customerId: string): Observable<any>{
         return this.http.get<any>(this.baseUrl + "getCart/" + customerId); 
     }
+
+    increaseQuantity(productId: number, customerId: string,  productQuantity:number): Observable<any>{
+
+        let data  = {ProductId: productId, CustId: customerId, ProductQuantity: productQuantity}
+
+        return this.http.put<any>(this.baseUrl + "escalateQuantity" , data); 
+
+    }
+
+    deleteCart(cartId: number, customerId: string):Observable<any>{
+
+        return this.http.delete<any>(this.baseUrl + "deleteCart/" + cartId + "/" + customerId); 
+
+    }
 }

@@ -46,6 +46,28 @@ export class CartRepository implements OnInit{
         );
     }
 
+    increaseQuantity(productId: number, customerId: string,  productQuantity:number){
+        return this.restRepository.increaseQuantity(productId, customerId, productQuantity)
+        .pipe(
+            map(response => {
+
+                return response;
+
+            }), catchError(this.handleError)
+        );
+    }
+
+    deleteCart(cartId: number, customerId: string){
+
+        return this.restRepository.deleteCart(cartId, customerId)
+        .pipe(
+            map(response => {
+
+                return response;
+
+            }), catchError(this.handleError)
+        );
+    }
 
     handleError(err) {
         // console.log("in error blog", err.error.error);

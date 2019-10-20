@@ -34,4 +34,63 @@ export class CartComponent implements OnInit{
           this.toastr.warning("already added in the cart");
         });
     }
+
+    decreaseQuantity(productId: number, productQuantity:number){
+        productQuantity--;
+
+        if (productQuantity >= 1) {
+            
+            this.repositoryCart.increaseQuantity(productId, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
+            .subscribe(res => {
+                
+                this.products = res;
+    
+    
+            }, err => {
+              this.toastr.warning("error");
+            });
+
+        }
+        
+    }
+
+    increaseQuantity(productId: number, productQuantity:number){
+        
+        //Increases the given quantity
+        productQuantity++;
+       
+        if (productQuantity >= 1 && productQuantity <= 3) {
+            
+            this.repositoryCart.increaseQuantity(productId, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
+            .subscribe(res => {
+                
+                this.products = res;
+    
+                console.log("res", res);
+    
+            }, err => {
+              this.toastr.warning("error");
+            });
+
+        }else{
+            this.toastr.warning("not more than 3 quantity");
+
+        }
+    }
+
+    removeCartItem(cartId: number){
+
+        this.repositoryCart.deleteCart(cartId, this.storageRepository.storageCustomerTokenInfo.token)
+        .subscribe(res => {
+
+         this.toastr.success("Item deleted successfully");
+
+         //Calls to get the updated cart
+         this.getCustomerCart();
+            
+        }, err => {
+          this.toastr.error("Couldn't remove the item");
+        });
+    }
+
 }

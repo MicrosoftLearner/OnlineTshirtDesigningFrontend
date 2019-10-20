@@ -19,15 +19,16 @@
                             <th>MRP</th>
                             <th>SIZE</th>
                             <th>QUANTITY</th>
-                            <th>PRICE</th>
-                            <th>DISCOUNT PRICE</th>
+                            <th>QUANTITY PRICE</th>
+                            <th></th>
+                            <!-- <th>DISCOUNT PRICE</th> -->
                             <!--<th>GST</th>-->
-                            <th>SUBTOTAL</th>
+                            <!-- <th>SUBTOTAL</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let cartItem of products.m_Item1; let i = index">
-                            <td rowspan="2" class="item-block">
+                            <td  class="item-block">
                                 <div class="item relate">
                                     <img alt="" [src]="cartItem.ProductImg" class=" item__img">
                                     <div class="mycart-info">
@@ -39,40 +40,50 @@
                                 </div>
                             </td>
                             <td>{{cartItem.ProductColor}}</td>
-                            <td> &#x20b9; &nbsp; {{cartItem.ProductQuantityPrice}}</td>
-                            <td>size.</td>
+                            <td> &#x20b9; &nbsp; {{cartItem.ProductPrice}}</td>
                             <td>
-                                <div class="plus-minus-btn">
-                                    <a>
-                                        <i class="fa fa-minus display-inblock square__bg" aria-hidden="true"></i>
+                                <div class="form-group">
+                                  
+                                    <select class="form-control" id="productSize">
+                                        <option [disabled]="cartItem.ProductSizeQuantM < 1">M</option>
+                                        <option [disabled]="cartItem.ProductSizeQuantXL < 1 " >XL</option>
+                                        <option [disabled]="cartItem.ProductSizeQuantXXL < 1">XXL</option>
+                                        
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="plus-minus-btn" >
+                                    <a class="btn" role="button" (click)="decreaseQuantity(cartItem.ProductId, cartItem.ProductQuantity)" [ngClass]="{disabled: cartItem.ProductQuantity <= 1}">
+                                        <i class="fa fa-minus  square__bg"  aria-hidden="true"></i>
                                     </a>
-                                    <div class="display-inblock">
+                                    <div class="inline-block">
                                         <form>
                                             <div class="form-group marg0">
                                                 <input type="text" readonly [attr.placeholder]="cartItem.ProductQuantity" [attr.value]="cartItem.ProductQuantity" class="form-control quantity__input">
                                             </div>
                                         </form>
                                     </div>
-                                    <a>
-                                        <i class="fa fa-plus display-inblock square__bg" aria-hidden="true"></i>
+                                    <a (click)="increaseQuantity(cartItem.ProductId, cartItem.ProductQuantity)"  class="btn" role="button">
+                                        <i class="fa fa-plus square__bg"  aria-hidden="true"></i>
                                     </a>
                                 </div>
                             </td>
                             <td>&#x20b9; &nbsp;  {{cartItem.ProductQuantityPrice}} </td>
                             <!-- <td>&#x20b9; &nbsp; product.product.discountPriceOfProduct|number:0</td> -->
-                            <td>&#x20b9; &nbsp;0</td>
+                            <!-- <td>&#x20b9; &nbsp;0</td> -->
                             <!--<td ng-if="product.product.discountApplicable&&product.product.discountPriceOfProduct==0">&#x20b9; &nbsp;product.product.discountPriceOfProductApplied|number:0</td>-->
-                            <td>&#x20b9; &nbsp;0</td>
+                            <!-- <td>&#x20b9; &nbsp;0</td> -->
                             <!--<td>&#x20b9; &nbsp;product.product.gst|number:0</td>-->
                             <!--<td ng-if="product.product.price < 999">5%</td>-->
                             <!--<td ng-if="!product.product.discountApplicable">product.product.price * product.quantity * .12|number:0</td>-->
                             <!-- <td>&#x20b9; &nbsp; product.product.priceWithDiscount|number:0</td> -->
-                            <td>&#x20b9; &nbsp;  {{products.m_Item2}}</td>
-                            <td colspan="7" class="td-border">
+                            <!-- <td>&#x20b9; &nbsp;  </td> -->
+                            <td class="td-border">
                                 <div class="pull-right">
                                     <!-- <button class=" btn text-uppercase wishlist--btn">
                                             <i class="fa fa-heart" aria-hidden="true"></i>ADD TO WISHLIST</button> -->
-                                    <button class="btn text-uppercase remove--btn"><i class="fa fa-trash"
+                                    <button class="btn text-uppercase remove--btn" (click)="removeCartItem(cartItem.ProductCartId)"><i class="fa fa-trash"
                                             aria-hidden="true"></i>REMOVE</button>
                                 </div>
                             </td>
@@ -102,17 +113,17 @@
                         <p>SHIPPING:</p>
                         <p>MEMBER'S DISCOUNT:</p>
                         <p>TOTAL:</p>
-                        <p>GST:</p>
-                        <p>GRAND TOTAL:</p>
+                        <!-- <p>GST:</p>
+                        <p>GRAND TOTAL:</p> -->
                     </div>
-                    <div class="inline-block">
-                        <p>&#x20b9; total</p>
-                        <p>&#x20b9; 0</p>
+                    <div class="inline-block align-top">
+                        <p>&#x20b9; {{products.m_Item2}}</p>
+                        <!-- <p>&#x20b9; 0</p>
                         <p>&#x20b9; grandTotalAfterDiscount</p>
                         <p>&#x20b9; total-grandTotalAfterDiscount</p>
-                        <!--<p ng-if="!discountApplicableforCart">&#x20b9; 0</p>-->
+                        <p ng-if="!discountApplicableforCart">&#x20b9; 0</p>
                         <p>&#x20b9; productGst</p>
-                        <p>&#x20b9; total-grandTotalAfterDiscount+productGst</p>
+                        <p>&#x20b9; total-grandTotalAfterDiscount+productGst</p> -->
                         <!--<p ng-if="!discountApplicableforCart">&#x20b9; total-grandTotalAfterDiscount|number:0</p>-->
                     </div>
                 </div>
