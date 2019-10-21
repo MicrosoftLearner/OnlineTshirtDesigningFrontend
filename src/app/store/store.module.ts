@@ -25,16 +25,18 @@ import { AuthCustomerRepository } from "../model/authCustomer.repository";
 import { RestDataCustomerRepository } from "../model/restDataCustomer.repository";
 import { LoginComponent } from "./login.component";
 import { AuthCustomerGuardRepository } from "../model/authCustomer.guard";
+import { CartRepository } from "../model/cart.repository";
+import { RestCartRepository } from "../model/restCart.repository";
 
 
 @NgModule({
     imports: [BrowserModule, FormsModule, RouterModule, SwiperModule, BrowserAnimationsModule,ToastrModule.forRoot()],
  
-    providers: [RestDataProductRepository, AuthCustomerRepository, RestDataCustomerRepository, AuthCustomerGuardRepository],
+    providers: [RestDataProductRepository, AuthCustomerRepository, RestDataCustomerRepository, AuthCustomerGuardRepository, CartRepository, RestCartRepository],
     
     declarations: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent, LoginComponent, InnerBlogsComponent,AccountComponent, OrderDetailsComponent, CartComponent, CartSummeryComponent],
 
-    exports: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent, AccountComponent, OrderDetailsComponent, CartComponent]
+    exports: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent, AccountComponent, OrderDetailsComponent, CartComponent ,CartSummeryComponent]
 })
 
 export class StoreModule { }

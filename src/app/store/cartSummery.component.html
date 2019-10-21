@@ -1,31 +1,35 @@
-<i class="fa fa-shopping-cart "></i> Cart ( <span>length</span>
-<span>0</span> )
+<i class="fa fa-shopping-cart "></i> Cart ( <span></span>
+<span>{{length}}</span> )
 <ul class="cart-dropdown-menu dropdown-menu">
-    <li>
-        <div class="dropdown-menu__dropdown-cart ">
+    <li *ngFor="let cartItem of cartProducts.m_Item1"  class="cart-added-item">
+        <div class="dropdown-menu__dropdown-cart   relate" [ngClass]="{'disabled-outofstock': cartItem.ProductSizeQuantM == 0 && cartItem.ProductSizeQuantXL == 0 && cartItem.ProductSizeQuantXXL == 0 }" >
             <div class="inline-block img ">
                 <img alt="shirt_img
-                        " class="img-responsive ">
+                        " class="img-responsive " [src]="cartItem.ProductImg">
             </div>
             <div class="inline-block desc ">
-                <h5>productname</h5>
-                <p><i class="fa fa-inr " aria-hidden="true "><span class="product-cost">pirce</span></i></p>
+                <h5>{{cartItem.ProductName}}</h5>
+                <p><i class="fa fa-inr " aria-hidden="true "><span class="product-cost">{{cartItem.ProductQuantityPrice}}</span></i></p>
                 <p></p>
 
                 <div class="inline-block__size ">
                     <div class="inline-block ">
                         <div class="size ">
-                            <span>size.name</span>
+                            <span>Size:U</span>
                         </div>
                     </div>
                     <div class="inline-block ">
-                        <span>Size</span>
+                            <div class="size ">
+                        <span>Q: {{cartItem.ProductQuantity}}</span>
+                            </div>
                     </div>
                 </div>
                 <p>
                     <button class="btn remove--btn "><i class="fa fa-trash-o " aria-hidden="true "></i>Remove</button>
                 </p>
             </div>
+
+            <div class="outofstock" *ngIf="cartItem.ProductSizeQuantM == 0 && cartItem.ProductSizeQuantXL == 0 && cartItem.ProductSizeQuantXXL == 0 "><strong style="opacity: 0.6; color: #341314;">Out of stock</strong></div>
         </div>
 
     </li>

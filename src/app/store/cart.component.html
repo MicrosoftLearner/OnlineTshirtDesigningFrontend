@@ -8,10 +8,10 @@
         <div class="mycart-container">
             <div class="table-responsive">
                 <table class="table mycart-table">
-                    <caption class="text-uppercase">
+                    <!-- <caption class="text-uppercase">
                         there are items in your cart which are currently not avaliable.please remove to proceed to
                         checkout
-                    </caption>
+                    </caption> -->
                     <thead>
                         <tr>
                             <th>ITEM</th>
@@ -27,7 +27,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let cartItem of products.m_Item1; let i = index">
+                        <tr *ngFor="let cartItem of products.m_Item1; let i = index" [ngClass]="{'disabled-outofstock': cartItem.ProductSizeQuantM == 0 && cartItem.ProductSizeQuantXL == 0 && cartItem.ProductSizeQuantXXL == 0 }" >
+                
                             <td  class="item-block">
                                 <div class="item relate">
                                     <img alt="" [src]="cartItem.ProductImg" class=" item__img">
@@ -35,8 +36,8 @@
                                         <p class="item__title1">{{cartItem.ProductName}}</p>
                                         <!--<a class="linking" style="color: #341314" ng-click="openCoupon(product.product)">Check Offer</a>-->
                                     </div>
-                                    <div class="outofstock">OUT OF
-                                        STOCK</div>
+                                    <div class="outofstock" *ngIf="cartItem.ProductSizeQuantM == 0 && cartItem.ProductSizeQuantXL == 0 && cartItem.ProductSizeQuantXXL == 0"><strong>OUT OF
+                                        STOCK</strong></div>
                                 </div>
                             </td>
                             <td>{{cartItem.ProductColor}}</td>
@@ -83,10 +84,11 @@
                                 <div class="pull-right">
                                     <!-- <button class=" btn text-uppercase wishlist--btn">
                                             <i class="fa fa-heart" aria-hidden="true"></i>ADD TO WISHLIST</button> -->
-                                    <button class="btn text-uppercase remove--btn" (click)="removeCartItem(cartItem.ProductCartId)"><i class="fa fa-trash"
+                                    <button class="btn text-uppercase remove--btn btn--brown" (click)="removeCartItem(cartItem.ProductCartId)"><i class="fa fa-trash"
                                             aria-hidden="true"></i>REMOVE</button>
                                 </div>
                             </td>
+                          
                         </tr>
                         <!-- <tr>
                             <td colspan="7" class="td-border">
@@ -129,7 +131,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="pull-right margin-15">
-                    <button class="btn text-uppercase shop--btn">Continue shopping</button>
+                    <button class="btn text-uppercase shop--btn " routerLink="/store">Continue shopping</button>
                     <button class="btn text-uppercase checkout--btn">checkout</button>
                 </div>
             </div>

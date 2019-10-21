@@ -1,5 +1,4 @@
-import { Injectable, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from "@angular/common/http";
+import { Injectable, OnInit, Output ,EventEmitter } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
@@ -8,19 +7,23 @@ import { ToastrService } from "ngx-toastr";
 import { LocalStorageRepository } from "./localStorage.repository";
 
 import { Router } from "@angular/router";
-import { RestDataCustomerRepository } from "./restDataCustomer.repository";
-import { Customer } from "./customer.model";
+
 import { RestCartRepository } from "./restCart.repository";
+
 
 @Injectable()
 
 export class CartRepository implements OnInit{
 
-   
-    constructor( private restRepository: RestCartRepository, private route: Router, private toastr: ToastrService ){
+ @Output() fireUpdatedCart: EventEmitter<any> = new EventEmitter();
 
-      
-    }
+ @Output() fireRemovedCart: EventEmitter<any> = new EventEmitter();
+
+ @Output() fireAddCart: EventEmitter<any> = new EventEmitter();
+
+
+   
+    constructor( private restRepository: RestCartRepository, private route: Router, private toastr: ToastrService ){ }
 
     ngOnInit(){}
 
@@ -28,6 +31,8 @@ export class CartRepository implements OnInit{
         return this.restRepository.addToCart(productId, customerId, productPrice)
         .pipe(
             map(response => {
+
+               this.fireRemovedCart.emit();
 
                 return response;
 
@@ -46,11 +51,26 @@ export class CartRepository implements OnInit{
         );
     }
 
+    getUpdatedEmitCart(){
+        return this.fireUpdatedCart;
+    }
+
+    getRemovedEmitCart(){
+        return this.fireRemovedCart;
+       
+    }
+
+    getAddedEmitCart(){
+        return this.fireAddCart;
+       
+    }
+
     increaseQuantity(productId: number, customerId: string,  productQuantity:number){
         return this.restRepository.increaseQuantity(productId, customerId, productQuantity)
         .pipe(
             map(response => {
-
+            
+                this.fireUpdatedCart.emit(response);
                 return response;
 
             }), catchError(this.handleError)
@@ -63,6 +83,7 @@ export class CartRepository implements OnInit{
         .pipe(
             map(response => {
 
+                this.fireRemovedCart.emit();
                 return response;
 
             }), catchError(this.handleError)
@@ -77,4 +98,5 @@ export class CartRepository implements OnInit{
 
         return throwError(err);
     }
+
 }
