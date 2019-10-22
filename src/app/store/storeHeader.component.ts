@@ -23,6 +23,23 @@ export class StoreHeaderComponent implements OnInit {
   ngOnInit() {
 
     this.getCustomerDetails();
+
+    this.updateView();
+  }
+
+  updateView() {
+    
+    this.repositoryAuthCust.getSuccessEmitLogin()
+    .subscribe( status => {
+
+      this.getCustomerDetails();
+    });
+
+    this.ropositoryStorage.getSuccessEmitLogout()
+    .subscribe(status => {
+
+      this.getCustomerDetails();
+    } );
   }
 
   getCustomerDetails() {
@@ -31,9 +48,6 @@ export class StoreHeaderComponent implements OnInit {
 
       //Shows the login button
       this.showLoginButton = true;
-
-      //Clears the localstorage
-      this.ropositoryStorage.clearCustomerToken();
 
     }
     else {

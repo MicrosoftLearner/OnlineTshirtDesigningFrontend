@@ -110,11 +110,11 @@ export class StoreComponent implements OnInit {
 
     }
 
-    addToCart(productId: number,  productPrice: number ){
+    addToCart(productId: number,  productPrice: number, productSize: string ){
 
         if(this.repositoryAuthCust.authenticated){
  
-        this.repositoryCart.addToCart(productId, this.storageRepository.storageCustomerTokenInfo.token, productPrice)
+        this.repositoryCart.addToCart(productId, this.storageRepository.storageCustomerTokenInfo.token, productPrice, productSize )
             .subscribe(res => {
                
                 this.length = res;

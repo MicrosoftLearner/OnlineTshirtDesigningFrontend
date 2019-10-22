@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Output, EventEmitter } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
@@ -14,6 +14,10 @@ import { Customer } from "./customer.model";
 @Injectable()
 
 export class AuthCustomerRepository {
+
+    //Fires when customer is logged in successfully
+    @Output() fireSuccessLogin:EventEmitter<any> = new EventEmitter();
+
     private baseUrl: string;
 
 
@@ -40,6 +44,8 @@ export class AuthCustomerRepository {
                     //set the  data obj into localStorage
                     this.storageRepository.storageCustomerTokenInfo = data;
 
+                    this.fireSuccessLogin.emit();
+
                     return data;
 
                 }), catchError(this.handleError)
@@ -58,7 +64,7 @@ export class AuthCustomerRepository {
     public get authenticated(): boolean {
 
         //Checks if token has stored in the localstorage (ie logged in)
-        if (this.storageRepository.storageCustomerTokenInfo.token != null) return true;
+        if (this.storageRepository.storageCustomerTokenInfo.token != "") return true;
         // if (this.auth_token == null) return false;
 
         //If the token hasn't stored in the localstorage(ie not logged in)
@@ -138,5 +144,8 @@ export class AuthCustomerRepository {
             );
     }
 
+    getSuccessEmitLogin(){
+        return this.fireSuccessLogin;
+    }
 
 }

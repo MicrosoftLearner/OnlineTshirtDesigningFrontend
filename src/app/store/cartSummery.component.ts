@@ -44,6 +44,11 @@ export class CartSummeryComponent implements OnInit {
           //  this.length = this.cartProducts.m_Item1.length;
         });
 
+       this.repositoryAuthCust.getSuccessEmitLogin()
+           .subscribe(emitValue => {
+
+            this.showCart();
+           });
        
     }
 

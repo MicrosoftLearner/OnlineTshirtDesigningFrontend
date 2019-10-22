@@ -28,19 +28,18 @@ export class CartComponent implements OnInit{
             
             this.products = res;
 
-            console.log("Products", this.products);
 
         }, err => {
           this.toastr.warning("already added in the cart");
         });
     }
 
-    decreaseQuantity(productId: number, productQuantity:number){
+    decreaseQuantity(cartID: number, productQuantity:number){
         productQuantity--;
 
         if (productQuantity >= 1) {
             
-            this.repositoryCart.increaseQuantity(productId, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
+            this.repositoryCart.increaseQuantity(cartID, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
             .subscribe(res => {
                 
                 this.products = res;
@@ -54,14 +53,14 @@ export class CartComponent implements OnInit{
         
     }
 
-    increaseQuantity(productId: number, productQuantity:number){
+    increaseQuantity(cartID: number, productQuantity:number){
         
         //Increases the given quantity
         productQuantity++;
        
         if (productQuantity >= 1 && productQuantity <= 3) {
             
-            this.repositoryCart.increaseQuantity(productId, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
+            this.repositoryCart.increaseQuantity(cartID, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
             .subscribe(res => {
                 
                 this.products = res;

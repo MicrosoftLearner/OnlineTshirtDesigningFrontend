@@ -43,7 +43,8 @@
                             <td>{{cartItem.ProductColor}}</td>
                             <td> &#x20b9; &nbsp; {{cartItem.ProductPrice}}</td>
                             <td>
-                                <div class="form-group">
+                                {{cartItem.ProductSize}}
+                                <!-- <div class="form-group">
                                   
                                     <select class="form-control" id="productSize">
                                         <option [disabled]="cartItem.ProductSizeQuantM < 1">M</option>
@@ -51,11 +52,11 @@
                                         <option [disabled]="cartItem.ProductSizeQuantXXL < 1">XXL</option>
                                         
                                     </select>
-                                </div>
+                                </div> -->
                             </td>
                             <td>
                                 <div class="plus-minus-btn" >
-                                    <a class="btn" role="button" (click)="decreaseQuantity(cartItem.ProductId, cartItem.ProductQuantity)" [ngClass]="{disabled: cartItem.ProductQuantity <= 1}">
+                                    <a class="btn" role="button" (click)="decreaseQuantity(cartItem.ProductCartId, cartItem.ProductQuantity)" [ngClass]="{disabled: cartItem.ProductQuantity <= 1}">
                                         <i class="fa fa-minus  square__bg"  aria-hidden="true"></i>
                                     </a>
                                     <div class="inline-block">
@@ -65,7 +66,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <a (click)="increaseQuantity(cartItem.ProductId, cartItem.ProductQuantity)"  class="btn" role="button">
+                                    <a (click)="increaseQuantity(cartItem.ProductCartId, cartItem.ProductQuantity)"  class="btn" role="button">
                                         <i class="fa fa-plus square__bg"  aria-hidden="true"></i>
                                     </a>
                                 </div>

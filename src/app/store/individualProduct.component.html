@@ -22,10 +22,19 @@
                             </p>
                         </div>
 
-                        <p class="prod-code__right pull-right text-right">
-                            <span>AVAILABILITY </span>:
+                        <p class="prod-code__right pull-right text-right" *ngIf=" quantityStatus >= 1 ;else  outOfStock">
+                          
+                                <span class="text-success">AVAILABILITY </span>:
 
-                           <span>Quantity</span>
+                           <span>{{quantityStatus}}</span>
+                        </p>
+                       
+                          <ng-template #outOfStock>
+                                <p class="prod-code__right pull-right text-right" >
+                                    <label class="text-danger">Out of stock</label>
+                                </p>
+                          </ng-template>
+                        
                     </div>
                     <div class="clearfix"></div>
                     <div class="individual-main">
@@ -37,7 +46,7 @@
                                 <h3>
                                     <!--<i class="fa fa-inr " aria-hidden="true "></i>-->
                                     <!--<div class="inline-block">-->
-                                   <span><del>Strikethrough</del></span>
+                                   <!-- <span><del>Strikethrough</del></span> -->
 
                                     <span class="pull-right">&#x20B9;
                                        <span>{{indvProduct.ProductPrice}}</span> </span>
@@ -54,16 +63,16 @@
                                 <h5>SIZE </h5>
 
                                 <div class="inline-block buy-para__sizes ">
-                                    <a href="" class="buy-para-lbl-sizes" >M</a>
-                                    
-                                    <a href=""  class="buy-para-lbl-sizes" >XL</a>
-
-                                    <a href=""  class="buy-para-lbl-sizes" >XXL</a>
-                                    <div>
-                                        <a class="linking">Size Chart</a>
-                                        <!--{{product.category.image}}-->
-                                    </div>
-
+                                        <div class="form-group">
+                                  
+                                                <select class="form-control" #sizeOption id="productSize" [(ngModel)]="indvProduct.ProductSize" (ngModelChange)="selectProductSize($event)">
+                                                    <option [disabled]="indvProduct.ProductSizeQuantM < 1" [attr.value]="M" >M</option>
+                                                    <option [disabled]="indvProduct.ProductSizeQuantXL < 1 " [attr.value]="XL" >XL</option>
+                                                    <option [disabled]="indvProduct.ProductSizeQuantXXL < 1" [attr.value]="XXL">XXL</option>
+                                                    
+                                                </select>
+                                            </div>
+                                  
                                 </div>
 
                                 <!--<div class="dropdown inline-block">
@@ -92,7 +101,7 @@
                                 </ul>
                             </div>-->
                             </div>
-                            <div class="inline-block quantity text-center">
+                            <!-- <div class="inline-block quantity text-center">
                                 <h5>QUANTITY </h5>
                                 <a>
                                         <i class="fa fa-minus square__bg"
@@ -110,7 +119,7 @@
                                     aria-hidden="true"></i>
                                 </a>
                                
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="fourth-sec border-div common-Accordian">
@@ -226,7 +235,7 @@
                           
                         </div>
                         <div class="individual-btn">
-                            <button  Class="btn  btn--brown text-uppercase btn-add">
+                            <button [ngClass]="{'disabled': sizeOption.selectedIndex < 0}"  Class="btn  btn--brown text-uppercase btn-add" (click)="addToCart(indvProduct.ProductId, indvProduct.ProductPrice, indvProduct.ProductSize)">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>ADD TO CART </button>
                             &nbsp;
                             <button  class="btn btn--brown text-uppercase btn-add" >Check Out</button>

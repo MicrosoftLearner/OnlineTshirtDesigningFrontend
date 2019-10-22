@@ -1,10 +1,12 @@
-import { Injectable, OnInit } from "@angular/core";
+import { Injectable, OnInit, Output, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
 import { Product } from "./product";
 
 @Injectable()
 
 export class LocalStorageRepository {
+
+    @Output() fireSuccessLogout:EventEmitter<any> = new EventEmitter();
 
     constructor(private route: Router) { }
 
@@ -80,11 +82,15 @@ export class LocalStorageRepository {
     clearCustomerToken() {
 
         localStorage.removeItem("customerTokenInfo");
+         
+        this.fireSuccessLogout.emit();
 
         this.route.navigateByUrl("/store");
     }
 
-
+    getSuccessEmitLogout(){
+        return this.fireSuccessLogout;
+    }
     
     // private _product : Product = {};
 

@@ -15,9 +15,9 @@ export class RestCartRepository {
         this.baseUrl = "http://localhost:58206/api/cart/";
     }
 
-    addToCart(productId: number, customerId: string,  productPrice: number): Observable<any> {
+    addToCart(productId: number, customerId: string,  productPrice: number, productSize: string): Observable<any> {
 
-        let data = { ProductId: productId, CustId: customerId, productQuantityPrice: productPrice}
+        let data = { ProductId: productId, CustId: customerId, ProductQuantityPrice: productPrice, ProductSize: productSize}
 
         return this.http.put<any>(this.baseUrl + "addToCart"  ,  data);
     }
@@ -26,9 +26,9 @@ export class RestCartRepository {
         return this.http.get<any>(this.baseUrl + "getCart/" + customerId); 
     }
 
-    increaseQuantity(productId: number, customerId: string,  productQuantity:number): Observable<any>{
+    increaseQuantity(cartID: number, customerId: string,  productQuantity:number): Observable<any>{
 
-        let data  = {ProductId: productId, CustId: customerId, ProductQuantity: productQuantity}
+        let data  = {ProductCartId: cartID, CustId: customerId, ProductQuantity: productQuantity}
 
         return this.http.put<any>(this.baseUrl + "escalateQuantity" , data); 
 

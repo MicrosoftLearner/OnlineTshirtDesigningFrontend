@@ -9,6 +9,7 @@ export class Product {
     public ProductDisc?: string;
     public ProductPrice?: number;
     public ProductNewArrival?: string;
+    public ProductSize?: string;
     public ProductSizeQuantM?: number;
     public ProductSizeQuantXL?: number;
     public ProductSizeQuantXXL?: number;

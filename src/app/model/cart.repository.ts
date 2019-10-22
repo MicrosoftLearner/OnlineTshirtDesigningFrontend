@@ -27,8 +27,8 @@ export class CartRepository implements OnInit{
 
     ngOnInit(){}
 
-    addToCart(productId: number, customerId: string,  productPrice: number){
-        return this.restRepository.addToCart(productId, customerId, productPrice)
+    addToCart(productId: number, customerId: string,  productPrice: number, productSize: string){
+        return this.restRepository.addToCart(productId, customerId, productPrice, productSize)
         .pipe(
             map(response => {
 
@@ -65,8 +65,8 @@ export class CartRepository implements OnInit{
        
     }
 
-    increaseQuantity(productId: number, customerId: string,  productQuantity:number){
-        return this.restRepository.increaseQuantity(productId, customerId, productQuantity)
+    increaseQuantity(cartId: number, customerId: string,  productQuantity:number){
+        return this.restRepository.increaseQuantity(cartId, customerId, productQuantity)
         .pipe(
             map(response => {
             
