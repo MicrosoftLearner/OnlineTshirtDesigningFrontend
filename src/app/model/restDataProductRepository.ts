@@ -28,4 +28,5 @@ export class RestDataProductRepository {
         return this.http.get<any>(this.baseUrl + "getBlogs");
 
     }
+   
 }

@@ -90,6 +90,13 @@ export class RestDataCustomerRepository {
         return this.http.delete<any>(this.baseUrl + "deleteAddr/" + addrId);
     }
 
+    increaseQuantity(productId: number, productQuantity: number): Observable<any> {
+
+        let data = { ProductId: productId, ProductQuantity: productQuantity }
+
+        return this.http.put<any>(this.baseUrl + "escalateQuantity", data);
+    }
+
     private get getOptions(): any {
         return {
             headers: new HttpHeaders({

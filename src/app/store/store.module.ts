@@ -27,6 +27,7 @@ import { LoginComponent } from "./login.component";
 import { AuthCustomerGuardRepository } from "../model/authCustomer.guard";
 import { CartRepository } from "../model/cart.repository";
 import { RestCartRepository } from "../model/restCart.repository";
+import { CheckoutComponent } from "./checkout.component";
 
 
 @NgModule({
@@ -34,9 +35,9 @@ import { RestCartRepository } from "../model/restCart.repository";
  
     providers: [RestDataProductRepository, AuthCustomerRepository, RestDataCustomerRepository, AuthCustomerGuardRepository, CartRepository, RestCartRepository],
     
-    declarations: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent, LoginComponent, InnerBlogsComponent,AccountComponent, OrderDetailsComponent, CartComponent, CartSummeryComponent],
+    declarations: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent, LoginComponent, InnerBlogsComponent,AccountComponent, OrderDetailsComponent, CartComponent, CartSummeryComponent, CheckoutComponent],
 
-    exports: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent, AccountComponent, OrderDetailsComponent, CartComponent ,CartSummeryComponent]
+    exports: [StoreComponent, StoreHeaderComponent, StoreFooterComponent, IndividualProductComponent,LoginComponent, InnerBlogsComponent, AccountComponent, OrderDetailsComponent, CartComponent ,CartSummeryComponent, CheckoutComponent]
 })
 
 export class StoreModule { }

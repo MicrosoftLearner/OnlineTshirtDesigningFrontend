@@ -238,7 +238,7 @@
                             <button [ngClass]="{'disabled': sizeOption.selectedIndex < 0}"  Class="btn  btn--brown text-uppercase btn-add" (click)="addToCart(indvProduct.ProductId, indvProduct.ProductPrice, indvProduct.ProductSize)">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>ADD TO CART </button>
                             &nbsp;
-                            <button  class="btn btn--brown text-uppercase btn-add" >Check Out</button>
+                            <button  class="btn btn--brown text-uppercase btn-add"  [ngClass]="{'disabled': sizeOption.selectedIndex < 0}" (click)="checkout(indvProduct.ProductId)" >Check Out</button>
                         </div>
 
                     </div>

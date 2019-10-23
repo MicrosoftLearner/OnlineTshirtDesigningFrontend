@@ -22,6 +22,7 @@ import { ModelModule } from './model/model.module';
 import { AdminModule } from './admin/admin.module';
 import { LoginComponent } from './store/login.component';
 import { AuthCustomerGuardRepository } from './model/authCustomer.guard';
+import { CheckoutComponent } from './store/checkout.component';
 
 //import { angular } from "angular-flexslider";
 
@@ -44,6 +45,8 @@ import { AuthCustomerGuardRepository } from './model/authCustomer.guard';
       { path: "account", component: AccountComponent, canActivate:[AuthCustomerGuardRepository] },
       { path: "orderDetails", component: OrderDetailsComponent , canActivate:[AuthCustomerGuardRepository]},
       { path: "cart", component: CartComponent, canActivate:[AuthCustomerGuardRepository]},
+
+      { path: "checkout/:productId", component: CheckoutComponent, canActivate:[AuthCustomerGuardRepository]},
       { path: "admin", loadChildren: "./admin/admin.module#AdminModule" },
 
       { path: "**", redirectTo: "/store" },

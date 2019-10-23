@@ -10,6 +10,7 @@ import { LocalStorageRepository } from "./localStorage.repository";
 import { Router } from "@angular/router";
 import { RestDataCustomerRepository } from "./restDataCustomer.repository";
 import { Customer } from "./customer.model";
+import { Product } from "./product";
 
 @Injectable()
 
@@ -20,6 +21,7 @@ export class AuthCustomerRepository {
 
     private baseUrl: string;
 
+    private checkOutProduct: Product = {};
 
     constructor(private http: HttpClient, private storageRepository: LocalStorageRepository, private restRepository: RestDataCustomerRepository, private route: Router, private toastr: ToastrService) {
         this.baseUrl = "http://localhost:58206/api/customer/";
@@ -148,4 +150,14 @@ export class AuthCustomerRepository {
         return this.fireSuccessLogin;
     }
 
+   increaseQuantity(productId: number, productQuantity: number){
+    return this.restRepository.increaseQuantity(productId, productQuantity)
+    .pipe(
+        map(response => {
+
+            return response;
+
+        })
+    );
+   }
 }
