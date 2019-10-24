@@ -86,13 +86,13 @@ export class IndividualProductComponent {
         }
     }
 
-    checkout(productId: number) {
+    checkout(productId: number, productSize: string) {
 
         if (this.repositoryAuthCust.authenticated){
 
             //Sends the entire product obj to repo to get back the 
             //data on chekout component
-            let url  = `/checkout/${productId}`;
+            let url  = `/checkout/${productId}/${productSize}`;
             this.routeLink.navigateByUrl(url);
         }
         else{

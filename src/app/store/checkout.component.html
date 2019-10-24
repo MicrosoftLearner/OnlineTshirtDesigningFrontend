@@ -1,139 +1,542 @@
 <div>
-    <div class="bg-mycart">
-        <div class="mycart-img">
-            <img src="../../assets/images/Cart/mycart-bg.jpg" alt="">
-        </div>
-    </div>
-    <div class="container">
-        <div class="mycart-container">
-            <div class="table-responsive">
-                <table class="table mycart-table">
-                    <!-- <caption class="text-uppercase">
-                        there are items in your cart which are currently not avaliable.please remove to proceed to
-                        checkout
-                    </caption> -->
-                    <thead>
-                        <tr>
-                            <th>ITEM</th>
-                            <th>COLOR</th>
-                            <th>MRP</th>
-                            <th>SIZE</th>
-                            <th>QUANTITY</th>
-                            <th>QUANTITY PRICE</th>
-                            <th></th>
-                            <!-- <th>DISCOUNT PRICE</th> -->
-                            <!--<th>GST</th>-->
-                            <!-- <th>SUBTOTAL</th> -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr  [ngClass]="{'disabled-outofstock': checkoutItem.ProductSizeQuantM == 0 && checkoutItem.ProductSizeQuantXL == 0 && checkoutItem.ProductSizeQuantXXL == 0 }" >
-                
-                            <td  class="item-block">
-                                <div class="item relate">
-                                    <img alt="" [src]="checkoutItem.ProductImg" class=" item__img">
-                                    <div class="mycart-info">
-                                        <p class="item__title1">{{checkoutItem.ProductName}}</p>
-                                        <!--<a class="linking" style="color: #341314" ng-click="openCoupon(product.product)">Check Offer</a>-->
-                                    </div>
-                                    <div class="outofstock" *ngIf="checkoutItem.ProductSizeQuantM == 0 && checkoutItem.ProductSizeQuantXL == 0 && checkoutItem.ProductSizeQuantXXL == 0"><strong>OUT OF
-                                        STOCK</strong></div>
+    <div class="checkout">
+        <div>
+                <img src="../../assets/images/Cart/mycart-bg.jpg" alt="">
+
+            <div class="container">
+                <div class="content-spacing">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                            <div class="list-checkout">
+                                <div class="checkout-tab-btn">
+                                    <button class="btn btn--list"  (click)="changeView(1)"[ngClass]="{
+                            'btn--brownActive': view== 1 }"[disabled]="loggedUser">Login</button>
                                 </div>
-                            </td>
-                            <td>{{checkoutItem.ProductColor}}</td>
-                            <td> &#x20b9; &nbsp; {{checkoutItem.ProductPrice}}</td>
-                            <td>
-                                {{checkoutItem.ProductSize}}
-                                <!-- <div class="form-group">
+                                <div class="checkout-tab-btn">
+                                    <button class="btn btn--list"  (click)="changeView(2)" [ngClass]="{
+                            'btn--brownActive': view== 2 }" [disabled]="!loggedUser">Order</button>
+                                </div>
+                                <div class="checkout-tab-btn">
+                                    <button class="btn btn--list"[disabled]="!loggedUser" (click)="changeView(3)"[ngClass]="{
+                            'btn--brownActive': view== 3 }"> Details</button>
+                                </div>
+                               
+                            </div>
+                        </div> 
+                        <div class="login-tab" *ngIf=" view== 1">
+                            <div class="col-md-3 col-md-offset-1 col-sm-6">
+                                <form class="customized-form " name="loginForm1" novalidate #form="ngForm"
+                                (ngSubmit)="checkCustomerLogin(form, customer)">
+                                    <div class="form-group">
+                                        <input type="email" placeholder="Email Address" class="form-control"
+                                        name="email" [(ngModel)]="customer.email" #email="ngModel" required>
+
+                                    <span *ngIf="submitted && email.invalid" class="text-danger">Enter your
+                                        email</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" placeholder="Password" name="password"
+                                                    [(ngModel)]="customer.pwd" class="form-control" #pwd="ngModel" required>
+
+                                                <span *ngIf="submitted && pwd.invalid" class="text-danger">Enter your
+                                                    password</span>
+                                        <p class="pull-right forgot__checkout">
+                                            <a ng-click="forgotPassword()">Forgot Password?</a>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <button type="button" type="submit" class="btn btn-login btn-block">log in</button>
+                                    </div>
+                                    <p class="user-dicision border-line">or</p>
+                                    <div class="social-icons">
+                                        <ul class="list-unstyled list-inline">
+                                            <li>
+                                                <div class="social-icons__list fb">
+                                                    <a href="">
+                                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list tw">
+                                                    <a href="">
+                                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list gp">
+                                                    <a href="">
+                                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-3 col-md-offset-1  col-sm-6">
+                                <form class="customized-form custom-checkbox " name="loginForm"  novalidate #form="ngForm"  (ngSubmit)="customerSignup(form, customer)">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="First Name" name="firstName"
+                                                    class="form-control" required [(ngModel)]="customer.firstName" #firstName="ngModel">
+
+                                                    <span *ngIf="submitted && firstName.invalid" class="text-danger">Enter your
+                                                            first name</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Last Name" name="lastName"
+                                                [(ngModel)]="customer.lastName" class="form-control" #lastName="ngModel" required>
+
+                                                <span *ngIf="submitted && lastName.invalid" class="text-danger">Enter your
+                                                        lastname</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" placeholder="Email Address" name="email"
+                                        [(ngModel)]="customer.email" #email="ngModel" class="form-control" required>
+
+                                        <span *ngIf="submitted && email.invalid" class="text-danger">Enter your
+                                                email</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Mobile No" name="mobileNo"
+                                        [(ngModel)]="customer.mobileNo" #mobileNo="ngModel" class="form-control" required>
+
+                                        <span *ngIf="submitted && mobileNo.invalid" class="text-danger">Enter your
+                                                mobile no</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" placeholder="Password" name="pwd"
+                                        [(ngModel)]="customer.pwd" #pwd="ngModel" class="form-control" required>
+                                        <span *ngIf="submitted && pwd.invalid" class="text-danger">Enter your
+                                                password</span>
+                                    </div>
                                   
-                                    <select class="form-control" id="productSize">
-                                        <option [disabled]="checkoutItem.ProductSizeQuantM < 1">M</option>
-                                        <option [disabled]="checkoutItem.ProductSizeQuantXL < 1 " >XL</option>
-                                        <option [disabled]="checkoutItem.ProductSizeQuantXXL < 1">XXL</option>
-                                        
-                                    </select>
-                                </div> -->
-                            </td>
-                            <td>
-                                <div class="plus-minus-btn" >
-                                    <a class="btn" role="button" (click)="decreaseQuantity(checkoutItem.ProductId, checkoutItem.ProductQuantity)" [ngClass]="{disabled: checkoutItem.ProductQuantity <= 1}">
-                                        <i class="fa fa-minus  square__bg"  aria-hidden="true"></i>
-                                    </a>
-                                    <div class="inline-block">
-                                        <form>
-                                            <div class="form-group marg0">
-                                                <input type="text" readonly [attr.placeholder]="checkoutItem.ProductQuantity" [attr.value]="checkoutItem.ProductQuantity" class="form-control quantity__input">
+                                    <div class="checkbox forgot__checkout">
+                                        <input type="checkbox" id="a1" ng-model="registerData.agree" name="agree" required>
+                                        <label for="a1"> I agree with the terms and conditions and privacy policy</label>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-login btn-block">Sign Up</button>
+                                    </div>
+                                
+                                    <p class="user-dicision border-line">or</p>
+                                    <div class="social-icons">
+                                        <ul class="list-unstyled list-inline">
+                                            <li>
+                                                <div class="social-icons__list fb">
+                                                    <a href="">
+                                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list tw">
+                                                    <a href="">
+                                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="social-icons__list gp">
+                                                    <a href="">
+                                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="order-tab"  *ngIf="view== 2">
+                            <div class="col-md-9 col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table mycart-table">
+                                        <!-- <caption class="text-uppercase">
+                                            there are items in your cart which are currently not avaliable.please remove to proceed to
+                                            checkout
+                                        </caption> -->
+                                        <thead>
+                                            <tr>
+                                                <th>ITEM</th>
+                                                <th>COLOR</th>
+                                                <th>MRP</th>
+                                                <th>SIZE</th>
+                                                <th>QUANTITY</th>
+                                                <th>QUANTITY PRICE</th>
+                                                <th></th>
+                                                <!-- <th>DISCOUNT PRICE</th> -->
+                                                <!--<th>GST</th>-->
+                                                <!-- <th>SUBTOTAL</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr  [ngClass]="{'disabled-outofstock': checkoutItem.ProductSizeQuantM == 0 && checkoutItem.ProductSizeQuantXL == 0 && checkoutItem.ProductSizeQuantXXL == 0 }" >
+                                    
+                                                <td  class="item-block">
+                                                    <div class="item relate">
+                                                        <img alt="" [src]="checkoutItem.ProductImg" class=" item__img">
+                                                        <div class="mycart-info">
+                                                            <p class="item__title1">{{checkoutItem.ProductName}}</p>
+                                                            <!--<a class="linking" style="color: #341314" ng-click="openCoupon(product.product)">Check Offer</a>-->
+                                                        </div>
+                                                        <div class="outofstock" *ngIf="checkoutItem.ProductSizeQuantM == 0 && checkoutItem.ProductSizeQuantXL == 0 && checkoutItem.ProductSizeQuantXXL == 0"><strong>OUT OF
+                                                            STOCK</strong></div>
+                                                    </div>
+                                                </td>
+                                                <td>{{checkoutItem.ProductColor}}</td>
+                                                <td> &#x20b9; &nbsp; {{checkoutItem.ProductPrice}}</td>
+                                                <td>
+                                                    {{checkoutItem.ProductSize}}
+                                                    <!-- <div class="form-group">
+                                                      
+                                                        <select class="form-control" id="productSize">
+                                                            <option [disabled]="checkoutItem.ProductSizeQuantM < 1">M</option>
+                                                            <option [disabled]="checkoutItem.ProductSizeQuantXL < 1 " >XL</option>
+                                                            <option [disabled]="checkoutItem.ProductSizeQuantXXL < 1">XXL</option>
+                                                            
+                                                        </select>
+                                                    </div> -->
+                                                </td>
+                                                <td>
+                                                    <div class="plus-minus-btn" >
+                                                        <a class="btn" role="button" (click)="decreaseQuantity(checkoutItem.ProductId, checkoutItem.ProductQuantity)" [ngClass]="{disabled: checkoutItem.ProductQuantity <= 1}">
+                                                            <i class="fa fa-minus  square__bg"  aria-hidden="true"></i>
+                                                        </a>
+                                                        <div class="inline-block">
+                                                            <form>
+                                                                <div class="form-group marg0">
+                                                                    <input type="text" readonly [attr.placeholder]="checkoutItem.ProductQuantity" [attr.value]="checkoutItem.ProductQuantity" class="form-control quantity__input">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <a (click)="increaseQuantity(checkoutItem.ProductId, checkoutItem.ProductQuantity)"  class="btn" role="button">
+                                                            <i class="fa fa-plus square__bg"  aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td>&#x20b9; &nbsp;  {{checkoutItem.ProductQuantityPrice}} </td>
+                                                <!-- <td>&#x20b9; &nbsp; product.product.discountPriceOfProduct|number:0</td> -->
+                                                <!-- <td>&#x20b9; &nbsp;0</td> -->
+                                                <!--<td ng-if="product.product.discountApplicable&&product.product.discountPriceOfProduct==0">&#x20b9; &nbsp;product.product.discountPriceOfProductApplied|number:0</td>-->
+                                                <!-- <td>&#x20b9; &nbsp;0</td> -->
+                                                <!--<td>&#x20b9; &nbsp;product.product.gst|number:0</td>-->
+                                                <!--<td ng-if="product.product.price < 999">5%</td>-->
+                                                <!--<td ng-if="!product.product.discountApplicable">product.product.price * product.quantity * .12|number:0</td>-->
+                                                <!-- <td>&#x20b9; &nbsp; product.product.priceWithDiscount|number:0</td> -->
+                                                <!-- <td>&#x20b9; &nbsp;  </td> -->
+                                               
+                                            </tr>
+                                            <!-- <tr>
+                                                <td colspan="7" class="td-border">
+                                                    <div class="pull-right">
+                                                        <button class=" btn text-uppercase wishlist--btn">
+                                                            <i class="fa fa-heart" aria-hidden="true"></i>ADD TO WISHLIST</button> 
+                                                        <button class="btn text-uppercase remove--btn"><i class="fa fa-trash"
+                                                                aria-hidden="true"></i>REMOVE</button>
+                                                    </div>
+                                                </td>
+                    
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                    
+                                <div class="mycart-footer">
+                                    <div class="pull-left">
+                                        <a class="linking" style="color: #341314">Check Offer</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <div class="text-right inline-block">
+                                            <p>ITEM(S) SUBTOTAL :</p>
+                                            <p>SHIPPING:</p>
+                                            <p>MEMBER'S DISCOUNT:</p>
+                                            <p>TOTAL:</p>
+                                            <!-- <p>GST:</p>
+                                            <p>GRAND TOTAL:</p> -->
+                                        </div>
+                                        <div class="inline-block align-top">
+                                            <p>&#x20b9; {{checkoutItem.ProductQuantityPrice}}</p>
+                                            <!-- <p>&#x20b9; 0</p>
+                                            <p>&#x20b9; grandTotalAfterDiscount</p>
+                                            <p>&#x20b9; total-grandTotalAfterDiscount</p>
+                                            <p ng-if="!discountApplicableforCart">&#x20b9; 0</p>
+                                            <p>&#x20b9; productGst</p>
+                                            <p>&#x20b9; total-grandTotalAfterDiscount+productGst</p> -->
+                                            <!--<p ng-if="!discountApplicableforCart">&#x20b9; total-grandTotalAfterDiscount|number:0</p>-->
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="pull-right margin-15">
+                                        <button class="btn text-uppercase checkout--btn" (click)="changeView(3)" >Place order </button>
+                                    </div>
+                                </div>
+    
+                            </div>
+    
+                        </div>
+                        <div class="detail-tab " *ngIf="view== 3">
+    
+                            <div class="col-md-8 col-md-offset-1 col-sm-12">
+                                <div class="details-form ">
+                                    <div>
+                                        <h3 class="marg0 detail-tab__head ">your details</h3>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="customized-form ">
+                                            <div class="form-group ">
+                                                <div class="col-md-4 col-sm-12">
+                                                    <input type="text " placeholder="First Name " [(ngModel)]="customer.firstName"
+                            class="form-control "  readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-md-4 col-sm-12">
+                                                    <input type="text " placeholder="Last Name " [(ngModel)]="customer.lastName"
+                                                    class="form-control "  readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="customized-form ">
+                                            <div class="form-group ">
+                                                <div class="col-md-4 col-sm-12">
+                                                    <input type="number " placeholder="Mobile No " [(ngModel)]="customer.mobileNo"
+                                                    class="form-control "  readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-md-4 col-sm-12">
+                                                    <input type="email " placeholder="Email " [(ngModel)]="customer.email"
+                                                    class="form-control "  readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="details-form " *ngIf="addressOld == {}">
+                                    <form name="address" novalidate #form="ngForm" (ngSubmit)="saveAddressInfo(form, customer)" >
+                                        <div class="row ">
+                                            <div class="col-md-6 col-sm-6">
+                                                <div>
+                                                    <h3 class="marg0 detail-tab__head ">Billing address/Shipping address</h3>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="customized-form ">
+                                                        <div class="form-group ">
+                                                            <div class="col-md-10 col-sm-12 ">
+                                                                <input type="text" placeholder="Address*" class="form-control" [(ngModel)]="customer.address"  name="address" #address="ngModel" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                    
+                                                <div class="row ">
+                                                    <div class="customized-form ">
+                                                        <div class="form-group ">
+                                                            <div class="col-md-10 col-sm-12">
+                                                                <input type="text" class="form-control dropdown-toggle" [(ngModel)]="customer.city" placeholder="City"  name="city" #city="ngModel" class="form-control" required data-toggle="dropdown">
+             
+                                                                <ul class="dropdown-menu">
+                                                                    <li *ngFor="let item of customerShipping"><a *ngFor="let innerItem of item.cities" [attr.value]="innerItem.name" (click)="selectedCity($event)">{{innerItem.name}}</a></li>
+                                                                  
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="customized-form ">
+                                                        <div class="form-group ">
+                                                            <div class="col-md-10 col-sm-12">
+                                                                <input type="number" placeholder="Pincode" class="form-control" [(ngModel)]="customer.pinCode" name="pinCode" #pinCode="ngModel" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="row ">
+                                                    <div class="customized-form ">
+                                                        <div class="form-group ">
+                                                            <div class="col-md-10 col-sm-12">
+                                                                <div class=" form-control relate country-selection ">
+                                                                    <i class="fa fa-angle-down pull-right " aria-hidden="true "></i>
+                                                                    <select [(ngModel)]="customer.country" name="country" id="" class="form-control"  (change)="selectedCountry($event)"  #country="ngModel" required>
+                                                                        <option *ngFor="let item of customerShipping" [attr.value]="item.country.name">
+                                                                            {{item.country.name}}
+                                                                        </option>
+                                                                        
+                                                                    </select>
+                                                                </div>
+                                                                <!--<div class="dropdown country-selection form-control custom-checkbox ">
+                                                                <button class="btn checkout-drop dropdown-toggle " type="button
+                            " data-toggle="dropdown ">Country
+                                                                  <i class="fa fa-angle-down pull-right " aria-hidden="true "></i></button>
+                                                                <ul class="dropdown-menu ">
+    
+                                                                    <li>India
+                                                                        <div class="checkbox ">
+                                                                            <input type="checkbox " id="a1 ">
+                                                                            <label for="a1 "> India
+                                                                                   </label>
+                                                                        </div>
+    
+                                                                    </li>
+    
+                                                                    <li>USA
+                                                                        <div class="checkbox ">
+                                                                            <input type="checkbox " id="a2 ">
+                                                                            <label for="a2 "> USA
+                                                                                   </label>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>London
+                                                                        <div class="checkbox ">
+                                                                            <input type="checkbox " id="a3 ">
+                                                                            <label for="a3 ">London
+                                                                                   </label>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                           
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="details-form " *ngIf="addressOld != {}">
+                                        <form name="address" novalidate #form="ngForm" (ngSubmit)="saveAddressInfo(form, customer)" >
+                                            <div class="row ">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div>
+                                                        <h3 class="marg0 detail-tab__head ">Billing address/Shipping address</h3>
+                                                    </div>
+                                                    <div class="row ">
+                                                        <div class="customized-form ">
+                                                            <div class="form-group ">
+                                                                <div class="col-md-10 col-sm-12 ">
+                                                                    <input type="text" placeholder="Address*" class="form-control" [(ngModel)]="addressOld.CustShipAddr"  name="address" readonly >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                        
+                                                    <div class="row ">
+                                                        <div class="customized-form ">
+                                                            <div class="form-group ">
+                                                                <div class="col-md-10 col-sm-12">
+                                                                    <input type="text" class="form-control " [(ngModel)]="addressOld.CustShipCity" placeholder="City"  name="city" class="form-control"readonly >
+                 
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row ">
+                                                        <div class="customized-form ">
+                                                            <div class="form-group ">
+                                                                <div class="col-md-10 col-sm-12">
+                                                                    <input type="number" placeholder="Pincode" class="form-control" [(ngModel)]="addressOld.CustShipPinCode"  name="pinCode" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+        
+                                                    <div class="row ">
+                                                        <div class="customized-form ">
+                                                            <div class="form-group ">
+                                                                <div class="col-md-10 col-sm-12">
+                                                                        <input type="text" placeholder="Country" class="form-control" [(ngModel)]="addressOld.CustShipCountry" name="custShipCountry" readonly>
+                                                                    <!--<div class="dropdown country-selection form-control custom-checkbox ">
+                                                                    <button class="btn checkout-drop dropdown-toggle " type="button
+                                " data-toggle="dropdown ">Country
+                                                                      <i class="fa fa-angle-down pull-right " aria-hidden="true "></i></button>
+                                                                    <ul class="dropdown-menu ">
+        
+                                                                        <li>India
+                                                                            <div class="checkbox ">
+                                                                                <input type="checkbox " id="a1 ">
+                                                                                <label for="a1 "> India
+                                                                                       </label>
+                                                                            </div>
+        
+                                                                        </li>
+        
+                                                                        <li>USA
+                                                                            <div class="checkbox ">
+                                                                                <input type="checkbox " id="a2 ">
+                                                                                <label for="a2 "> USA
+                                                                                       </label>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>London
+                                                                            <div class="checkbox ">
+                                                                                <input type="checkbox " id="a3 ">
+                                                                                <label for="a3 ">London
+                                                                                       </label>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row ">
+                                                            <div class="customized-form ">
+                                                                <div class="form-group ">
+                                                                    <div class="col-md-10 col-sm-12">
+                                                                        <input type="text" placeholder="State" class="form-control" [(ngModel)]="addressOld.CustShipState" name="CustShipState"  readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                </div>
+                                               
                                             </div>
                                         </form>
                                     </div>
-                                    <a (click)="increaseQuantity(checkoutItem.ProductId, checkoutItem.ProductQuantity)"  class="btn" role="button">
-                                        <i class="fa fa-plus square__bg"  aria-hidden="true"></i>
-                                    </a>
+                                <div class="details-form ">
+                                    <div>
+                                        <h3 class="marg0 detail-tab__head ">payment method</h3>
+                                    </div>
+                                    <div class="payment-checkbox custom-checkbox" ng-init="payment">
+                                        <form name="paymentMethod" nonvalidate class="font__style ">
+                                            <div class="checkbox checkbox-inline " ng-repeat="payment in paymentWay">
+                                                <input type="checkbox" id="payment" ng-model="payment.checked" ng-click="updateSelection($index,paymentWay)">
+                                                <label for="payment" class="chk__label text-uppercase ">payment.name</label>
+                                            </div>
+    
+                                            <div class="text-center ">
+                                                <!--<button id="ordergenerate" class="btn btn-default checkout__cont-btn " ng-if="address.$invalid" ng-disabled="true">Continue</button>-->
+                                                <button id="ordergenerate" class="btn btn-default checkout__cont-btn " ng-disabled="!(address.$valid &&(paymentWay[0].checked||paymentWay[1].checked||paymentWay[2].checked||paymentWay[3].checked))" (click)="paymentMethod()">Continue</button>
+    
+                                            </div>
+                                        </form>
+    
+                                    </div>
+    
                                 </div>
-                            </td>
-                            <td>&#x20b9; &nbsp;  {{checkoutItem.ProductQuantityPrice}} </td>
-                            <!-- <td>&#x20b9; &nbsp; product.product.discountPriceOfProduct|number:0</td> -->
-                            <!-- <td>&#x20b9; &nbsp;0</td> -->
-                            <!--<td ng-if="product.product.discountApplicable&&product.product.discountPriceOfProduct==0">&#x20b9; &nbsp;product.product.discountPriceOfProductApplied|number:0</td>-->
-                            <!-- <td>&#x20b9; &nbsp;0</td> -->
-                            <!--<td>&#x20b9; &nbsp;product.product.gst|number:0</td>-->
-                            <!--<td ng-if="product.product.price < 999">5%</td>-->
-                            <!--<td ng-if="!product.product.discountApplicable">product.product.price * product.quantity * .12|number:0</td>-->
-                            <!-- <td>&#x20b9; &nbsp; product.product.priceWithDiscount|number:0</td> -->
-                            <!-- <td>&#x20b9; &nbsp;  </td> -->
-                           
-                        </tr>
-                        <!-- <tr>
-                            <td colspan="7" class="td-border">
-                                <div class="pull-right">
-                                    <button class=" btn text-uppercase wishlist--btn">
-                                        <i class="fa fa-heart" aria-hidden="true"></i>ADD TO WISHLIST</button> 
-                                    <button class="btn text-uppercase remove--btn"><i class="fa fa-trash"
-                                            aria-hidden="true"></i>REMOVE</button>
-                                </div>
-                            </td>
-
-                        </tr> -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="mycart-footer">
-                <div class="pull-left">
-                    <a class="linking" style="color: #341314">Check Offer</a>
-                </div>
-                <div class="pull-right">
-                    <div class="text-right inline-block">
-                        <p>ITEM(S) SUBTOTAL :</p>
-                        <p>SHIPPING:</p>
-                        <p>MEMBER'S DISCOUNT:</p>
-                        <p>TOTAL:</p>
-                        <!-- <p>GST:</p>
-                        <p>GRAND TOTAL:</p> -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="inline-block align-top">
-                        <p>&#x20b9; {{checkoutItem.ProductQuantityPrice}}</p>
-                        <!-- <p>&#x20b9; 0</p>
-                        <p>&#x20b9; grandTotalAfterDiscount</p>
-                        <p>&#x20b9; total-grandTotalAfterDiscount</p>
-                        <p ng-if="!discountApplicableforCart">&#x20b9; 0</p>
-                        <p>&#x20b9; productGst</p>
-                        <p>&#x20b9; total-grandTotalAfterDiscount+productGst</p> -->
-                        <!--<p ng-if="!discountApplicableforCart">&#x20b9; total-grandTotalAfterDiscount|number:0</p>-->
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="pull-right margin-15">
-                    <button class="btn text-uppercase checkout--btn">Place order </button>
                 </div>
             </div>
         </div>
+     
+    </div>
 
-        <div class="hide">
-            <div class="alert alert-info">
-                <strong>Info!</strong> No products found.
-            </div>
-        </div>
+    <div class="payment-gateway">
 
     </div>
 </div>

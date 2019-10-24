@@ -46,7 +46,7 @@ import { CheckoutComponent } from './store/checkout.component';
       { path: "orderDetails", component: OrderDetailsComponent , canActivate:[AuthCustomerGuardRepository]},
       { path: "cart", component: CartComponent, canActivate:[AuthCustomerGuardRepository]},
 
-      { path: "checkout/:productId", component: CheckoutComponent, canActivate:[AuthCustomerGuardRepository]},
+      { path: "checkout/:productId/:productSize", component: CheckoutComponent, canActivate:[AuthCustomerGuardRepository]},
       { path: "admin", loadChildren: "./admin/admin.module#AdminModule" },
 
       { path: "**", redirectTo: "/store" },
