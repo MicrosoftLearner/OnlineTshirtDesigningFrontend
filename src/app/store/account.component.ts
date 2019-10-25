@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Form, NgForm } from "@angular/forms";
 import { AuthCustomerRepository } from "../model/authCustomer.repository";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Customer, Customer1 } from "../model/customer.model";
 import { LocalStorageRepository } from "../model/localStorage.repository";
 import { ToastrService } from "ngx-toastr";
@@ -27,7 +27,7 @@ export class AccountComponent implements OnInit {
 
     public customerShipping;
 
-    constructor(private repositoryAuthCust: AuthCustomerRepository, private route: ActivatedRoute, private storageRepository: LocalStorageRepository, private toastr: ToastrService) {
+    constructor(private repositoryAuthCust: AuthCustomerRepository, private route: ActivatedRoute, private storageRepository: LocalStorageRepository, private toastr: ToastrService, private routerLink: Router) {
 
         //Sets the country wise state and its cities
         this.customerShipping = [

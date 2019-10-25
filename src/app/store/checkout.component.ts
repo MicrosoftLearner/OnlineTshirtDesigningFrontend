@@ -12,35 +12,35 @@ import { NgForm } from "@angular/forms";
 
 @Component({
 
-    templateUrl:"checkout.component.html"
+    templateUrl: "checkout.component.html"
 })
 
-export class CheckoutComponent implements OnInit{
-    
-    public checkoutItem:Product = {};
+export class CheckoutComponent implements OnInit {
 
-     //Sets the customer email & password  
-     public customer: Customer = {};
+    public checkoutItem: Product = {};
 
-     public addressOld: any =  {};
+    //Sets the customer email & password  
+    public customer: Customer = {};
 
-     //Sets true and false for ng-valid and ng-invalid operations
-     public submitted: boolean = false;
- 
-     //Shows the loader 
-     public isLoading: boolean = false;
+    public addressOld: any = {};
 
-    public view: number ;
+    //Sets true and false for ng-valid and ng-invalid operations
+    public submitted: boolean = false;
+
+    //Shows the loader 
+    public isLoading: boolean = false;
+
+    public view: number;
 
     public innerView: string = 'login';
 
     public loggedUser: boolean = false;
-    
-    constructor(private repoistoryProduct: ProductRepository, private storageRepository: LocalStorageRepository, private route: ActivatedRoute, private repositoryAuthCust: AuthCustomerRepository, private toastr: ToastrService ){
+
+    constructor(private repoistoryProduct: ProductRepository, private storageRepository: LocalStorageRepository, private route: ActivatedRoute, private routerLink: Router, private repositoryAuthCust: AuthCustomerRepository, private toastr: ToastrService) {
 
         //Converts the params string to int
         let productId = parseInt(route.snapshot.paramMap.get("productId"));
-        
+
         let productSize = (route.snapshot.paramMap.get("productSize"));
 
         //It sets the returned products 
@@ -56,7 +56,7 @@ export class CheckoutComponent implements OnInit{
         });
     }
 
-    ngOnInit(){
+    ngOnInit() {
 
         this.checkRegistredCustomer();
 
@@ -68,37 +68,37 @@ export class CheckoutComponent implements OnInit{
         this.repositoryAuthCust.getCustomerAddresses(this.storageRepository.storageCustomerTokenInfo.token)
             .subscribe(res => {
 
-              this.addressOld = res[0];
-             
+                this.addressOld = res[0];
+
             },
                 err => {
-                  
+
                 }
             );
     }
 
     checkRegistredCustomer() {
 
-       if( this.repositoryAuthCust.authenticated){ 
+        if (this.repositoryAuthCust.authenticated) {
 
-           //Gets the customer details
-           this.repositoryAuthCust.getCustomerDetails(this.storageRepository.storageCustomerTokenInfo.token)
-           .subscribe( res => {
+            //Gets the customer details
+            this.repositoryAuthCust.getCustomerDetails(this.storageRepository.storageCustomerTokenInfo.token)
+                .subscribe(res => {
 
-             this.customer.firstName = res.CustFirstName;
-             this.customer.lastName = res.CustLastName;
-             this.customer.email = res.CustEmailAddr;
-             this.customer.mobileNo = res.CustMobNo;
+                    this.customer.firstName = res.CustFirstName;
+                    this.customer.lastName = res.CustLastName;
+                    this.customer.email = res.CustEmailAddr;
+                    this.customer.mobileNo = res.CustMobNo;
 
-           });
+                });
 
-           this.loggedUser = true;
+            this.loggedUser = true;
 
-           this.view = 2;
+            this.view = 2;
 
-         return;
-       }
-   
+            return;
+        }
+
         this.loggedUser = false;
     }
 
@@ -111,7 +111,7 @@ export class CheckoutComponent implements OnInit{
 
     }
 
-    checkCustomerLogin(form: NgForm, customer:Customer) {
+    checkCustomerLogin(form: NgForm, customer: Customer) {
 
         this.submitted = true;
 
@@ -123,7 +123,7 @@ export class CheckoutComponent implements OnInit{
                 .subscribe(res => {
 
                     this.isLoading = false;
-                    
+
                     this.view = 2;
                 },
                     err => {
@@ -131,8 +131,8 @@ export class CheckoutComponent implements OnInit{
                         this.isLoading = false;
 
                         this.toastr.error("Incorrect credentials");
-                        
-                       // this.toastr.error(err.error.error_description);
+
+                        // this.toastr.error(err.error.error_description);
                     });
 
         }
@@ -148,7 +148,7 @@ export class CheckoutComponent implements OnInit{
             this.repositoryAuthCust.signUp(cust)
                 .subscribe(res => {
 
-                
+
                 },
                     err => {
                         this.toastr.error("Email already exist");
@@ -158,49 +158,60 @@ export class CheckoutComponent implements OnInit{
         }
     }
 
-    decreaseQuantity(productId: number, productQuantity:number){
+    decreaseQuantity(productId: number, productQuantity: number) {
         productQuantity--;
-        
+
         this.checkoutItem.ProductQuantity = productQuantity;
-        
+
         if (productQuantity >= 1) {
-            
+
             this.repositoryAuthCust.increaseQuantity(productId, productQuantity)
-            .subscribe(res => {
-                
-                this.checkoutItem.ProductQuantityPrice = res;
-    
-            }, err => {
-              this.toastr.warning("error");
-            });
+                .subscribe(res => {
+
+                    this.checkoutItem.ProductQuantityPrice = res;
+
+                }, err => {
+                    this.toastr.warning("error");
+                });
 
         }
-        
+
     }
 
-    increaseQuantity(productId: number, productQuantity:number){
-        
+    increaseQuantity(productId: number, productQuantity: number) {
+
         //Increases the given quantity
         productQuantity++;
-       
-        if (productQuantity >= 1 && productQuantity <= 3) {
-            
-            this.repositoryAuthCust.increaseQuantity(productId, productQuantity)
-            .subscribe(res => {
-                
-                this.checkoutItem.ProductQuantity = productQuantity;
-                this.checkoutItem.ProductQuantityPrice = res;
-             
-            }, err => {
-              this.toastr.warning("error");
-            });
 
-        }else{
+        if (productQuantity >= 1 && productQuantity <= 3) {
+
+            this.repositoryAuthCust.increaseQuantity(productId, productQuantity)
+                .subscribe(res => {
+
+                    this.checkoutItem.ProductQuantity = productQuantity;
+                    this.checkoutItem.ProductQuantityPrice = res;
+
+                }, err => {
+                    this.toastr.warning("error");
+                });
+
+        } else {
             this.toastr.warning("not more than 3 quantity");
         }
     }
 
-    paymentMethod(){
-        console.log("payment method", this.checkoutItem);
+    placeOrder() {
+     
+        this.repositoryAuthCust.saveCustomerOrder(this.checkoutItem, this.storageRepository.storageCustomerTokenInfo.token)
+            .subscribe(arg => {
+
+                this.toastr.success("Product has been successfully ordered");
+
+                let routeUrl = `/orderDetails/${this.storageRepository.storageCustomerTokenInfo.token}`;
+
+                this.routerLink.navigateByUrl(routeUrl);
+
+            });
     }
+
 }

@@ -250,7 +250,8 @@
                     <!--To open an Order Tab-->
                     <div class="col-md-9 col-sm-12 col-xs-12">
                         <p class="text-uppercase order-list-action text-center">
-                            <button class="btn order-list--btn ">orders
+                            <button class="btn order-list--btn " [routerLink]="['/orderDetails', customer.CustId ]"
+                            >orders
                             </button>
                         </p>
                         <div class="account-order-table table-responsive">

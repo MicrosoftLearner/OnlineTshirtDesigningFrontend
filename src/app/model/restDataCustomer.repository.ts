@@ -56,7 +56,7 @@ export class RestDataCustomerRepository {
 
     saveCustomerInfo(custData: Customer): Observable<any> {
 
-        let data:Customer1 = {};
+        let data: Customer1 = {};
         data.CustId = custData.id;
         data.CustFirstName = custData.firstName;
         data.CustLastName = custData.lastName;
@@ -64,12 +64,12 @@ export class RestDataCustomerRepository {
         data.CustEmailAddr = custData.email;
         data.CustImg = custData.img;
 
-        return this.http.post<any>(this.baseUrl + "saveRewrittenInfo", data )
+        return this.http.post<any>(this.baseUrl + "saveRewrittenInfo", data)
     }
 
     saveCustomerAddressInfo(custData: Customer): Observable<any> {
 
-        let data:Customer1 = {};
+        let data: Customer1 = {};
         data.CustId = custData.id;
         data.CustAddrId = custData.addressId;
         data.CustShipAddr = custData.address;
@@ -78,7 +78,7 @@ export class RestDataCustomerRepository {
         data.CustShipPinCode = custData.pinCode;
         data.CustShipState = custData.state;
 
-        return this.http.post<any>(this.baseUrl + "saveRewrittenAddressInfo", data )
+        return this.http.post<any>(this.baseUrl + "saveRewrittenAddressInfo", data)
     }
 
     deleteCustomerAddress(custId: string, addrId: string): Observable<any> {
@@ -95,6 +95,25 @@ export class RestDataCustomerRepository {
         let data = { ProductId: productId, ProductQuantity: productQuantity }
 
         return this.http.put<any>(this.baseUrl + "escalateQuantity", data);
+    }
+
+    saveCustomerOrder(product: any, custId: string):Observable<any> {
+
+        let data = [{
+            ProductId: product.ProductId,
+            CustId: custId,
+            ProductQuantity: product.ProductQuantity,
+            ProductQuantityPrice: product.ProductPrice,
+            ProductSize: product.ProductSize,
+            TotalProductPrice: product.ProductQuantityPrice
+        }];
+     
+        return this.http.put<any>(this.baseUrl + "saveOrder", data);
+
+    }
+
+    getCustomerOrder(custId: string): Observable<any> {
+        return this.http.get<any>(this.baseUrl + "getSavedOrder/" + custId);
     }
 
     private get getOptions(): any {

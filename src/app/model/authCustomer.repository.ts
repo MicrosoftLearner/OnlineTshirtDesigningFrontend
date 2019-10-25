@@ -17,7 +17,7 @@ import { Product } from "./product";
 export class AuthCustomerRepository {
 
     //Fires when customer is logged in successfully
-    @Output() fireSuccessLogin:EventEmitter<any> = new EventEmitter();
+    @Output() fireSuccessLogin: EventEmitter<any> = new EventEmitter();
 
     private baseUrl: string;
 
@@ -146,18 +146,41 @@ export class AuthCustomerRepository {
             );
     }
 
-    getSuccessEmitLogin(){
+    getSuccessEmitLogin() {
         return this.fireSuccessLogin;
     }
 
-   increaseQuantity(productId: number, productQuantity: number){
-    return this.restRepository.increaseQuantity(productId, productQuantity)
-    .pipe(
-        map(response => {
+    increaseQuantity(productId: number, productQuantity: number) {
+        return this.restRepository.increaseQuantity(productId, productQuantity)
+            .pipe(
+                map(response => {
 
-            return response;
+                    return response;
 
-        })
-    );
-   }
+                })
+            );
+    }
+
+    saveCustomerOrder(product: any, custId: string) {
+        return this.restRepository.saveCustomerOrder(product, custId)
+            .pipe(
+                map(response => {
+
+                    return response;
+
+                }), catchError(this.handleError)
+            );
+    }
+
+    getCustomerOrder(custId: string){
+
+        return this.restRepository.getCustomerOrder(custId)
+        .pipe(
+            map(response => {
+
+                return response;
+
+            }), catchError(this.handleError)
+        );
+    }
 }

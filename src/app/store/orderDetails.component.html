@@ -6,16 +6,16 @@
         <div class="order-details-table">
             <h2 class="order-status-title text-center">order details</h2>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" *ngFor="let order of order">
                     <thead>
                         <tr class="text-uppercase">
-                            <th class="align-top">order placed<br><strong>order.createdAt | date:'dd/MM/yyyy'</strong>
+                            <th class="align-top">order placed<br><strong>{{order.ProductOrderTime | date: 'dd/MM/yyyy'}}</strong>
                             </th>
-                            <th class="align-top">order no.<br><strong>order.orderNo</strong></th>
-                            <th class="align-top">payment method<br><strong>order.paymentMethod</strong></th>
-                            <th class="align-top">tracking id<br><strong
-                                    class="text-capitalize">order.orderStatus</strong></th>
-                            <th class="align-top">Grand total<br><strong>&#8377; order.totalAmount |number:0</strong>
+                            <!-- <th class="align-top">order no.<br><strong>order.orderNo</strong></th> -->
+                            <th class="align-top">payment method<br><strong>{{order.ProductPaymentMthd}}</strong></th>
+                            <!-- <th class="align-top">tracking id<br><strong
+                                    class="text-capitalize">order.orderStatus</strong></th> -->
+                            <th class="align-top">Grand total<br><strong>&#8377; {{order.TotalPrice |number:0}}</strong>
                             </th>
                         </tr>
                     </thead>
@@ -24,25 +24,25 @@
 
                             <td colspan="3">
                                 <div class="item-img inline-block">
-                                    <img src="" alt="Ordered Item" class="img-responsive">
+                                    <img [src]="order.ProductImg" alt="Ordered Item" class="img-responsive">
                                 </div>
 
 
                                 <div class="inline-block item-desc">
-                                    <h4 class="item-name text-uppercase">product.product.productName
+                                    <h4 class="item-name text-uppercase">{{order.ProductName}}
                                     </h4>
                                     <p class="item-code"><span class="text-capitalize">Product Code:</span><span
                                             class="text-uppercase">
-                                            product.product.productCode</span>
+                                           {{ order.ProductCode}}</span>
                                     </p>
                                     <p class="item-code"><span class="text-capitalize">size:</span><span
-                                            class="text-uppercase">product.product.size.name</span>
+                                            class="text-uppercase"> {{ order.ProductSize}}</span>
                                     </p>
                                     <p class="item-code"><span class="text-capitalize">color</span><span
                                             class="text-uppercase">
-                                            product.product.color.name</span>
+                                            {{ order.ProductColor}}</span>
                                     </p>
-                                    <p class="item-cost"><i class="fa fa-inr"></i>product.product.price |number:0</p>
+                                    <p class="item-cost"><i class="fa fa-inr"></i>{{ order.ProductSize |number:0}}</p>
                                 </div>
                                 <div class="comment">
                                     <p class="item-code">Comment: product.comment.</p>
@@ -57,7 +57,7 @@
                                     <div class="inline-block">
                                         <form>
                                             <div class="form-group marg0">
-                                                <input type="text" readonly class="form-control quantity__input">
+                                                <input type="text" readonly placeholder="{{order.ProductQuantity}}" class="form-control quantity__input">
                                             </div>
                                         </form>
                                     </div>
@@ -67,8 +67,7 @@
                                 </div>
                             </td>
                             <td>
-                                <p class="item-cost grand-total"><i class="fa fa-inr"></i>product.product.price *
-                                    product.quantity |number:0</p>
+                                <p class="item-cost grand-total"><i class="fa fa-inr"></i>{{order.ProductQuantityPrice |number:0}}</p>
                             </td>
                         </tr>
                     </tbody>
@@ -100,14 +99,13 @@
                         <div class="usr-payment-info">
                             <h4 class="text-right usr-status-title usr-addrs-title">PAYMENT INFORMATION</h4>
                             <p class="text-right order-payment-info">Item(s) Subtotal:
-                                <span>&#8377; order.totalAmount - order.gst |number:0</span><br>
-                                Shipping:<span>&#8377; order.shippingAmount</span><br>
-                                Disscount:<span>&#8377; order.totalDiscount</span><br>
-                                GST:<span>&#8377; order.gst</span><br>
-                                Total:<span>&#8377; order.shippingAmount+order.totalAmount-order.discountAmount
-                                    |number:0</span><br>
+                                <span>&#8377; </span><br>
+                                Shipping:<span>&#8377; </span><br>
+                                Disscount:<span>&#8377;</span><br>
+                                GST:<span>&#8377; </span><br>
+                                Total:<span>&#8377;{{order.TotalPrice}} </span><br>
                                 Tax: <span>&#8377; 00</span><br> Grand Total: <span>&#8377;
-                                    order.totalAmount|number:0</span>
+                                   </span>
                             </p>
                         </div>
                     </div>

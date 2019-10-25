@@ -43,7 +43,7 @@ import { CheckoutComponent } from './store/checkout.component';
       { path: "blogs", component: InnerBlogsComponent },
       { path: "login", component: LoginComponent },
       { path: "account", component: AccountComponent, canActivate:[AuthCustomerGuardRepository] },
-      { path: "orderDetails", component: OrderDetailsComponent , canActivate:[AuthCustomerGuardRepository]},
+      { path: "orderDetails/:customerId", component: OrderDetailsComponent , canActivate:[AuthCustomerGuardRepository]},
       { path: "cart", component: CartComponent, canActivate:[AuthCustomerGuardRepository]},
 
       { path: "checkout/:productId/:productSize", component: CheckoutComponent, canActivate:[AuthCustomerGuardRepository]},

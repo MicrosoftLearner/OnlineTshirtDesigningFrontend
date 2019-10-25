@@ -519,11 +519,12 @@
     
                                             <div class="text-center ">
                                                 <!--<button id="ordergenerate" class="btn btn-default checkout__cont-btn " ng-if="address.$invalid" ng-disabled="true">Continue</button>-->
-                                                <button id="ordergenerate" class="btn btn-default checkout__cont-btn " ng-disabled="!(address.$valid &&(paymentWay[0].checked||paymentWay[1].checked||paymentWay[2].checked||paymentWay[3].checked))" (click)="paymentMethod()">Continue</button>
+                                                <button id="ordergenerate" class="btn btn-default checkout__cont-btn " ng-disabled="!(address.$valid &&(paymentWay[0].checked||paymentWay[1].checked||paymentWay[2].checked||paymentWay[3].checked))" (click)="placeOrder()">Continue</button>
     
                                             </div>
+                                           
                                         </form>
-    
+                  
                                     </div>
     
                                 </div>
