@@ -6,16 +6,18 @@
         <div class="order-details-table">
             <h2 class="order-status-title text-center">order details</h2>
             <div class="table-responsive">
-                <table class="table" *ngFor="let order of order">
+                <table class="table" *ngFor="let ordered of order">
                     <thead>
                         <tr class="text-uppercase">
-                            <th class="align-top">order placed<br><strong>{{order.ProductOrderTime | date: 'dd/MM/yyyy'}}</strong>
+                            <th class="align-top">order placed<br><strong>{{ordered.ProductOrderTime | date: 'dd/MM/yyyy'}}</strong>
                             </th>
-                            <!-- <th class="align-top">order no.<br><strong>order.orderNo</strong></th> -->
-                            <th class="align-top">payment method<br><strong>{{order.ProductPaymentMthd}}</strong></th>
+                            <!-- <th class="align-top">order no.<br><strong>ordered.orderNo</strong></th> -->
+                            <th class="align-top">payment method<br><strong>{{ordered.ProductPaymentMthd}}</strong></th>
+
+
                             <!-- <th class="align-top">tracking id<br><strong
-                                    class="text-capitalize">order.orderStatus</strong></th> -->
-                            <th class="align-top">Grand total<br><strong>&#8377; {{order.TotalPrice |number:0}}</strong>
+                                    class="text-capitalize">ordered.orderStatus</strong></th> -->
+                            <th class="align-top">Grand total<br><strong>&#8377; {{ordered.TotalPrice |number:0}}</strong>
                             </th>
                         </tr>
                     </thead>
@@ -24,25 +26,25 @@
 
                             <td colspan="3">
                                 <div class="item-img inline-block">
-                                    <img [src]="order.ProductImg" alt="Ordered Item" class="img-responsive">
+                                    <img [src]="ordered.ProductImg" alt="Ordered Item" class="img-responsive">
                                 </div>
 
 
                                 <div class="inline-block item-desc">
-                                    <h4 class="item-name text-uppercase">{{order.ProductName}}
+                                    <h4 class="item-name text-uppercase">{{ordered.ProductName}}
                                     </h4>
                                     <p class="item-code"><span class="text-capitalize">Product Code:</span><span
                                             class="text-uppercase">
-                                           {{ order.ProductCode}}</span>
+                                           {{ordered.ProductCode}}</span>
                                     </p>
                                     <p class="item-code"><span class="text-capitalize">size:</span><span
-                                            class="text-uppercase"> {{ order.ProductSize}}</span>
+                                            class="text-uppercase"> {{ ordered.ProductSize}}</span>
                                     </p>
                                     <p class="item-code"><span class="text-capitalize">color</span><span
                                             class="text-uppercase">
-                                            {{ order.ProductColor}}</span>
+                                            {{ordered.ProductColor}}</span>
                                     </p>
-                                    <p class="item-cost"><i class="fa fa-inr"></i>{{ order.ProductSize |number:0}}</p>
+                                    <p class="item-cost"><i class="fa fa-inr"></i>{{ ordered.ProductPrice |number:0}}</p>
                                 </div>
                                 <div class="comment">
                                     <p class="item-code">Comment: product.comment.</p>
@@ -57,7 +59,7 @@
                                     <div class="inline-block">
                                         <form>
                                             <div class="form-group marg0">
-                                                <input type="text" readonly placeholder="{{order.ProductQuantity}}" class="form-control quantity__input">
+                                                <input type="text" readonly placeholder="{{ordered.ProductQuantity}}" class="form-control quantity__input">
                                             </div>
                                         </form>
                                     </div>
@@ -67,7 +69,7 @@
                                 </div>
                             </td>
                             <td>
-                                <p class="item-cost grand-total"><i class="fa fa-inr"></i>{{order.ProductQuantityPrice |number:0}}</p>
+                                <p class="item-cost grand-total"><i class="fa fa-inr"></i>{{ordered.ProductQuantityPrice |number:0}}</p>
                             </td>
                         </tr>
                     </tbody>
@@ -75,16 +77,16 @@
             </div>
             <div class="ordertable-footer">
                 <div class="row">
-                    <div class="col-md-4 col-sm-4 col-xs-6">
+                    <!-- <div class="col-md-4 col-sm-4 col-xs-6">
                         <h4 class="usr-status-title usr-addrs-title">BILLING ADDRESS</h4>
                         <address>
-                            <p style="margin:0px">order.billingAddress.line1</p>
-                            <p style="margin:0px" ng-if="order.billingAddress.line2">order.billingAddress.line2</p>
-                            <p style="margin:0px" ng-if="order.billingAddress.line3"> order.billingAddress.line3</p>
-                            <p style="margin:0px">order.billingAddress.city-order.billingAddress.pincode.</p>
-                            <p style="margin:0px">order.billingAddress.state, order.billingAddress.country</p>
+                            <p style="margin:0px">ordered.billingAddress.line1</p>
+                            <p style="margin:0px" ng-if="ordered.billingAddress.line2">ordered.billingAddress.line2</p>
+                            <p style="margin:0px" ng-if="ordered.billingAddress.line3"> ordered.billingAddress.line3</p>
+                            <p style="margin:0px">ordered.billingAddress.city-ordered.billingAddress.pincode.</p>
+                            <p style="margin:0px">ordered.billingAddress.state, ordered.billingAddress.country</p>
                         </address>
-                    </div>
+                    </div> -->
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <h4 class="usr-status-title usr-addrs-title">SHIPPING ADDRESS</h4>
                         <address>
@@ -99,11 +101,11 @@
                         <div class="usr-payment-info">
                             <h4 class="text-right usr-status-title usr-addrs-title">PAYMENT INFORMATION</h4>
                             <p class="text-right order-payment-info">Item(s) Subtotal:
-                                <span>&#8377; </span><br>
+                                <span>&#8377;ordered.TotalPrice </span><br>
                                 Shipping:<span>&#8377; </span><br>
                                 Disscount:<span>&#8377;</span><br>
                                 GST:<span>&#8377; </span><br>
-                                Total:<span>&#8377;{{order.TotalPrice}} </span><br>
+                                Total:<span>&#8377;ordered.TotalPrice </span><br>
                                 Tax: <span>&#8377; 00</span><br> Grand Total: <span>&#8377;
                                    </span>
                             </p>
@@ -111,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <div class="return"> 0">
+            <div class="return hide"> 0">
                 <h2 class="order-status-title text-center">Returned</h2>
                 <div class="table-responsive">
                     <table class="table return-table">

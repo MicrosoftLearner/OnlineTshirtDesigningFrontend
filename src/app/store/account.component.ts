@@ -23,6 +23,8 @@ export class AccountComponent implements OnInit {
 
     public customerEntireInfo: Array<Customer> = [];
 
+    public order: any = [{}];
+
     public isLoading: boolean = false;
 
     public customerShipping;
@@ -55,6 +57,7 @@ export class AccountComponent implements OnInit {
     }
 
     ngOnInit() {
+
         let tabSelection: string;
 
         this.route.queryParams.subscribe(params => {
@@ -85,6 +88,7 @@ export class AccountComponent implements OnInit {
 
         this.showCustomerAddresses();
 
+        this.showOrder();
     }
 
     showCustomerInfo() {
@@ -234,6 +238,15 @@ export class AccountComponent implements OnInit {
 
         this.customer.state = event.target.innerText;
 
+    }
+
+    showOrder() {
+     
+        this.repositoryAuthCust.getCustomerOrder( this.storageRepository.storageCustomerTokenInfo.token)
+            .subscribe(res => {
+               
+               this.order = res;
+            });
     }
 
 }

@@ -15,30 +15,35 @@
                         <div class="checkout-tab-btn">
                             <p>
 
-                                <button class="btn btn--list" (click)="changeView(1)">PROFILE</button>
+                                <button class="btn btn--list" [ngClass]="{
+                                    'btn--brownActive': view== 1 }" (click)="changeView(1)">PROFILE</button>
                             </p>
                         </div>
                         <div class="checkout-tab-btn">
-                           <p> <button class="btn btn--list " (click)="changeView(2)">MANAGE
+                           <p> <button class="btn btn--list " [ngClass]="{
+                            'btn--brownActive': view== 2 }" (click)="changeView(2)">MANAGE
                                 ADDRESS</button>
                            </p>
                         </div>
                         <div class="checkout-tab-btn">
                             <p>
-                            <button class="btn btn--list" (click)="changeView(3)">
+                            <button class="btn btn--list" [ngClass]="{
+                                'btn--brownActive': view== 3 }" (click)="changeView(3);">
                                 ORDER</button>
                             </p>
                         </div>
                         <div class="checkout-tab-btn">
                             <p>
 
-                                <button class="btn order-list--btn text-uppercase" (click)="changeView(4)">return/exchange</button>
+                                <button class="btn order-list--btn text-uppercase" [ngClass]="{
+                                    'btn--brownActive': view== 4 }" (click)="changeView(4)">return/exchange</button>
                             </p>
                         </div>
                         <div class="checkout-tab-btn">
                             <p>
 
-                                <button class="btn order-list--btn text-uppercase" (click)="changeView(5)">cancelled</button>
+                                <button class="btn order-list--btn text-uppercase" [ngClass]="{
+                                    'btn--brownActive': view== 5 }" (click)="changeView(5)">cancelled</button>
                             </p>
                         </div>
                     </div>
@@ -255,35 +260,36 @@
                             </button>
                         </p>
                         <div class="account-order-table table-responsive">
-                            <table class="table">
+                            <table class="table"  *ngFor="let ordered of order">
                                 <thead>
                                     <tr class="text-uppercase">
-                                        <th class="align-top">order placed<br><strong>order.createdAt |
-                                                date:'dd/MM/yyyy'</strong></th>
-                                        <th class="align-top">order no.<br><strong>order.orderNo</strong></th>
-                                        <th class="align-top">order-status<br><strong>order.orderStatus</strong>
+                                        <th class="align-top">order placed<br><strong>{{ordered.ProductOrderTime | date: 'dd/MM/yyyy'}}</strong>
                                         </th>
-                                        <th class="align-top">tracking id<br><strong>order.courierType.courierLink +
-                                                order.trackingId</strong></th>
-                                        <th class="align-top">Grand total<br><strong>&#8377; order.totalAmount
-                                                |number:0</strong></th>
+                                        <!-- <th class="align-top">order no.<br><strong>ordered.orderNo</strong></th> -->
+                                        <th class="align-top">payment method<br><strong>{{ordered.ProductPaymentMthd}}</strong></th>
+            
+            
+                                        <!-- <th class="align-top">tracking id<br><strong
+                                                class="text-capitalize">ordered.orderStatus</strong></th> -->
+                                        <th class="align-top">Grand total<br><strong>&#8377; {{ordered.TotalPrice |number:0}}</strong>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="relate">
-                                        <td colspan="3">
+                                        <td colspan="2">
                                             <div class="item-img display-cell align-top">
-                                                <img src="" alt="Ordered Item" class="img-responsive">
+                                                <img [src]="ordered.ProductImg" alt="Ordered Item" class="img-responsive">
                                             </div>
                                             <div class="item-desc display-cell align-top">
-                                                <h4 class="item-name text-uppercase">product.product.productName
+                                                <h4 class="item-name text-uppercase">{{ordered.ProductName}}
                                                 </h4>
                                                 <p class="item-code"><span class="text-capitalize">Product
-                                                        Code:</span><span class="text-uppercase">
-                                                        product.product.name</span>
+                                                        Code: {{ordered.ProductCode}}</span><span class="text-uppercase">
+                                                            {{ordered.ProductName}}</span>
                                                 </p>
                                                 <p class="item-cost"><i
-                                                        class="fa fa-inr"></i>product.product.price|number:0</p>
+                                                        class="fa fa-inr"></i>{{ ordered.ProductPrice |number:0}}</p>
                                             </div>
                                             <div class="comment">
                                                 <p class="item-code">Comment: product.comment.</p>
@@ -291,21 +297,28 @@
                                             </div>
                                         </td>
                                         <td colspan="3">
-                                            <div class="pull-right">
-                                                <button class="btn order-action--btn text-uppercase">Cancel
-                                                    purchase
-                                                </button>
-                                                <button class="btn order-action--btn text-uppercase">Return
-                                                    purchase
-                                                </button>
-                                                <button class="btn order-action--btn text-uppercase">order
-                                                    details
-                                                </button>
+                                            <div >
+                                                <p>  <button class="btn order-action--btn text-uppercase">Cancel
+                                                        purchase
+                                                    </button></p>
+                                                <p>
+                                                        <button class="btn order-action--btn text-uppercase">Return
+                                                                purchase
+                                                            </button>
+                                                </p>
+                                                <p>
+                                                        <button class="btn order-action--btn text-uppercase"  [routerLink]="['/orderDetails', ordered.CustId]">order
+                                                                details
+                                                            </button>
+                                                </p>
+                                                <p>
 
-                                                <a class="btn order-action--btn text-uppercase" target="_self" download
-                                                    role="button">download
-                                                    Invoiceorder.invoicePdfName
-                                                </a>
+                                                        <a class="btn order-action--btn text-uppercase" target="_self" download
+                                                        role="button">download
+                                                        Invoice
+                                                    </a>
+                                                </p>
+                                              
                                             </div>
                                         </td>
 

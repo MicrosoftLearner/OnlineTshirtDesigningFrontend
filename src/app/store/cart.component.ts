@@ -3,93 +3,105 @@ import { NgbButtonsModule } from "@ng-bootstrap/ng-bootstrap";
 import { CartRepository } from "../model/cart.repository";
 import { ToastrService } from "ngx-toastr";
 import { LocalStorageRepository } from "../model/localStorage.repository";
+import { AuthCustomerRepository } from "../model/authCustomer.repository";
 
 @Component({
 
     selector: "cart",
-    templateUrl:"cart.component.html"
+    templateUrl: "cart.component.html"
 })
 
-export class CartComponent implements OnInit{
+export class CartComponent implements OnInit {
 
-    public products = {};
+    public products:any = {};
 
-    constructor(private repositoryCart: CartRepository,  private storageRepository: LocalStorageRepository, private toastr: ToastrService){}
+    constructor(private repositoryCart: CartRepository, private repositoryAuthCust:AuthCustomerRepository, private storageRepository: LocalStorageRepository, private toastr: ToastrService) { }
 
-        ngOnInit() {
-           
-           this.getCustomerCart(); 
-        }
+    ngOnInit() {
 
-    getCustomerCart() {
-       
-        this.repositoryCart.getCart(this.storageRepository.storageCustomerTokenInfo.token)
-        .subscribe(res => {
-            
-            this.products = res;
-
-
-        }, err => {
-          this.toastr.warning("already added in the cart");
-        });
+        this.getCustomerCart();
     }
 
-    decreaseQuantity(cartID: number, productQuantity:number){
+    getCustomerCart() {
+
+        this.repositoryCart.getCart(this.storageRepository.storageCustomerTokenInfo.token)
+            .subscribe(res => {
+
+                this.products = res;
+
+
+            }, err => {
+                this.toastr.warning("already added in the cart");
+            });
+    }
+
+    decreaseQuantity(cartID: number, productQuantity: number) {
         productQuantity--;
 
         if (productQuantity >= 1) {
-            
+
             this.repositoryCart.increaseQuantity(cartID, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
-            .subscribe(res => {
-                
-                this.products = res;
-    
-    
-            }, err => {
-              this.toastr.warning("error");
-            });
+                .subscribe(res => {
+
+                    this.products = res;
+
+
+                }, err => {
+                    this.toastr.warning("error");
+                });
 
         }
-        
+
     }
 
-    increaseQuantity(cartID: number, productQuantity:number){
-        
+    increaseQuantity(cartID: number, productQuantity: number) {
+
         //Increases the given quantity
         productQuantity++;
-       
-        if (productQuantity >= 1 && productQuantity <= 3) {
-            
-            this.repositoryCart.increaseQuantity(cartID, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
-            .subscribe(res => {
-                
-                this.products = res;
-    
-                console.log("res", res);
-    
-            }, err => {
-              this.toastr.warning("error");
-            });
 
-        }else{
+        if (productQuantity >= 1 && productQuantity <= 3) {
+
+            this.repositoryCart.increaseQuantity(cartID, this.storageRepository.storageCustomerTokenInfo.token, productQuantity)
+                .subscribe(res => {
+
+                    this.products = res;
+
+                    console.log("res", res);
+
+                }, err => {
+                    this.toastr.warning("error");
+                });
+
+        } else {
             this.toastr.warning("not more than 3 quantity");
 
         }
     }
 
-    removeCartItem(cartId: number){
+    removeCartItem(cartId: number) {
 
         this.repositoryCart.deleteCart(cartId, this.storageRepository.storageCustomerTokenInfo.token)
-        .subscribe(res => {
+            .subscribe(res => {
 
-         this.toastr.success("Item deleted successfully");
+                this.toastr.success("Item deleted successfully");
 
-         //Calls to get the updated cart
-         this.getCustomerCart();
-            
-        }, err => {
-          this.toastr.error("Couldn't remove the item");
-        });
+                //Calls to get the updated cart
+                this.getCustomerCart();
+
+            }, err => {
+                this.toastr.error("Couldn't remove the item");
+            });
+    }
+
+    placeOrder() {
+
+        this.repositoryAuthCust.saveCustomerOrder(this. products.m_Item1, this.storageRepository.storageCustomerTokenInfo.token)
+            .subscribe(arg => {
+                this.toastr.success("Product has been successfully ordered");
+            }, err => {
+                this.toastr.error("OOps something is wrong");
+
+            });
     }
 
 }

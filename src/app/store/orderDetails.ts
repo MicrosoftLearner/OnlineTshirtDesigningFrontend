@@ -29,4 +29,5 @@ export class OrderDetailsComponent implements OnInit{
                this.order = res;
             });
     }
+
 }
